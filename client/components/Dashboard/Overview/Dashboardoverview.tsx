@@ -1,84 +1,131 @@
-import React from 'react'
-import DashboardHeader from '../DashboardHeader'
-import { ArrowTrendingUpIcon, ArrowUpIcon, CheckCircleIcon, EllipsisHorizontalCircleIcon, FolderOpenIcon, UsersIcon } from '@heroicons/react/24/outline'
-import AnalyticsCard from '@/components/Cards/Dashboard/AnalyticsCard'
-import LineChart from '@/components/Charts/LineChart'
-import BarChart from '@/components/Charts/BarChart'
+import React from 'react';
+import DashboardHeader from '../DashboardHeader';
+import {
+  ArrowTrendingUpIcon,
+  ArrowUpIcon,
+  CheckCircleIcon,
+  FolderOpenIcon,
+  UsersIcon,
+} from '@heroicons/react/24/outline';
+import AnalyticsCard from '@/components/Cards/Dashboard/AnalyticsCard';
+import LineChart from '@/components/Charts/LineChart';
+import BarChart from '@/components/Charts/BarChart';
+import DonutChart from '@/components/Charts/DonutChart';
 
-const Dashboardoverview = () => {
- const seriesLine = [
+const DashboardOverview = () => {
+  const seriesLine = [
     {
-      name: "Projects Completed",
+      name: 'Projects Completed',
       data: [2, 4, 6, 8, 12, 15, 18, 20, 22, 25, 28, 30],
     },
   ];
- const seriesBar = [
+  const seriesBar = [
     {
-      name: "Projects Completed",
-      data: [2, 4, 6, 8, 12, 15,],
+      name: 'Projects Completed',
+      data: [2, 4, 6, 8, 12, 15],
     },
   ];
-    const analyticsData =[ {
-        value: `1.26k total projects`,
-        icon: <FolderOpenIcon className="h-6 w-6 text-orange-400" />,
-        descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
-         descriptionText: "5% increase from last week",
-    },
-      {
-        value: `1.11k completed projects`,
-        icon: <CheckCircleIcon className="h-6 w-6 text-orange-400" />,  
-        descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
-        descriptionText: "12% increase from last month",
+  const analyticsData = [
+    {
+      value: `1.26k total projects`,
+      icon: <FolderOpenIcon className="h-6 w-6 text-orange-400" />,
+      descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
+      descriptionText: '5% increase from last week',
     },
     {
-        value: `₦500M revenue`,
-        icon: <ArrowTrendingUpIcon className="h-6 w-6 text-orange-400" />,  
-        descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
-        descriptionText: " 8% increase from last quarter",
+      value: `1.11k completed projects`,
+      icon: <CheckCircleIcon className="h-6 w-6 text-orange-400" />,
+      descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
+      descriptionText: '12% increase from last month',
     },
     {
-        value: `145 clients`,
-        icon: <UsersIcon className="h-6 w-6 text-orange-400" />,  
-        descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
-        descriptionText: "15% increase from last quarter",
+      value: `₦500M revenue`,
+      icon: <ArrowTrendingUpIcon className="h-6 w-6 text-orange-400" />,
+      descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
+      descriptionText: ' 8% increase from last quarter',
     },
-  
-]
+    {
+      value: `145 clients`,
+      icon: <UsersIcon className="h-6 w-6 text-orange-400" />,
+      descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
+      descriptionText: '15% increase from last quarter',
+    },
+  ];
   return (
-   <section className='flex flex-col gap-4'>
-    <DashboardHeader title="Dashboard Overview" description="Welcome to your dashboard overview. Here you can see an overview of your project's performance and recent activity." />
-     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-      {/* Analytics Card */}
-      {analyticsData.map((data, index) => (
-       <AnalyticsCard key={index} data={data} />
-    )
-        )}
-     </div>
-     {/* Charts  */}
-    <div className='flex sm:flex-row flex-col gap-4'>
-<div className='bg-white dark:bg-transparent dark:text-white rounded-lg p-4 w-full'>
-         <div>
-        <DashboardHeader title="Project Performance" description="Track the performance of your projects over time with our interactive line chart." />
-     </div>
-     <div className='mb-4'>
-     {/* Chart  */}
-      <LineChart series={seriesLine} />
-     </div>
+    <section className="flex flex-col gap-4">
+      <DashboardHeader
+        title="Dashboard Overview"
+        description="Welcome to your dashboard overview. Here you can see an overview of your project's performance and recent activity."
+      />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Analytics Card */}
+        {analyticsData.map((data, index) => (
+          <AnalyticsCard key={index} data={data} />
+        ))}
+      </div>
+      {/* Charts  */}
+      <div className="flex sm:flex-row flex-col gap-4">
+        <div className="bg-white dark:bg-transparent dark:text-white rounded-lg h-[500px] p-4 w-full">
+          <div>
+            <DashboardHeader
+              title="Project Performance"
+              description="Track the performance of your projects over time with our interactive line chart."
+            />
+          </div>
+          <div className="mb-4">
+            {/* Chart  */}
+            <LineChart series={seriesLine} />
+          </div>
+        </div>
+        <div className="bg-white  dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] h-[550px] p-4 w-full">
+          <div>
+            <DashboardHeader
+              title="Revenue by service"
+              description="Track revenue generated by different services over time."
+            />
+          </div>
+          <div className="mb-4">
+            {/* BarChart  */}
+            <BarChart series={seriesBar} />
+          </div>
+        </div>
+      </div>
+      <div className="flex sm:flex-row flex-col gap-4">
+        <div className="bg-white dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] p-4 w-full">
+          <div>
+            <DashboardHeader title="Task Overview" description="" />
+          </div>
+          <div className="mb-4">
+            {/* Chart  */}
+            <DonutChart
+              series={[44, 55, 41, 17, 15]}
+              labels={[
+                'To do',
+                'In progress',
+                'Complete',
+                'On hold',
+                'Cancelled',
+              ]}
+              colors={['#f97316', '#22c55e', '#3b82f6', '#ef4444', '#8b5cf6']}
+            />
+          </div>
+        </div>
+        <div className="bg-white  dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] p-4 w-full">
+          <div>
+            <DashboardHeader title="Lead Sources" description="" />
+          </div>
+          <div className="mb-4">
+            {/* Chart  */}
+            <DonutChart
+              series={[44, 55, 41, 17, 15]}
+              labels={['Instagram', 'Referrals', 'Website', 'Others']}
+              colors={['#000000', '#1f1f1f', '#3f3f46', '#52525b', '#71717a']}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
-    </div>
-<div className='bg-white  dark:bg-transparent dark:text-white rounded-lg p-4 w-full'>
-         <div>
-        <DashboardHeader title="Revenue by service" description="Track revenue generated by different services over time." />
-     </div>
-     <div className='mb-4'>
-     {/* Chart  */}
-      <BarChart series={seriesBar} />
-     </div>
-
-    </div>
-    </div>
-   </section>
-  )
-}
-
-export default Dashboardoverview
+export default DashboardOverview;

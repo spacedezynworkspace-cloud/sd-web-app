@@ -1,9 +1,11 @@
-import Dashboardoverview from '@/components/Dashboard/Overview/Dashboardoverview'
+
+
+import DashboardOverview from '@/components/Dashboard/Overview/DashboardOverview'
 import React from 'react'
 
 const Page = () => {
   return (
-    <Dashboardoverview />
+    <DashboardOverview />
   )
 }
 

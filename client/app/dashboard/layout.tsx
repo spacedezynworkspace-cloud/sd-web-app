@@ -21,7 +21,7 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-   <section>
+   <section className="pb-20">
    
     {children}
    </section>

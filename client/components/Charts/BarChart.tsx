@@ -80,7 +80,7 @@ export default function BarChart({ series }: Props) {
       options={options}
       series={series}
       type="bar"
-      height={350}
+      height={450}
     />
   );
 }

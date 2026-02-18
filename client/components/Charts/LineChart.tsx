@@ -18,12 +18,12 @@ type Props = {
 export default function LineChart({ series }: Props) {
   const options: ApexOptions = {
     chart: {
-      type: "line",
+      type: "area",
       toolbar: { show: false },
     },
     stroke: {
       curve: "smooth",
-      width: 3,
+      width: 2,
     },
     colors: ["#f97316"], // orange-500
     xaxis: {
@@ -37,5 +37,7 @@ export default function LineChart({ series }: Props) {
     },
   };
 
-  return <Chart options={options} series={series} type="line" height={350} />;
+
+
+  return <Chart options={options} series={series} type="area" height={350} />;
 }

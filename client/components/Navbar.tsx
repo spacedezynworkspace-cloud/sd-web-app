@@ -1,31 +1,39 @@
-"use client"
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import clsx from 'clsx'
-import { ThemeSwitch } from './theme-switch'
-import Image from 'next/image'
-import Link from 'next/link'
-import { use } from 'react'
-import { usePathname } from 'next/navigation'
+'use client';
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+} from '@headlessui/react';
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import { ThemeSwitch } from './theme-switch';
+import Image from 'next/image';
+import Link from 'next/link';
+import { use } from 'react';
+import { usePathname } from 'next/navigation';
 
 const navigation = [
   { name: 'Home', href: '#', current: true },
   { name: 'Academy', href: '#', current: false },
   { name: 'Services', href: '#', current: false },
   { name: 'Book Appointment', href: '#', current: false },
-]
+];
 const adminavigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
   { name: 'Clients', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
+  { name: 'Operations', href: '/dashboard/operations', current: false },
   { name: 'Finance', href: '#', current: false },
-]
+];
 
 // function classNames(...classes: (string | undefined | false)[]) {
 //   return classes.filter(Boolean).join(' ')
 // }
 
-const Navbar = () => { 
+const Navbar = () => {
   const pathName = usePathname();
 
   return (
@@ -40,13 +48,27 @@ const Navbar = () => {
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 dark:text-white text-orange-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-orange-400">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
-              <Bars3Icon aria-hidden="true" className="block size-6 group-data-open:hidden" />
-              <XMarkIcon aria-hidden="true" className="hidden size-6 group-data-open:block" />
+              <Bars3Icon
+                aria-hidden="true"
+                className="block size-6 group-data-open:hidden"
+              />
+              <XMarkIcon
+                aria-hidden="true"
+                className="hidden size-6 group-data-open:block"
+              />
             </DisclosureButton>
           </div>
           <div className="flex flex-1 items-center h-full justify-center sm:justify-start">
             <div className="flex shrink-0 items-center">
-             <Link href="/"><Image src={"/logo.jpg"} alt='Space Dezyn logo' width={75} height={75} className='object-fill'/></Link>
+              <Link href="/">
+                <Image
+                  src={'/logo.jpg'}
+                  alt="Space Dezyn logo"
+                  width={75}
+                  height={75}
+                  className="object-fill"
+                />
+              </Link>
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
@@ -56,8 +78,10 @@ const Navbar = () => {
                     href={item.href}
                     aria-current={item.href === pathName ? 'page' : undefined}
                     className={clsx(
-                      item.href === pathName ? 'bg-orange-400 text-white' : 'text-orange-400 dark:text-white hover:bg-white/5 hover:font-extrabold',
-                      'rounded-md px-3 py-2 text-sm font-medium',
+                      item.href === pathName
+                        ? 'bg-orange-400 text-white'
+                        : 'text-orange-400 dark:text-white hover:bg-white/5 hover:font-extrabold',
+                      'rounded-md px-3 py-2 text-sm font-medium'
                     )}
                   >
                     {item.name}
@@ -66,37 +90,37 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {/* <button
+          <div className="absolute inset-y-0 right-0 flex gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <button
               type="button"
-              className="relative rounded-full p-1 text-orange-400 dark:text-white focus:outline-2 focus:outline-offset-2 focus:outline-orange-400"
+              className="relative hidden sm:flex rounded-full p-1 text-orange-400 dark:text-white focus:outline-2 focus:outline-offset-2 focus:outline-orange-400"
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="size-6" /> 
-            </button> */}
-             <ThemeSwitch />
+              <BellIcon aria-hidden="true" className="size-6" />
+            </button>
+            <ThemeSwitch />
 
             {/* Profile dropdown */}
-            {/* <Menu as="div" className="relative ml-3">
-              <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 hover:cursor-pointer">
+            <Menu as="div" className="relative ml-3">
+              <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 hover:cursor-pointer">
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">Open user menu</span>
                 <img
                   alt=""
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
+                  className="size-8 rounded-full bg-black outline -outline-offset-1 outline-white/10"
                 />
               </MenuButton>
 
               <MenuItems
                 transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-black dark:bg-orange-400 py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in opacity-100"
               >
                 <MenuItem>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                    className="block px-4 py-2 text-sm text-gray-300 data-focus:outline-hidden"
                   >
                     Your profile
                   </a>
@@ -104,7 +128,7 @@ const Navbar = () => {
                 <MenuItem>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                    className="block px-4 py-2 text-sm text-gray-300 data-focus:outline-hidden"
                   >
                     Settings
                   </a>
@@ -112,13 +136,13 @@ const Navbar = () => {
                 <MenuItem>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:bg-white/5 data-focus:outline-hidden"
+                    className="block px-4 py-2 text-sm text-gray-300 data-focus:outline-hidden"
                   >
                     Sign out
                   </a>
                 </MenuItem>
               </MenuItems>
-            </Menu> */}
+            </Menu>
           </div>
         </div>
       </div>
@@ -130,10 +154,12 @@ const Navbar = () => {
               key={item.name}
               as="a"
               href={item.href}
-              aria-current={item.href === pathName  ? 'page' : undefined}
+              aria-current={item.href === pathName ? 'page' : undefined}
               className={clsx(
-                item.href === pathName  ? 'bg-orange-400 text-white' : 'text-orange-400 hover:bg-white/5 hover:font-extrabold',
-                'block rounded-md px-3 py-2 text-base font-medium',
+                item.href === pathName
+                  ? 'bg-orange-400 text-white'
+                  : 'text-orange-400 hover:bg-white/5 hover:font-extrabold',
+                'block rounded-md px-3 py-2 text-base font-medium'
               )}
             >
               {item.name}
@@ -142,7 +168,7 @@ const Navbar = () => {
         </div>
       </DisclosurePanel>
     </Disclosure>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

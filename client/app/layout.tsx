@@ -1,13 +1,13 @@
-import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import { Link } from "@heroui/link";
-import clsx from "clsx";
+import '@/styles/globals.css';
+import { Metadata, Viewport } from 'next';
+import { Link } from '@heroui/link';
+import clsx from 'clsx';
 
-import { Providers } from "./providers";
+import { Providers } from './providers';
 
-import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
-import Navbar from "@/components/Navbar";
+import { siteConfig } from '@/config/site';
+import { fontSans } from '@/config/fonts';
+import Navbar from '@/components/Navbar';
 
 export const metadata: Metadata = {
   title: {
@@ -16,14 +16,14 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   icons: {
-    icon: "/logo.jpg",
+    icon: '/logo.jpg',
   },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
 };
 
@@ -37,13 +37,13 @@ export default function RootLayout({
       <head />
       <body
         className={clsx(
-          "min-h-screen text-foreground bg-background font-sans antialiased",
-          fontSans.variable,
+          'min-h-screen text-foreground bg-background font-sans antialiased',
+          fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+        <Providers themeProps={{ attribute: 'class', defaultTheme: 'light' }}>
           <div className="relative flex flex-col h-screen bg-gray-100 dark:bg-black">
-           <Navbar />
+            <Navbar />
             <main className="container mx-auto max-w-7xl pt-10 px-4 flex-grow">
               {children}
             </main>
@@ -51,8 +51,8 @@ export default function RootLayout({
               <Link
                 isExternal
                 className="flex items-center gap-1 text-current"
-                href="https://heroui.com?utm_source=next-app-template"
-                title="heroui.com homepage"
+                href="https://www.advantage.com.ng"
+                title="Advantage homepage"
               >
                 <span className="text-default-600">Powered by</span>
                 <p className="text-orange-400">Advantage</p>
