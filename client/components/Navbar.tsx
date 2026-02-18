@@ -13,7 +13,6 @@ import clsx from 'clsx';
 import { ThemeSwitch } from './theme-switch';
 import Image from 'next/image';
 import Link from 'next/link';
-import { use } from 'react';
 import { usePathname } from 'next/navigation';
 
 const navigation = [
@@ -26,7 +25,7 @@ const adminavigation = [
   { name: 'Dashboard', href: '/dashboard', current: true },
   { name: 'Clients', href: '#', current: false },
   { name: 'Operations', href: '/dashboard/operations', current: false },
-  { name: 'Finance', href: '#', current: false },
+  { name: 'Finance', href: '/dashboard/finance', current: false },
 ];
 
 // function classNames(...classes: (string | undefined | false)[]) {

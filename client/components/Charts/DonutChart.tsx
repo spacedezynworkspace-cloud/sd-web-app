@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { ApexOptions } from "apexcharts";
+import dynamic from 'next/dynamic';
+import { ApexOptions } from 'apexcharts';
 
-const Chart = dynamic(() => import("react-apexcharts"), {
+const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
@@ -18,7 +18,7 @@ export default function DonutChart({ series, labels, colors }: Props) {
 
   const options: ApexOptions = {
     chart: {
-      type: "donut",
+      type: 'donut',
       toolbar: { show: false },
 
       // ✨ Animation
@@ -44,30 +44,31 @@ export default function DonutChart({ series, labels, colors }: Props) {
     dataLabels: {
       enabled: true,
       formatter: function (val: number) {
-        return val.toFixed(1) + "%";
+        return val.toFixed(1) + '%';
       },
     },
 
     legend: {
-      position: "right",
+      position: 'right',
+      fontSize: '14px',
     },
 
     // 🍩 Donut settings
     plotOptions: {
       pie: {
         donut: {
-          size: "65%",
+          size: '65%',
           labels: {
             show: true,
 
             name: {
               show: true,
-              fontSize: "14px",
+              fontSize: '14px',
             },
 
             value: {
               show: true,
-              fontSize: "16px",
+              fontSize: '16px',
               formatter: function (val: string) {
                 return val;
               },
@@ -75,8 +76,8 @@ export default function DonutChart({ series, labels, colors }: Props) {
 
             total: {
               show: true,
-              label: "Total",
-              fontSize: "18px",
+              label: 'Total',
+              fontSize: '18px',
               fontWeight: 600,
               formatter: function () {
                 return total.toString();
@@ -88,12 +89,5 @@ export default function DonutChart({ series, labels, colors }: Props) {
     },
   };
 
-  return (
-    <Chart
-      options={options}
-      series={series}
-      type="donut"
-      height={350}
-    />
-  );
+  return <Chart options={options} series={series} type="donut" height={350} />;
 }

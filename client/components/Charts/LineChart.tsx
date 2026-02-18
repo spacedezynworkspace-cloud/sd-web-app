@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { ApexOptions } from "apexcharts";
+import dynamic from 'next/dynamic';
+import { ApexOptions } from 'apexcharts';
 
 // 👇 Disable SSR
-const Chart = dynamic(() => import("react-apexcharts"), {
+const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
@@ -18,26 +18,65 @@ type Props = {
 export default function LineChart({ series }: Props) {
   const options: ApexOptions = {
     chart: {
-      type: "area",
+      type: 'area',
       toolbar: { show: false },
     },
     stroke: {
-      curve: "smooth",
+      curve: 'smooth',
       width: 2,
     },
-    colors: ["#f97316"], // orange-500
+    colors: [
+      ' #008000', // orange
+      '#ff0000', // red
+    ],
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.4,
+        opacityTo: 0.05,
+        stops: [0, 90, 100],
+      },
+    },
     xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
+      labels: {
+        style: {
+          colors: '#6b7280', // gray-500
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: '#6b7280', // gray-500
+        },
+      },
     },
     grid: {
-      borderColor: "#e5e7eb",
+      borderColor: '#e5e7eb',
     },
     dataLabels: {
       enabled: false,
     },
+    legend: {
+      position: 'bottom',
+      horizontalAlign: 'right',
+    },
   };
-
-
 
   return <Chart options={options} series={series} type="area" height={350} />;
 }
