@@ -49,7 +49,7 @@ export default function DonutChart({ series, labels, colors }: Props) {
     },
 
     legend: {
-      position: 'right',
+      position: 'bottom',
       fontSize: '14px',
     },
 

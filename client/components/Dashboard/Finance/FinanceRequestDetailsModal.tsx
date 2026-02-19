@@ -8,14 +8,14 @@ import {
 } from '@heroui/modal';
 import { Button } from '@heroui/button';
 import React from 'react';
-import { Input, Textarea } from '@heroui/input';
-import { Select, SelectItem } from '@heroui/select';
-import { Form } from '@heroui/form';
 import { Divider } from '@heroui/divider';
+import { User } from '@heroui/user';
+import { SupervisorFundsRequestType } from '@/types';
 
 interface FinanceRequestDetailsModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  supervisor: SupervisorFundsRequestType | null;
 }
 const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
   const [submitted, setSubmitted] = React.useState({});
@@ -59,32 +59,67 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                <h3 className="text-lg font-semibold">Fund Request Review</h3>
-                <p className="text-sm text-default-500">
-                  Review request details before taking action.
-                </p>
+                {props.supervisor && (
+                  <div className="w-full">
+                    <User
+                      avatarProps={{
+                        src: props.supervisor.avatar,
+                      }}
+                      description={
+                        <div>
+                          <h3>{props.supervisor.name}</h3>
+                          <p
+                            className={`${props.supervisor.opened ? '' : 'text-black dark:text-white'}`}
+                          >
+                            {props.supervisor.role}
+                          </p>
+                        </div>
+                      }
+                      name="Requested Funds"
+                      className={`${props.supervisor.opened ? '' : 'text-black dark:text-white'} `}
+                    />
+                  </div>
+                )}
               </ModalHeader>
 
               <ModalBody className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <span>{`Welcome`} "Supervisor Name"</span>
-                  <span>{`Welcome`} "Project Name"</span>
-                  <span>{`Welcome`} "Site Location"</span>
-                  <span>{`Welcome`} "Request Date"</span>
-                  <span>{`₦247,000`}</span>
-                  <span>{`Welcome`} "Category"</span>
-                  <span>{`Welcome`} "Urgency Level"</span>
+                <div className="grid grid-cols-1 gap-2">
+                  <div className="text-sm">
+                    <span className="font-light">Project name:</span>
+                    <span> {props.supervisor?.requestDetails.projectName}</span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-light">Amount:</span>
+                    <span> {props.supervisor?.requestDetails.amount}</span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-light">Date:</span>
+                    <span> {props.supervisor?.requestDetails.date}</span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-light">Request Time:</span>
+                    <span> 02:34PM</span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-light">Purpose:</span>
+                    <span> {props.supervisor?.requestDetails.purpose}</span>
+                  </div>
                 </div>
 
                 <Divider />
 
                 <div>
                   <p className="text-sm font-medium text-default-600 mb-2">
-                    Description / Justification
+                    Comment
                   </p>
                   <div className="bg-default-100 p-4 rounded-xl text-sm text-default-700">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
+                    {props.supervisor?.requestDetails.description}
                   </div>
+                </div>
+                <div className="flex justify-end">
+                  <strong>
+                    Total : {props.supervisor?.requestDetails.amount}
+                  </strong>
                 </div>
               </ModalBody>
 
@@ -96,20 +131,20 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
                 <Button
                   color="danger"
                   variant="flat"
-                  // onPress={() => {
-                  //   onDecline(request);
-                  //   onClose();
-                  // }}
+                  onPress={() => {
+                    // onDecline(request);
+                    onClose();
+                  }}
                 >
                   Decline
                 </Button>
 
                 <Button
                   className="bg-orange-400 text-white font-semibold"
-                  // onPress={() => {
-                  //   onApprove(request);
-                  //   onClose();
-                  // }}
+                  onPress={() => {
+                    // onApprove(request);
+                    onClose();
+                  }}
                 >
                   Approve
                 </Button>
@@ -117,191 +152,6 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
             </>
           )}
         </ModalContent>
-        {/* <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                <h3 className="text-lg font-semibold">New Funds Request</h3>
-                <p className="text-sm text-default-500">
-                  Site supervisor fund requisition form.
-                </p>
-              </ModalHeader>
-              <ModalBody>
-                <Form
-                  className="w-full space-y-6"
-                  validationErrors={errors}
-                  onSubmit={onSubmit}
-                  id="finance-request-form"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full"> */}
-        {/* Project Name */}
-        {/* <div className="w-full">
-                      <Select
-                        isRequired
-                        label="Project"
-                        labelPlacement="outside"
-                        name="project"
-                        placeholder="Select project"
-                      >
-                        <SelectItem key="Lagos Mall">Lagos Mall</SelectItem>
-                        <SelectItem key="Office Complex">
-                          Office Complex
-                        </SelectItem>
-                        <SelectItem key="Hotel Expansion">
-                          Hotel Expansion
-                        </SelectItem>
-                      </Select>
-                    </div> */}
-
-        {/* Site Location */}
-        {/* <div className="w-full">
-                      <Select
-                        isRequired
-                        label="Site Location"
-                        labelPlacement="outside"
-                        name="location"
-                        placeholder="Select location"
-                      >
-                        <SelectItem key="Lagos">Lagos</SelectItem>
-                        <SelectItem key="Abuja">Abuja</SelectItem>
-                        <SelectItem key="Ikoyi">Ikoyi</SelectItem>
-                      </Select>
-                    </div> */}
-
-        {/* Supervisor Name */}
-        {/* <Input
-                      isRequired
-                      label="Supervisor Name"
-                      labelPlacement="outside"
-                      name="supervisor"
-                      placeholder="Enter supervisor name"
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Supervisor name is required'
-                      }
-                    /> */}
-
-        {/* Request Date */}
-        {/* <Input
-                      isRequired
-                      type="date"
-                      label="Request Date"
-                      labelPlacement="outside"
-                      name="requestDate"
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Request date is required'
-                      }
-                    /> */}
-
-        {/* Category */}
-        {/* <div className="w-full">
-                      <Select
-                        isRequired
-                        label="Expense Category"
-                        labelPlacement="outside"
-                        name="category"
-                        placeholder="Select category"
-                      >
-                        <SelectItem key="Materials">Materials</SelectItem>
-                        <SelectItem key="Labor">Labor</SelectItem>
-                        <SelectItem key="Logistics">Logistics</SelectItem>
-                        <SelectItem key="Equipment">Equipment</SelectItem>
-                        <SelectItem key="Emergency">Emergency</SelectItem>
-                      </Select>
-                    </div> */}
-
-        {/* Payment Method */}
-        {/* <div className="w-full">
-                      <Select
-                        isRequired
-                        label="Payment Method"
-                        labelPlacement="outside"
-                        name="paymentMethod"
-                        placeholder="Select payment method"
-                      >
-                        <SelectItem key="Bank Transfer">
-                          Bank Transfer
-                        </SelectItem>
-                        <SelectItem key="Cash">Cash</SelectItem>
-                        <SelectItem key="POS">POS</SelectItem>
-                      </Select>
-                    </div> */}
-
-        {/* Vendor / Payee */}
-        {/* <Input
-                      isRequired
-                      label="Vendor / Payee Name"
-                      labelPlacement="outside"
-                      name="vendor"
-                      placeholder="Enter vendor or supplier name"
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Vendor name is required'
-                      }
-                    /> */}
-
-        {/* Amount Requested */}
-        {/* <Input
-                      isRequired
-                      type="number"
-                      label="Amount Requested"
-                      labelPlacement="outside"
-                      name="amount"
-                      placeholder="Enter amount"
-                      min={0}
-                      startContent={<span className="text-default-400">₦</span>}
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing && 'Amount is required'
-                      }
-                    />
-                  </div> */}
-        {/* Description Full Width */}
-        {/* <div className="w-full">
-                    <Textarea
-                      isRequired
-                      label="Purpose / Description"
-                      labelPlacement="outside"
-                      name="description"
-                      placeholder="Explain why this fund is needed..."
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Description is required'
-                      }
-                    />
-                  </div> */}
-        {/* Urgency */}
-        {/* <div className="w-full">
-                    {' '}
-                    <Select
-                      isRequired
-                      label="Urgency Level"
-                      labelPlacement="outside"
-                      name="urgency"
-                      placeholder="Select urgency"
-                    >
-                      <SelectItem key="Low">Low</SelectItem>
-                      <SelectItem key="Medium">Medium</SelectItem>
-                      <SelectItem key="High">High</SelectItem>
-                    </Select>
-                  </div>
-                </Form>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  form="finance-request-form" // 🔥 connects to form
-                  className="bg-orange-400 text-white font-semibold"
-                >
-                  Submit Funds Request
-                </Button>
-              </ModalFooter>
-            </> */}
-        {/* )} */}
-        {/* </ModalContent> */}
       </Modal>
     </div>
   );

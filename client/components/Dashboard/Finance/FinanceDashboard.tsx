@@ -14,11 +14,14 @@ import DonutChart from '@/components/Charts/DonutChart';
 import FinanceRequestDetailsModal from './FinanceRequestDetailsModal';
 import { useDisclosure } from '@heroui/modal';
 import SupervisorFundsRequest from './SupervisorFundsRequest';
+import { SupervisorFundsRequestType } from '@/types';
+import FinanceRecentTransactions from './FinanceRecentTransactions';
 
 const FinanceDashboard = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [selectedRequest, setSelectedRequest] = React.useState(null);
-  const supervisors = [
+  const [selectedRequest, setSelectedRequest] =
+    React.useState<SupervisorFundsRequestType | null>(null);
+  const supervisors: SupervisorFundsRequestType[] = [
     {
       id: 1,
       name: 'Nma Chenedu',
@@ -27,7 +30,10 @@ const FinanceDashboard = () => {
       requestDetails: {
         amount: '$5,000',
         purpose: 'Purchase of construction materials',
-        date: '2024-06-15',
+        description:
+          'Requesting funds for the purchase of cement, steel, and other materials needed for the ongoing construction project.',
+        date: 'Apr 13, 2026',
+        projectName: 'Project A',
         status: 'Pending',
       },
       opened: false,
@@ -40,8 +46,11 @@ const FinanceDashboard = () => {
       requestDetails: {
         amount: '$10,000',
         purpose: 'Payment for subcontractors',
-        date: '2024-06-10',
+        description:
+          'Requesting funds to cover payments for subcontractors who have completed their work on the project. This includes payments for electrical, plumbing, and finishing work.',
+        date: 'Apr 13, 2026',
         status: 'Pending',
+        projectName: 'Project C',
       },
       opened: false,
     },
@@ -53,8 +62,11 @@ const FinanceDashboard = () => {
       requestDetails: {
         amount: '$3,000',
         purpose: 'Equipment rental',
-        date: '2024-06-12',
+        description:
+          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
+        date: 'Apr 13, 2026',
         status: 'Rejected',
+        projectName: 'Project B',
       },
       opened: true,
     },
@@ -66,8 +78,11 @@ const FinanceDashboard = () => {
       requestDetails: {
         amount: '$3,000',
         purpose: 'Equipment rental',
-        date: '2024-06-12',
+        description:
+          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
+        date: 'Apr 13, 2026',
         status: 'approved',
+        projectName: 'Project A',
       },
       opened: true,
     },
@@ -79,8 +94,11 @@ const FinanceDashboard = () => {
       requestDetails: {
         amount: '$3,000',
         purpose: 'Equipment rental',
-        date: '2024-06-12',
+        description:
+          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
+        date: 'Apr 13, 2026',
         status: 'approved',
+        projectName: 'Project C',
       },
       opened: true,
     },
@@ -92,8 +110,11 @@ const FinanceDashboard = () => {
       requestDetails: {
         amount: '$3,000',
         purpose: 'Equipment rental',
-        date: '2024-06-12',
+        description:
+          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
+        date: 'Apr 13, 2026',
         status: 'approved',
+        projectName: 'Project B',
       },
       opened: true,
     },
@@ -105,8 +126,11 @@ const FinanceDashboard = () => {
       requestDetails: {
         amount: '$3,000',
         purpose: 'Equipment rental',
-        date: '2024-06-12',
+        description:
+          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
+        date: 'Apr 13, 2026',
         status: 'approved',
+        projectName: 'Project A',
       },
       opened: true,
     },
@@ -192,12 +216,14 @@ const FinanceDashboard = () => {
                     key={supervisor.id}
                     onOpen={onOpen}
                     supervisor={supervisor}
+                    setSelectedRequest={setSelectedRequest}
                   />
                 ))}
               </div>
               <FinanceRequestDetailsModal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
+                supervisor={selectedRequest}
               />
             </div>
           </div>
@@ -206,33 +232,42 @@ const FinanceDashboard = () => {
       <div className="flex sm:flex-row flex-col gap-4">
         <div className="bg-white dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] p-4 w-full">
           <div>
-            <DashboardHeader title="Task Overview" description="" />
+            <DashboardHeader
+              title="Recent Transactions"
+              description="View your recent financial transactions and their status."
+            />
+          </div>
+          <div className="mb-4 sm:h-[400px]">
+            <FinanceRecentTransactions />
+          </div>
+        </div>
+        <div className="bg-white  dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] p-4 w-full">
+          <div>
+            <DashboardHeader
+              title="Expense Categories"
+              description="Track your expenses across different categories."
+            />
           </div>
           <div className="mb-4">
             {/* Chart  */}
             <DonutChart
               series={[44, 55, 41, 17, 15]}
               labels={[
-                'To do',
-                'In progress',
-                'Complete',
-                'On hold',
-                'Cancelled',
+                'Electrical',
+                'wood',
+                'tools',
+                'materials',
+                'labor',
+                'logistics',
               ]}
-              colors={['#f97316', '#22c55e', '#3b82f6', '#ef4444', '#8b5cf6']}
-            />
-          </div>
-        </div>
-        <div className="bg-white  dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] p-4 w-full">
-          <div>
-            <DashboardHeader title="Lead Sources" description="" />
-          </div>
-          <div className="mb-4">
-            {/* Chart  */}
-            <DonutChart
-              series={[44, 55, 41, 17, 15]}
-              labels={['Instagram', 'Referrals', 'Website', 'Others']}
-              colors={['#000000', '#1f1f1f', '#3f3f46', '#52525b', '#71717a']}
+              colors={[
+                '#F97316', // Electrical - Brand Orange
+                '#F59E0B', // Wood - Amber
+                '#16A34A', // Tools - Green
+                '#0EA5E9', // Materials - Sky Blue
+                '#6366F1', // Labor - Indigo
+                '#A855F7', // Logistics - Soft Purple
+              ]}
             />
           </div>
         </div>

@@ -1,30 +1,22 @@
+import { SupervisorFundsRequestType } from '@/types';
 import { User } from '@heroui/user';
 import Link from 'next/link';
 import React from 'react';
 
-type SupervisorFundsRequest = {
-  id: number;
-  name: string;
-  avatar: string;
-  role: string;
-  requestDetails: {
-    amount: string;
-    purpose: string;
-    date: string;
-    status: string;
-  };
-  opened: boolean;
-};
 interface SupervisorFundsRequestProps {
   onOpen: () => void;
-  supervisor: SupervisorFundsRequest;
+  supervisor: SupervisorFundsRequestType;
+  setSelectedRequest: (value: SupervisorFundsRequestType) => void;
 }
 
 const SupervisorFundsRequest = (props: SupervisorFundsRequestProps) => {
   return (
     <button
-      onClick={props.onOpen}
-      className={`rounded-lg p-4  w-full  ${props.supervisor.opened ? 'border-none bg-gray-100' : 'bg-green-300'} dark:border-orange-400 flex items-center justify-between hover:bg-orange-200/70 transition-colors`}
+      onClick={() => {
+        props.setSelectedRequest(props.supervisor);
+        props.onOpen();
+      }}
+      className={`rounded-lg p-4  w-full  ${props.supervisor.opened ? 'border-none bg-gray-100' : 'bg-green-100'} dark:border-orange-400 flex items-center justify-between hover:bg-orange-200/70 transition-colors`}
     >
       {' '}
       <User
