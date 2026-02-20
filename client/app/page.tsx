@@ -43,14 +43,14 @@ export default function Home() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
               href="#"
-              className="w-1/2 sm:w-auto px-4 py-2 sm:px-8 rounded-lg bg-orange-400 border border-orange-400 text-black font-semibold text-center"
+              className="w-1/2 sm:w-auto px-2 py-2 sm:px-8 rounded-lg bg-orange-400 border border-orange-400 text-black font-semibold text-center"
             >
               Book Consultation
             </Link>
 
             <Link
               href="#"
-              className="w-1/2 sm:w-auto px-4 py-2 sm:px-8 rounded-lg border border-white bg-transparent text-white font-semibold text-center"
+              className="w-1/2 sm:w-auto px-4 py-2 sm:px-8 rounded-lg border border-white bg-transparent text-white font-semibold text-center flex justify-center"
             >
               Start Project
             </Link>
