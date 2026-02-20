@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="pb-20 container mx-auto max-w-7xl pt-10 px-4 flex-grow">
+    <section className="mt-28 pb-20 container mx-auto max-w-7xl pt-10 px-4 flex-grow">
       {children}
     </section>
   );

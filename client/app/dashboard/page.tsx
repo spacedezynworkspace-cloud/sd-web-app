@@ -1,12 +1,8 @@
-
-
-import DashboardOverview from '@/components/Dashboard/Overview/DashboardOverview'
-import React from 'react'
+import DashboardOverview from '@/components/Dashboard/Overview/Dashboardoverview';
+import React from 'react';
 
 const Page = () => {
-  return (
-    <DashboardOverview />
-  )
-}
+  return <DashboardOverview />;
+};
 
-export default Page
+export default Page;

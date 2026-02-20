@@ -12,17 +12,17 @@ const TypewriterComponent = () => {
       'Architecture',
       'Rennovation',
       'residential',
-      'Commercial Spaces',
+      'Commercial',
       '3D Visualization',
     ],
     loop: true,
-    delaySpeed: 5000,
+    delaySpeed: 2000,
   });
   return (
     <div>
       {' '}
       <h1 className="text-4xl font-bold text-center">
-        We specialize in{' '}
+        {' '}
         <span
           className={clsx(
             title({

@@ -38,7 +38,7 @@ const Navbar = () => {
   return (
     <Disclosure
       as="nav"
-      className="relative bg-white after:pointer-events-none dark:bg-amber-600 after:absolute after:inset-x-0 after:bottom-0 after:h-px "
+      className="relative z-40 sm:bg-black/50 bg-black after:pointer-events-none dark:bg-amber-500/50 after:absolute after:inset-x-0 after:bottom-0 after:h-px "
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-24 items-center justify-between">
@@ -61,35 +61,35 @@ const Navbar = () => {
             <div className="flex shrink-0 items-center">
               <Link href="/">
                 <Image
-                  src={'/logo.jpg'}
+                  src={'/sd-web-app-logo.png'}
                   alt="Space Dezyn logo"
-                  width={75}
+                  width={180}
                   height={75}
                   className="object-fill"
                 />
               </Link>
             </div>
+          </div>
+          <div className="absolute inset-y-0 right-0 flex gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {adminavigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     aria-current={item.href === pathName ? 'page' : undefined}
                     className={clsx(
                       item.href === pathName
                         ? 'bg-orange-400 text-white'
-                        : 'text-orange-400 dark:text-white hover:bg-white/5 hover:font-extrabold',
+                        : 'text-orange-400 dark:text-white hover:bg-orange-200/50 hover:font-extrabold',
                       'rounded-md px-3 py-2 text-sm font-medium'
                     )}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
-          </div>
-          <div className="absolute inset-y-0 right-0 flex gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
               className="relative hidden sm:flex rounded-full p-1 text-orange-400 dark:text-white focus:outline-2 focus:outline-offset-2 focus:outline-orange-400"
@@ -146,8 +146,8 @@ const Navbar = () => {
         </div>
       </div>
 
-      <DisclosurePanel className="sm:hidden">
-        <div className="space-y-1 px-2 pt-2 pb-3 ">
+      <DisclosurePanel className="sm:hidden absolute  w-full left-0 ">
+        <div className="space-y-1 px-2 pt-2 pb-3 bg-black w-full left-0">
           {adminavigation.map((item) => (
             <DisclosureButton
               key={item.name}
