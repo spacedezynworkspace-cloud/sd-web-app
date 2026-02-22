@@ -14,7 +14,7 @@ import BarChart from '@/components/Charts/BarChart';
 import DonutChart from '@/components/Charts/DonutChart';
 import ChartFilterToggle from '@/components/Charts/ChartFilterToggle';
 import { ChartFilter } from '@/types';
-import { Select, SelectItem } from '@heroui/select';
+import { Select, SelectItem } from '@heroui/react';
 
 const DashboardOverview = () => {
   const [filter, setFilter] = React.useState<ChartFilter>('week');

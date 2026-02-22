@@ -2,10 +2,9 @@
 import React from 'react';
 import DashboardHeader from '../DashboardHeader';
 import { SearchIcon } from '@/components/icons';
-import { Input } from '@heroui/input';
-import { Select, SelectItem } from '@heroui/select';
 import NewOperationsModal from './NewOperationsModal';
 import OperationsTable from './OperationsTable';
+import { Input, Select, SelectItem } from '@heroui/react';
 
 const OperationsDashboard = () => {
   const statuses = [

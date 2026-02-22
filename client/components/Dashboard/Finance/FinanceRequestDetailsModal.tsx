@@ -1,16 +1,17 @@
 'use client';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from '@heroui/modal';
-import { Button } from '@heroui/button';
+
 import React from 'react';
-import { Divider } from '@heroui/divider';
-import { User } from '@heroui/user';
 import { SupervisorFundsRequestType } from '@/types';
+import {
+  Button,
+  Divider,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  User,
+} from '@heroui/react';
 
 interface FinanceRequestDetailsModalProps {
   isOpen: boolean;

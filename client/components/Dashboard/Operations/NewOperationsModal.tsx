@@ -1,18 +1,20 @@
 'use client';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-} from '@heroui/modal';
-import { Button } from '@heroui/button';
+
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+  useDisclosure,
+} from '@heroui/react';
 import React from 'react';
-import { Input } from '@heroui/input';
-import { Select, SelectItem } from '@heroui/select';
-import { Form } from '@heroui/form';
 
 const NewOperationsModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

@@ -1,5 +1,5 @@
-import { Link } from '@heroui/link';
 import TypewriterComponent from '@/components/Web/TypewriterComponent';
+import Link from 'next/link';
 
 export default function Home() {
   return (

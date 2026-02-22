@@ -1,14 +1,9 @@
 'use client';
 import React from 'react';
-import { Form } from '@heroui/form';
-import { Select, SelectItem } from '@heroui/select';
-import { Checkbox } from '@heroui/checkbox';
-import { Input } from '@heroui/input';
-import { Button } from '@heroui/button';
-import { Spinner } from '@heroui/spinner';
+
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { addToast } from '@heroui/toast';
 import Image from 'next/image';
+import { addToast, Button, Form, Input, Spinner } from '@heroui/react';
 
 interface FormErrors {
   name?: string;

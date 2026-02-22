@@ -1,17 +1,19 @@
 'use client';
+
 import {
+  Button,
+  Form,
+  Input,
   Modal,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
-} from '@heroui/modal';
-import { Button } from '@heroui/button';
+  ModalHeader,
+  Select,
+  SelectItem,
+  Textarea,
+} from '@heroui/react';
 import React from 'react';
-import { Input, Textarea } from '@heroui/input';
-import { Select, SelectItem } from '@heroui/select';
-import { Form } from '@heroui/form';
-import { Divider } from '@heroui/divider';
 
 interface FinanceRequestFormModalProps {
   isOpen: boolean;
