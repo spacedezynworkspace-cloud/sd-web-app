@@ -14,18 +14,73 @@ import { ThemeSwitch } from './theme-switch';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import {
+  Dropdown,
+  DropdownMenu,
+  DropdownTrigger,
+  DropdownItem,
+} from '@heroui/react';
 
-const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Academy', href: '#', current: false },
-  { name: 'Services', href: '#', current: false },
-  { name: 'Book Appointment', href: '#', current: false },
+type NavLink = {
+  name: string;
+  href: string;
+  current?: boolean;
+};
+interface NavigationType {
+  mainLink: NavLink;
+  subLinks?: NavLink[];
+}
+const navigation: NavigationType[] = [
+  { mainLink: { name: 'Home', href: '#', current: true } },
+  {
+    mainLink: { name: 'Academy', href: '#', current: false },
+    subLinks: [
+      {
+        name: '3D Animations',
+        href: '#',
+      },
+      {
+        name: 'Interior Design',
+        href: '#',
+      },
+      {
+        name: 'Supervisor Training',
+        href: '#',
+      },
+    ],
+  },
+  {
+    mainLink: { name: 'Services', href: '#', current: false },
+    subLinks: [
+      {
+        name: 'Interior Design',
+        href: '#Interior',
+      },
+      {
+        name: 'Virtual Tour',
+        href: '#Virtual',
+      },
+      {
+        name: '3D Visualization',
+        href: '#Visualization',
+      },
+      {
+        name: 'Rennovation',
+        href: '#Rennovation',
+      },
+      {
+        name: 'Consultation',
+        href: '#Consultation',
+      },
+    ],
+  },
+  { mainLink: { name: 'Book Appointment', href: '#', current: false } },
 ];
 const adminavigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Clients', href: '#', current: false },
-  { name: 'Operations', href: '/dashboard/operations', current: false },
-  { name: 'Finance', href: '/dashboard/finance', current: false },
+  { mainLink: 'Dashboard', href: '/dashboard', current: true },
+  { mainLink: 'Clients', href: '#', current: false },
+  { mainLink: 'Operations', href: '/dashboard/operations', current: false },
+  { mainLink: 'Finance', href: '/dashboard/finance', current: false },
 ];
 
 // function classNames(...classes: (string | undefined | false)[]) {
@@ -34,11 +89,14 @@ const adminavigation = [
 
 const Navbar = () => {
   const pathName = usePathname();
+  console.log('path name: ', pathName);
+
+  const doNotDisPlayRouteList = pathName === '/admin-dashboard-login-portal';
 
   return (
     <Disclosure
       as="nav"
-      className="relative z-40 sm:bg-black/50 bg-black after:pointer-events-none dark:bg-amber-500/50 after:absolute after:inset-x-0 after:bottom-0 after:h-px "
+      className={`${doNotDisPlayRouteList && 'hidden'} relative z-40 sm:bg-black/50 bg-black after:pointer-events-none dark:bg-amber-500/50 after:absolute after:inset-x-0 after:bottom-0 after:h-px `}
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-24 items-center justify-between">
@@ -63,31 +121,65 @@ const Navbar = () => {
                 <Image
                   src={'/sd-web-app-logo.png'}
                   alt="Space Dezyn logo"
-                  width={180}
+                  width={100}
                   height={75}
-                  className="object-fill"
+                  className="object-fill dark:flex hidden"
+                />
+                <Image
+                  src={'/sd-web-app-logo-orange.png'}
+                  alt="Space Dezyn logo"
+                  width={100}
+                  height={75}
+                  className="object-fill flex dark:hidden"
                 />
               </Link>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div className="absolute inset-y-0 right-0 flex sm:gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {adminavigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    aria-current={item.href === pathName ? 'page' : undefined}
-                    className={clsx(
-                      item.href === pathName
-                        ? 'bg-orange-400 text-white'
-                        : 'text-orange-400 dark:text-white hover:bg-orange-200/50 hover:font-extrabold',
-                      'rounded-md px-3 py-2 text-sm font-medium'
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+                {navigation.map((item) => {
+                  return item.subLinks ? (
+                    <Dropdown key={item.mainLink.name}>
+                      <DropdownTrigger>
+                        <button
+                          className={clsx(
+                            item.mainLink.href === pathName
+                              ? 'bg-orange-400 text-white'
+                              : 'text-orange-400 dark:text-white hover:bg-orange-200/50 hover:font-extrabold',
+                            'rounded-md px-3 py-2 text-sm font-medium'
+                          )}
+                        >
+                          {item.mainLink.name}
+                        </button>
+                      </DropdownTrigger>
+
+                      <DropdownMenu aria-label="Link Actions">
+                        {item.subLinks.map((subItem) => (
+                          <DropdownItem key={subItem.name} href={subItem.href}>
+                            {subItem.name}
+                          </DropdownItem>
+                        ))}
+                      </DropdownMenu>
+                    </Dropdown>
+                  ) : (
+                    <Link
+                      key={item.mainLink.name}
+                      href={item.mainLink.href}
+                      aria-current={
+                        item.mainLink.href === pathName ? 'page' : undefined
+                      }
+                      className={clsx(
+                        item.mainLink.href === pathName
+                          ? 'bg-orange-400 text-white'
+                          : 'text-orange-400 dark:text-white hover:bg-orange-200/50 hover:font-extrabold',
+                        'rounded-md px-3 py-2 text-sm font-medium'
+                      )}
+                    >
+                      {item.mainLink.name}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
             <button
@@ -146,22 +238,49 @@ const Navbar = () => {
         </div>
       </div>
 
-      <DisclosurePanel className="sm:hidden absolute  w-full left-0 ">
-        <div className="space-y-1 px-2 pt-2 pb-3 bg-black w-full left-0">
-          {adminavigation.map((item) => (
+      <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 ">
+        <div className="space-y-1 px-2 pt-2 pb-3 bg-black w-full h-screen left-0">
+          {navigation.map((item) => (
             <DisclosureButton
-              key={item.name}
+              key={item.mainLink.name}
               as="a"
-              href={item.href}
-              aria-current={item.href === pathName ? 'page' : undefined}
+              href={item.mainLink.href}
+              aria-current={
+                item.mainLink.href === pathName ? 'page' : undefined
+              }
               className={clsx(
-                item.href === pathName
+                item.mainLink.href === pathName
                   ? 'bg-orange-400 text-white'
                   : 'text-orange-400 hover:bg-white/5 hover:font-extrabold',
                 'block rounded-md px-3 py-2 text-base font-medium'
               )}
             >
-              {item.name}
+              {item.subLinks ? (
+                <Dropdown>
+                  <DropdownTrigger>
+                    <button
+                      className={clsx(
+                        item.mainLink.href === pathName
+                          ? 'bg-orange-400 text-white'
+                          : 'text-orange-400 hover:bg-white/5 hover:font-extrabold',
+                        'block rounded-md py-2 text-base font-medium bg-none'
+                      )}
+                    >
+                      {item.mainLink.name}
+                    </button>
+                  </DropdownTrigger>
+
+                  <DropdownMenu aria-label="Link Actions">
+                    {item.subLinks.map((subItem) => (
+                      <DropdownItem key={subItem.name} href={subItem.href}>
+                        {subItem.name}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+              ) : (
+                item.mainLink.name
+              )}
             </DisclosureButton>
           ))}
         </div>

@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Button, ButtonGroup } from '@heroui/button';
 import { ChartFilter } from '@/types';
+import { Button, ButtonGroup } from '@heroui/react';
 
 interface ChartFilterToggleProps {
   value: ChartFilter;

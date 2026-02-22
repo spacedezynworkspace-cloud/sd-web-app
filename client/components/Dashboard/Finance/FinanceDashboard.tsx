@@ -12,10 +12,10 @@ import AnalyticsCard from '@/components/Cards/Dashboard/AnalyticsCard';
 import LineChart from '@/components/Charts/LineChart';
 import DonutChart from '@/components/Charts/DonutChart';
 import FinanceRequestDetailsModal from './FinanceRequestDetailsModal';
-import { useDisclosure } from '@heroui/modal';
 import SupervisorFundsRequest from './SupervisorFundsRequest';
 import { SupervisorFundsRequestType } from '@/types';
 import FinanceRecentTransactions from './FinanceRecentTransactions';
+import { useDisclosure } from '@heroui/react';
 
 const FinanceDashboard = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

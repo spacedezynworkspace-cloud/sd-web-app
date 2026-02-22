@@ -1,17 +1,18 @@
 import React, { use, useEffect } from 'react';
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-} from '@heroui/table';
-import { User } from '@heroui/user';
-import { Tooltip } from '@heroui/tooltip';
+
 import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { Progress } from '@heroui/progress';
-import { Pagination } from '@heroui/pagination';
+import {
+  Pagination,
+  Progress,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  Tooltip,
+  User,
+} from '@heroui/react';
 
 export type UserRow = {
   id: string;

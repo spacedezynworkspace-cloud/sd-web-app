@@ -1,6 +1,5 @@
 import { SupervisorFundsRequestType } from '@/types';
-import { User } from '@heroui/user';
-import Link from 'next/link';
+import { User } from '@heroui/react';
 import React from 'react';
 
 interface SupervisorFundsRequestProps {

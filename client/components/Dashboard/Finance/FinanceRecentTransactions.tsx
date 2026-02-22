@@ -1,8 +1,7 @@
 import React from 'react';
-import { ScrollShadow } from '@heroui/scroll-shadow';
-import { Card, CardBody } from '@heroui/card';
 import Image from 'next/image';
 import { HomeIcon } from '@heroicons/react/24/outline';
+import { Card, CardBody, ScrollShadow } from '@heroui/react';
 
 const FinanceRecentTransactions = () => {
   return (
