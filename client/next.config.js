@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['i.pravatar.cc', 'res.cloudinary.com'],
+    remotePatterns: [
+      {
+        hostname: 'i.pravatar.cc',
+      },
+      {
+        hostname: 'res.cloudinary.com',
+      },
+    ],
   },
 };
 

@@ -48,7 +48,7 @@ export default function RootLayout({
             <footer className="w-full flex items-center justify-center py-3">
               <Link
                 isExternal
-                className="flex items-center gap-1 text-current"
+                className="flex text-sm  items-center gap-1 text-current"
                 href="https://www.advantage.com.ng"
                 title="Advantage homepage"
               >
