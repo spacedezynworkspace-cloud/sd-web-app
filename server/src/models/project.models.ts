@@ -10,7 +10,8 @@ export interface IProject extends Document {
   serviceType: string;
   budget: number;
   state: string;
-  phase: 1 | 2 | 3 | 4 | 5;
+  phase: 0 | 1 | 2 | 3;
+  status: 1 | 2 | 3 | 4 | 5;
   startDate: Date;
   endDate: Date;
   paymentStatus: 'pending' | 'paid' | 'refunded';
@@ -33,6 +34,11 @@ const projectSchema = new Schema<IProject>(
 
     endDate: { type: Date },
     phase: {
+      type: Number,
+      enum: [0, 1, 2, 3],
+      default: 0,
+    },
+    status: {
       type: Number,
       enum: [1, 2, 3, 4, 5],
       default: 1,
