@@ -76,11 +76,17 @@ const navigation: NavigationType[] = [
   },
   { mainLink: { name: 'Book Appointment', href: '#', current: false } },
 ];
-const adminavigation = [
-  { mainLink: 'Dashboard', href: '/dashboard', current: true },
-  { mainLink: 'Clients', href: '#', current: false },
-  { mainLink: 'Operations', href: '/dashboard/operations', current: false },
-  { mainLink: 'Finance', href: '/dashboard/finance', current: false },
+const adminavigation: NavigationType[] = [
+  { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
+  { mainLink: { name: 'Clients', href: '#', current: false } },
+  {
+    mainLink: {
+      name: 'Operations',
+      href: '/dashboard/operations',
+      current: false,
+    },
+  },
+  { mainLink: { name: 'Finance', href: '/dashboard/finance', current: false } },
 ];
 
 // function classNames(...classes: (string | undefined | false)[]) {
@@ -138,7 +144,7 @@ const Navbar = () => {
           <div className="absolute inset-y-0 right-0 flex sm:gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {navigation.map((item) => {
+                {adminavigation.map((item) => {
                   return item.subLinks ? (
                     <Dropdown key={item.mainLink.name}>
                       <DropdownTrigger>
@@ -240,7 +246,7 @@ const Navbar = () => {
 
       <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 ">
         <div className="space-y-1 px-2 pt-2 pb-3 bg-black w-full h-screen left-0">
-          {navigation.map((item) => (
+          {adminavigation.map((item) => (
             <DisclosureButton
               key={item.mainLink.name}
               as="a"
