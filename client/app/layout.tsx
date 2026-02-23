@@ -2,12 +2,12 @@ import '@/styles/globals.css';
 import { Metadata, Viewport } from 'next';
 import clsx from 'clsx';
 
-import { Providers } from './providers';
-
+import { Providers as HeroUIProvider } from '@/lib/providers/HeroUIProvider';
+import { ReduxProvider as ReduxProvider } from '@/lib/providers/ReduxProvider';
 import { siteConfig } from '@/config/site';
 import { fontSans } from '@/config/fonts';
 import Navbar from '@/components/Navbar';
-import { Link } from '@heroui/react';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: {
@@ -41,23 +41,26 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: 'class', defaultTheme: 'light' }}>
-          <div className="relative flex flex-col h-full bg-gray-100 dark:bg-black">
-            <Navbar />
-            <main className="-mt-28">{children}</main>
-            <footer className="w-full flex items-center justify-center py-3">
-              <Link
-                isExternal
-                className="flex text-sm  items-center gap-1 text-current"
-                href="https://www.advantage.com.ng"
-                title="Advantage homepage"
-              >
-                <span className="text-default-600">Powered by</span>
-                <p className="text-orange-400">Advantage</p>
-              </Link>
-            </footer>
-          </div>
-        </Providers>
+        <ReduxProvider>
+          <HeroUIProvider
+            themeProps={{ attribute: 'class', defaultTheme: 'light' }}
+          >
+            <div className="relative flex flex-col h-full bg-gray-100 dark:bg-black">
+              <Navbar />
+              <main className="-mt-28">{children}</main>
+              <footer className="w-full flex items-center justify-center py-3">
+                <Link
+                  className="flex text-sm  items-center gap-1 text-current"
+                  href="https://www.advantage.com.ng"
+                  title="Advantage homepage"
+                >
+                  <span className="text-default-600">Powered by</span>
+                  <p className="text-orange-400">Advantage</p>
+                </Link>
+              </footer>
+            </div>
+          </HeroUIProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

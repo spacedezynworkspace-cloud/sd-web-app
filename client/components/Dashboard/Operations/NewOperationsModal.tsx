@@ -1,8 +1,12 @@
 'use client';
 
+import React from 'react';
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
 import {
+  addToast,
+  alert,
   Button,
+  DatePicker,
   Form,
   Input,
   Modal,
@@ -12,42 +16,59 @@ import {
   ModalHeader,
   Select,
   SelectItem,
+  Spinner,
   useDisclosure,
 } from '@heroui/react';
-import React from 'react';
-
+import { getLocalTimeZone, today } from '@internationalized/date';
+import { useCreateProjectMutation } from '@/lib/services/projects/projects.api';
+import { CreateProjectRequest } from '@/types/projects.types';
 const NewOperationsModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [password, setPassword] = React.useState('');
   const [submitted, setSubmitted] = React.useState({});
   const [errors, setErrors] = React.useState({});
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [createProject, { isLoading }] = useCreateProjectMutation();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('Submit...');
+
     e.preventDefault();
 
-    const formData = Object.fromEntries(
-      new FormData(e.currentTarget)
-    ) as Record<string, string>;
+    const form = new FormData(e.currentTarget);
 
-    const newErrors: Record<string, string> = {};
+    const payload: CreateProjectRequest = {
+      name: form.get('name') as string,
+      client: form.get('client') as string,
+      email: form.get('email') as string,
+      phoneNum: form.get('phoneNum') as string,
+      serviceType: form.get('serviceType') as string,
+      budget: Number(form.get('budget')),
+      location: {
+        state: form.get('state') as string,
+        address: 'Address not included',
+      },
+      startDate: form.get('startDate') as string,
+    };
+    console.log('payload: ', payload);
 
-    Object.entries(formData).forEach(([key, value]) => {
-      if (!value) {
-        newErrors[key] = 'This field is required';
-      }
-    });
+    try {
+      const res = await createProject(payload).unwrap();
+      console.log(res);
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+      addToast({
+        title: 'Project creation',
+        description: res.message,
+        color: 'success',
+      });
+
+      setSubmitted(payload);
+      setErrors({});
+      onOpenChange();
+    } catch (error) {
+      console.error(error);
     }
-
-    setErrors({});
-    setSubmitted(formData);
-
-    console.log('Project created:', formData);
   };
-
   return (
     <div className="sm:w-auto w-full flex justify-end">
       <Button
@@ -86,14 +107,13 @@ const NewOperationsModal = () => {
                       isRequired
                       label="Project Name"
                       labelPlacement="outside"
-                      name="projectTitle"
+                      name="name"
                       placeholder="Enter project name"
                       errorMessage={({ validationDetails }) =>
                         validationDetails.valueMissing &&
                         'Project name is required'
                       }
                     />
-
                     {/* Client */}
                     <Input
                       isRequired
@@ -106,7 +126,6 @@ const NewOperationsModal = () => {
                         'Client name is required'
                       }
                     />
-
                     {/* Email */}
                     <Input
                       isRequired
@@ -122,14 +141,13 @@ const NewOperationsModal = () => {
                           return 'Enter a valid email';
                       }}
                     />
-
                     {/* Phone Number */}
                     <Input
                       isRequired
                       type="tel"
                       label="Phone Number"
                       labelPlacement="outside"
-                      name="phone"
+                      name="phoneNum"
                       placeholder="Enter phone number"
                       pattern="[0-9]{10,11}"
                       errorMessage={({ validationDetails }) => {
@@ -143,21 +161,27 @@ const NewOperationsModal = () => {
                       }
                     />
 
-                    {/* Date Started */}
-                    <Input
-                      isRequired
-                      type="date"
-                      label="Date Started"
-                      labelPlacement="outside"
-                      name="startDate"
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Start date is required'
-                      }
-                    />
-
-                    {/* Phase */}
+                    {/* Service type */}
                     <div className="w-full">
+                      <Select
+                        isRequired
+                        label="Service type"
+                        labelPlacement="outside"
+                        name="serviceType"
+                        placeholder="Select service type"
+                      >
+                        <SelectItem key="architech">Architech</SelectItem>
+                        <SelectItem key="rennovation">Rennovation</SelectItem>
+                        <SelectItem key="3d_visualization">
+                          3D Visualization
+                        </SelectItem>
+                        <SelectItem key="interior_design">
+                          Interior Dsign
+                        </SelectItem>
+                      </Select>
+                    </div>
+                    {/* Phase */}
+                    {/* <div className="w-full">
                       <Select
                         isRequired
                         label="Phase"
@@ -170,22 +194,37 @@ const NewOperationsModal = () => {
                         <SelectItem key="Execution">Execution</SelectItem>
                         <SelectItem key="Closure">Closure</SelectItem>
                       </Select>
-                    </div>
+                    </div> */}
                     {/* Location */}
                     <div className="w-full">
                       {' '}
                       <Select
                         isRequired
-                        label="Location"
+                        label="State"
                         labelPlacement="outside"
-                        name="location"
-                        placeholder="Select location"
+                        name="state"
+                        placeholder="Select state"
                       >
-                        <SelectItem key="Lagos">Lagos</SelectItem>
                         <SelectItem key="Abuja">Abuja</SelectItem>
-                        <SelectItem key="Ikoyi">Ikoyi</SelectItem>
+                        <SelectItem key="Lagos">Lagos</SelectItem>
+                        {/* <SelectItem key="Ikoyi">Ikoyi</SelectItem> */}
                       </Select>
                     </div>
+
+                    {/* Date Started */}
+                    <DatePicker
+                      isRequired
+                      color="warning"
+                      errorMessage="Please enter a valid date."
+                      className=""
+                      label="Start date"
+                      labelPlacement="outside"
+                      defaultValue={today(getLocalTimeZone()).subtract({
+                        days: 1,
+                      })}
+                      minValue={today(getLocalTimeZone())}
+                      name="startDate"
+                    />
 
                     {/* Budget */}
                     <Input
@@ -213,6 +252,9 @@ const NewOperationsModal = () => {
                   className="bg-orange-400 text-white font-semibold"
                 >
                   Create Project
+                  {isLoading && (
+                    <Spinner size="sm" variant="spinner" color="white" />
+                  )}
                 </Button>
               </ModalFooter>
             </>
