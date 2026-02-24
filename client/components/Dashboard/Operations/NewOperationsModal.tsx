@@ -205,8 +205,8 @@ const NewOperationsModal = () => {
                         name="state"
                         placeholder="Select state"
                       >
-                        <SelectItem key="Abuja">Abuja</SelectItem>
-                        <SelectItem key="Lagos">Lagos</SelectItem>
+                        <SelectItem key="abuja">Abuja</SelectItem>
+                        <SelectItem key="lagos">Lagos</SelectItem>
                         {/* <SelectItem key="Ikoyi">Ikoyi</SelectItem> */}
                       </Select>
                     </div>
@@ -219,9 +219,7 @@ const NewOperationsModal = () => {
                       className=""
                       label="Start date"
                       labelPlacement="outside"
-                      defaultValue={today(getLocalTimeZone()).subtract({
-                        days: 1,
-                      })}
+                      defaultValue={today(getLocalTimeZone())}
                       minValue={today(getLocalTimeZone())}
                       name="startDate"
                     />

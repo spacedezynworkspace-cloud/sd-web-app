@@ -1,31 +1,80 @@
 'use client';
-import React from 'react';
+import React, { useCallback } from 'react';
 import DashboardHeader from '../DashboardHeader';
 import { SearchIcon } from '@/components/icons';
 import NewOperationsModal from './NewOperationsModal';
 import OperationsTable from './OperationsTable';
 import { Input, Select, SelectItem } from '@heroui/react';
+import useDebounce from '@/hooks/useDebounceHook';
+import { useGetAllProjectsQuery } from '@/lib/services/projects/projects.api';
+import { Project } from '@/types/projects.types';
 
+const rowsPerPage = 10;
 const OperationsDashboard = () => {
   const statuses = [
-    { key: 'all', label: 'All' },
-    { key: 'completed', label: 'Completed' },
-    { key: 'in-progress', label: 'In Progress' },
-    { key: 'inspection', label: 'Inspection' },
+    { key: '', label: 'All' },
+    { key: '5', label: 'Completed' },
+    { key: '3', label: 'In Progress' },
+    { key: '1', label: 'Inspection' },
   ];
   const phases = [
-    { key: 'all', label: 'All' },
-    { key: 'planning', label: 'Planning' },
-    { key: 'design', label: 'Design' },
-    { key: 'execution', label: 'Execution' },
-    { key: 'closure', label: 'Closure' },
+    { key: '', label: 'All' },
+    { key: '0', label: 'Planning' },
+    { key: '1', label: 'Design' },
+    { key: '2', label: 'Execution' },
+    { key: '3', label: 'Closure' },
   ];
   const locations = [
-    { key: 'all', label: 'All' },
+    { key: '', label: 'All' },
     { key: 'abuja', label: 'Abuja' },
     { key: 'ibadan', label: 'Ibadan' },
     { key: 'lagos', label: 'Lagos' },
   ];
+
+  const [page, setPage] = React.useState<number>(1);
+
+  const [search, setSearch] = React.useState<string>('');
+  const debouncedSearch = useDebounce(search, 500);
+
+  const [statusFilter, setStatusFilter] = React.useState<string>('');
+  const [phaseFilter, setPhaseFilter] = React.useState<string>('');
+  const [locationFilter, setLocationFilter] = React.useState<string>('');
+
+  const [sortBy, setSortBy] = React.useState<string>('createdAt');
+  const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('desc');
+
+  // 🔥 Reset page when filters/search change
+  React.useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, statusFilter, phaseFilter, sortBy, sortOrder]);
+
+  const { data, isLoading } = useGetAllProjectsQuery({
+    page,
+    limit: rowsPerPage,
+    search: debouncedSearch,
+    status: statusFilter ? Number(statusFilter) : undefined,
+    phase: phaseFilter ? Number(phaseFilter) : undefined,
+    state: locationFilter,
+    sortBy,
+    sortOrder,
+  });
+
+  const projects: Project[] = data?.data ?? [];
+  const totalPages = data?.pagination?.totalPages ?? 1;
+
+  console.log('projects:', projects);
+
+  const handleSort = useCallback(
+    (column: string) => {
+      if (sortBy === column) {
+        setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+      } else {
+        setSortBy(column);
+        setSortOrder('asc');
+      }
+    },
+    [sortBy, sortOrder]
+  );
 
   return (
     <section className="bg-white dark:bg-black dark:p-0 p-4 rounded-lg flex flex-col gap-4">
@@ -40,11 +89,13 @@ const OperationsDashboard = () => {
           <Input
             label="Search for operations"
             labelPlacement="outside"
-            placeholder="Clients, location, progress etc"
+            placeholder="Search by name, email, client..."
             startContent={
               <SearchIcon className="text-2xl size-4 text-default-400 pointer-events-none shrink-0" />
             }
             type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       </div>
@@ -52,41 +103,58 @@ const OperationsDashboard = () => {
         <div className="w-[750px] grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
           <div className="w-full">10 results found</div>
           <Select
-            className="max-w-xs"
-            // label="Filter by Status"
+            className="sm:max-w-xs w-full"
             placeholder="Select status"
             defaultSelectedKeys={['all']}
-            items={statuses}
+            // items={statuses}
+            selectedKeys={[statusFilter]}
             startContent={'Status:'}
+            onChange={(e) => setStatusFilter(e.target.value)}
           >
-            {(status) => (
+            {statuses.map((status) => (
               <SelectItem key={status.key}>{status.label}</SelectItem>
-            )}
+            ))}
           </Select>
           <Select
-            className="max-w-xs"
+            className="sm:max-w-xs w-full"
             // label="Filter by Status"
-            placeholder="Select stage"
+            placeholder="Select phase"
             defaultSelectedKeys={['all']}
-            items={phases}
+            selectedKeys={[phaseFilter]}
             startContent={'Phase:'}
+            onChange={(e) => setPhaseFilter(e.target.value)}
           >
-            {(stage) => <SelectItem key={stage.key}>{stage.label}</SelectItem>}
+            {phases.map((stage) => (
+              <SelectItem key={stage.key}>{stage.label}</SelectItem>
+            ))}
           </Select>
           <Select
-            className="max-w-xs"
+            className="sm:max-w-xs w-full"
             defaultSelectedKeys={['all']}
             items={locations}
+            selectedKeys={[locationFilter]}
             startContent={'Location:'}
+            onChange={(e) => setLocationFilter(e.target.value)}
           >
-            {(city) => <SelectItem key={city.key}>{city.label}</SelectItem>}
+            {locations.map((city) => (
+              <SelectItem key={city.key}>{city.label}</SelectItem>
+            ))}
           </Select>
         </div>
         <NewOperationsModal />
       </div>
 
       {/* Operations table  */}
-      <OperationsTable />
+      <OperationsTable
+        projects={projects}
+        handleSort={handleSort}
+        isLoading={isLoading}
+        search={search}
+        setSearch={setSearch}
+        page={page}
+        totalPages={totalPages}
+        setPage={setPage}
+      />
     </section>
   );
 };

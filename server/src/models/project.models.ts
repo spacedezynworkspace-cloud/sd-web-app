@@ -1,23 +1,28 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IProject extends Document {
-  // user: mongoose.Types.ObjectId;
-  // assignedTo?: mongoose.Types.ObjectId[];
   name: string;
   client: string;
   email: string;
   phoneNum: string;
   serviceType: string;
   budget: number;
-  state: string;
-  phase: 1 | 2 | 3 | 4 | 5;
+
+  phase: 0 | 1 | 2 | 3;
+  status: 1 | 2 | 3 | 4 | 5;
+
   startDate: Date;
   endDate: Date;
-  paymentStatus: 'pending' | 'paid' | 'refunded';
+
+  paymentStatus: 'pending' | 'partial' | 'paid';
+
   location: {
     state: string;
     address: string;
   };
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const projectSchema = new Schema<IProject>(
@@ -34,13 +39,18 @@ const projectSchema = new Schema<IProject>(
     endDate: { type: Date },
     phase: {
       type: Number,
+      enum: [0, 1, 2, 3],
+      default: 0,
+    },
+    status: {
+      type: Number,
       enum: [1, 2, 3, 4, 5],
       default: 1,
     },
     budget: { type: Number },
     paymentStatus: {
       type: String,
-      enum: ['pending', 'paid', 'refunded'],
+      enum: ['pending', 'partial', 'paid'],
       default: 'pending',
     },
     // paymentReference: { type: String, trim: true },
@@ -63,6 +73,12 @@ const projectSchema = new Schema<IProject>(
 
 projectSchema.index({ user: 1 });
 projectSchema.index({ phase: 1 });
+
+projectSchema.index({ email: 1 });
+projectSchema.index({ client: 1 });
+projectSchema.index({ name: 1 });
+projectSchema.index({ createdAt: -1 });
+projectSchema.index({ status: 1, phase: 1 });
 
 export const Project: Model<IProject> = mongoose.model(
   'Project',

@@ -1,6 +1,9 @@
 import express from 'express';
 // import authMiddleWare from '../../middlewares/auth.middleware';
-import { createProject } from '../../controllers/admin/project.controllers';
+import {
+  createProject,
+  getAllProjects,
+} from '../../controllers/admin/project.controllers';
 // import { assignStaffToBooking, getAllUserBookings, removeStaffFromBooking, uploadBookingImages } from "../../controllers/admin/project.controllers";
 // import authMiddleWare from "../../middlewares/auth.middleware";
 // import { bookingsMediaStorage } from "../../utils/CloudinaryMediaStorage";
@@ -9,6 +12,7 @@ import { createProject } from '../../controllers/admin/project.controllers';
 const router = express.Router();
 
 router.post('/', createProject);
+router.get('/', getAllProjects);
 
 // const bookingImagesUpload = multer({ storage:bookingsMediaStorage });
 
