@@ -1,5 +1,5 @@
 'use client';
-import { CreateProjectRequest } from '@/types/projects.types';
+import { CreateProjectRequest, Project } from '@/types/projects.types';
 import { api } from '../api';
 import { ApiResponse } from '@/types/api.types';
 
@@ -14,10 +14,44 @@ export const projectsApi = api.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Projects'],
+      invalidatesTags: [
+        { type: 'Projects', id: 'LIST' },
+        { type: 'Projects', id: 'COUNT' },
+      ],
+    }),
+    getAllProjects: builder.query<
+      ApiResponse<Project[]>,
+      {
+        search?: string;
+        status?: number;
+        phase?: number;
+        state?: string;
+        startDate?: string;
+        endDate?: string;
+        page?: number;
+        limit?: number;
+        sortBy?: string;
+        sortOrder?: 'asc' | 'desc';
+      }
+    >({
+      query: (params) => ({
+        url: '/admin/projects',
+        method: 'GET',
+        params,
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ _id }) => ({
+                type: 'Projects' as const,
+                _id,
+              })),
+              { type: 'Projects', id: 'LIST' },
+            ]
+          : [{ type: 'Projects', id: 'LIST' }],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateProjectMutation } = projectsApi;
+export const { useCreateProjectMutation, useGetAllProjectsQuery } = projectsApi;
