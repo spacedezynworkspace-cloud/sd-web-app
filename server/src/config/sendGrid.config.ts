@@ -1,9 +1,9 @@
-import sgMail from "@sendgrid/mail";
-import dotenv from "dotenv";
+import sgMail from '@sendgrid/mail';
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-sgMail.setApiKey(process.env["SENDGRID_API_KEY"]!);
+sgMail.setApiKey(process.env['SENDGRID_API_KEY']!);
 
 export const sendEmail = async (options: {
   to: string;
@@ -13,8 +13,8 @@ export const sendEmail = async (options: {
   const msg = {
     to: options.to,
     from: {
-      email: process.env["SENDGRID_FROM"]!,
-      name: "Booking System",
+      email: process.env['SENDGRID_FROM']!,
+      name: 'Space Dezyn',
     },
     subject: options.subject,
     html: options.html,
@@ -23,7 +23,7 @@ export const sendEmail = async (options: {
   try {
     await sgMail.send(msg);
   } catch (error: any) {
-    console.error("SendGrid error:", error.response?.body || error);
-    throw new Error("Email failed to send");
+    console.error('SendGrid error:', error.response?.body || error);
+    throw new Error('Email failed to send');
   }
 };
