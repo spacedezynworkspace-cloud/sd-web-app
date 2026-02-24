@@ -6,9 +6,12 @@ export interface IExpense extends Document {
   type: 'electrical' | 'wood' | 'tools' | 'material' | 'labor' | 'logistics';
   description?: string;
   requestedBy?: mongoose.Types.ObjectId;
+  requestedDate: Date;
   approved: boolean;
+  approvedDate?: Date;
   createdAt: Date;
   updatedAt: Date;
+  declined?: boolean;
 }
 
 const expenseSchema = new Schema<IExpense>(
@@ -42,13 +45,18 @@ const expenseSchema = new Schema<IExpense>(
       default: false,
       index: true,
     },
+    declined: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+    approvedDate: { type: Date },
+    requestedDate: { type: Date, required: true },
   },
   { timestamps: true }
 );
 
-expenseSchema.index({ createdAt: -1 });
-expenseSchema.index({ type: 1 });
-expenseSchema.index({ project: 1 });
+expenseSchema.index({ approvedDate: -1 });
 export const Expense: Model<IExpense> = mongoose.model(
   'Expense',
   expenseSchema

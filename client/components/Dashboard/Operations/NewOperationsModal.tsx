@@ -57,7 +57,7 @@ const NewOperationsModal = () => {
       console.log(res);
 
       addToast({
-        title: 'Project creation',
+        title: 'Project created',
         description: res.message,
         color: 'success',
       });
@@ -66,7 +66,7 @@ const NewOperationsModal = () => {
       setErrors({});
       onOpenChange();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
   return (

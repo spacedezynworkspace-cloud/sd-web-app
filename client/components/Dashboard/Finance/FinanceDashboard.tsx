@@ -16,128 +16,41 @@ import SupervisorFundsRequest from './SupervisorFundsRequest';
 import { SupervisorFundsRequestType } from '@/types';
 import FinanceRecentTransactions from './FinanceRecentTransactions';
 import { useDisclosure } from '@heroui/react';
+import {
+  useGetFinanceAnalyticsQuery,
+  useGetFinanceExpensesByTypeQuery,
+  useGetFinanceMonthlyCashFlowQuery,
+} from '@/lib/services/finance/finance.api';
+import FinanceRequestFormModal from './FinanceRequestFormModal';
+import { useGetAllExpensesQuery } from '@/lib/services/expense/expenses.api';
+import { formatDate } from '@/utils/dateFormat.utils';
 
 const FinanceDashboard = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedRequest, setSelectedRequest] =
     React.useState<SupervisorFundsRequestType | null>(null);
-  const supervisors: SupervisorFundsRequestType[] = [
-    {
-      id: 1,
-      name: 'Nma Chenedu',
-      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026702d',
-      role: 'Site Supervisor',
-      requestDetails: {
-        amount: '$5,000',
-        purpose: 'Purchase of construction materials',
-        description:
-          'Requesting funds for the purchase of cement, steel, and other materials needed for the ongoing construction project.',
-        date: 'Apr 13, 2026',
-        projectName: 'Project A',
-        status: 'Pending',
-      },
-      opened: false,
-    },
-    {
-      id: 2,
-      name: 'Adaeze Okafor',
-      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026703d',
-      role: 'Project Manager',
-      requestDetails: {
-        amount: '$10,000',
-        purpose: 'Payment for subcontractors',
-        description:
-          'Requesting funds to cover payments for subcontractors who have completed their work on the project. This includes payments for electrical, plumbing, and finishing work.',
-        date: 'Apr 13, 2026',
-        status: 'Pending',
-        projectName: 'Project C',
-      },
-      opened: false,
-    },
-    {
-      id: 3,
-      name: 'Emeka Nwosu',
-      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026704d',
-      role: 'Site Supervisor',
-      requestDetails: {
-        amount: '$3,000',
-        purpose: 'Equipment rental',
-        description:
-          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
-        date: 'Apr 13, 2026',
-        status: 'Rejected',
-        projectName: 'Project B',
-      },
-      opened: true,
-    },
-    {
-      id: 4,
-      name: 'Jame Carter',
-      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026704d',
-      role: 'Site Supervisor',
-      requestDetails: {
-        amount: '$3,000',
-        purpose: 'Equipment rental',
-        description:
-          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
-        date: 'Apr 13, 2026',
-        status: 'approved',
-        projectName: 'Project A',
-      },
-      opened: true,
-    },
-    {
-      id: 5,
-      name: 'Sarah Johnson',
-      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026705d',
-      role: 'Site Supervisor',
-      requestDetails: {
-        amount: '$3,000',
-        purpose: 'Equipment rental',
-        description:
-          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
-        date: 'Apr 13, 2026',
-        status: 'approved',
-        projectName: 'Project C',
-      },
-      opened: true,
-    },
-    {
-      id: 6,
-      name: 'Michael Okonkwo',
-      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026706d',
-      role: 'Project Manager',
-      requestDetails: {
-        amount: '$3,000',
-        purpose: 'Equipment rental',
-        description:
-          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
-        date: 'Apr 13, 2026',
-        status: 'approved',
-        projectName: 'Project B',
-      },
-      opened: true,
-    },
-    {
-      id: 7,
-      name: 'David Smith',
-      avatar: 'https://i.pravatar.cc/150?u=a04258114e29026705d',
-      role: 'Site Supervisor',
-      requestDetails: {
-        amount: '$3,000',
-        purpose: 'Equipment rental',
-        description:
-          'Requesting funds for the rental of heavy machinery and equipment needed for the construction project. This includes excavators, cranes, and other necessary equipment.',
-        date: 'Apr 13, 2026',
-        status: 'approved',
-        projectName: 'Project A',
-      },
-      opened: true,
-    },
-  ];
+
+  const {
+    data: financeDataAnalytics,
+    isLoading: isLoadingFinanceDataAnalytics,
+  } = useGetFinanceAnalyticsQuery();
+
+  const {
+    data: financeLineChartData,
+    isLoading: isLoadingFinanceLineChartData,
+  } = useGetFinanceMonthlyCashFlowQuery();
+
+  const { data: financeDataByType, isLoading: isLoadingFinanceDataByType } =
+    useGetFinanceExpensesByTypeQuery();
+
+  const { data: financeExpensesData, isLoading: isLoadingFinanceExpensesData } =
+    useGetAllExpensesQuery();
+
+  console.log('financeExpensesData: ', financeExpensesData);
+
   const analyticsData = [
     {
-      value: `$560,000 revenue`,
+      value: `₦${financeDataAnalytics?.data.totalProjectValue.toLocaleString() || 0} revenue`,
       icon: <ArrowTrendingUpIcon className="h-6 w-6 text-green-400" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '5% increase from last week',
@@ -146,32 +59,55 @@ const FinanceDashboard = () => {
 
     {
       // value: `₦500M `,
-      value: `$320,000 `,
+      value: `₦${financeDataAnalytics?.data.totalPayments.toLocaleString() || 0}`,
       icon: <CheckCircleIcon className="h-6 w-6 text-green-400" />,
       descriptionIcon: '',
       descriptionText: 'Completed payments',
       bgColor: 'bg-green-200/50',
     },
     {
-      value: `$120,000 Expenses`,
+      value: `₦${financeDataAnalytics?.data.totalExpenses.toLocaleString() || 0} Expenses`,
       icon: <CircleStackIcon className="h-6 w-6 text-red-400" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-red-400" />,
       descriptionText: 'Company expenses',
       bgColor: 'bg-red-200/50',
     },
     {
-      value: `$240,000`,
+      value: `₦${financeDataAnalytics?.data.outstanding.toLocaleString() || 0}`,
       icon: <BanknotesIcon className="h-6 w-6 text-orange-400" />,
       descriptionIcon: '',
       descriptionText: 'Outstanding payments',
     },
   ];
+
+  const supervisors: SupervisorFundsRequestType[] = financeExpensesData?.data
+    .length
+    ? financeExpensesData?.data.map((expense) => {
+        return {
+          id: 1,
+          name: expense.requestedBy,
+          avatar: 'https://i.pravatar.cc/150?u=a04258114e29026702d',
+          role: 'Site Supervisor',
+          requestDetails: {
+            amount: `₦${expense.amount}`,
+            purpose: expense.type,
+            description: expense.description,
+            date: formatDate(expense.requestedDate),
+            projectName: 'Project A',
+            status: 'Pending',
+          },
+          opened: false,
+        };
+      })
+    : [];
+
   return (
     <section className="flex flex-col gap-4">
       <DashboardHeader
         title="Finance Dashboard Overview"
         description="Welcome to your finance dashboard overview. Here you can see an overview of your project's financial performance and recent activity."
       />
+      <FinanceRequestFormModal />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Analytics Card */}
         {analyticsData.map((data, index) => (
@@ -193,11 +129,11 @@ const FinanceDashboard = () => {
               series={[
                 {
                   name: 'Revenue',
-                  data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 100, 120, 110],
+                  data: financeLineChartData?.data.payments || [],
                 },
                 {
                   name: 'Expenses',
-                  data: [20, 30, 25, 40, 39, 90, 60, 80, 100, 90, 95, 140],
+                  data: financeLineChartData?.data.expenses || [],
                 },
               ]}
             />

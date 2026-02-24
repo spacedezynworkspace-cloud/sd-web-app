@@ -1,7 +1,12 @@
 'use client';
 
+import { useCreateExpenseMutation } from '@/lib/services/expense/expenses.api';
+import { CreateExpenseRequest } from '@/types/expenses.types';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import {
+  addToast,
   Button,
+  DatePicker,
   Form,
   Input,
   Modal,
@@ -12,48 +17,73 @@ import {
   Select,
   SelectItem,
   Textarea,
+  useDisclosure,
 } from '@heroui/react';
+
+import { getLocalTimeZone, today } from '@internationalized/date';
 import React from 'react';
 
-interface FinanceRequestFormModalProps {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
+const FinanceRequestFormModal = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [submitted, setSubmitted] = React.useState({});
   const [errors, setErrors] = React.useState({});
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [createExpense, { isLoading }] = useCreateExpenseMutation();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('Submit...');
+
     e.preventDefault();
 
-    const formData = Object.fromEntries(
-      new FormData(e.currentTarget)
-    ) as Record<string, string>;
+    const form = new FormData(e.currentTarget);
 
-    const newErrors: Record<string, string> = {};
+    const payload: CreateExpenseRequest = {
+      project: form.get('project') as string,
+      amount: Number(form.get('amount')),
+      type: form.get('type') as
+        | 'electrical'
+        | 'wood'
+        | 'tools'
+        | 'material'
+        | 'labor'
+        | 'logistics',
+      requestedDate: form.get('requestedDate') as string,
+      requestedBy: form.get('requestedBy') as string,
+      description: form.get('description') as string,
+    };
+    console.log('payload: ', payload);
 
-    Object.entries(formData).forEach(([key, value]) => {
-      if (!value) {
-        newErrors[key] = 'This field is required';
-      }
-    });
+    try {
+      const res = await createExpense(payload).unwrap();
+      console.log(res);
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+      addToast({
+        title: 'Expense created',
+        description: res.message,
+        color: 'success',
+      });
+
+      setSubmitted(payload);
+      setErrors({});
+      onOpenChange();
+    } catch (error) {
+      console.log(error);
     }
-
-    setErrors({});
-    setSubmitted(formData);
-
-    console.log('Project created:', formData);
   };
 
   return (
     <div className="sm:w-auto w-full flex justify-end">
+      <div>
+        <Button
+          onPress={onOpen}
+          className="bg-orange-400 text-white font-semibold"
+        >
+          <PlusIcon className="size-5 text-white" /> Fund request
+        </Button>
+      </div>
       <Modal
-        isOpen={props.isOpen}
-        onOpenChange={props.onOpenChange}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
         placement="center"
         scrollBehavior="inside"
       >
@@ -71,7 +101,7 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                   className="w-full space-y-6"
                   validationErrors={errors}
                   onSubmit={onSubmit}
-                  id="finance-request-form"
+                  id="expense-request-form"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                     {/* Project Name */}
@@ -113,7 +143,7 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                       isRequired
                       label="Supervisor Name"
                       labelPlacement="outside"
-                      name="supervisor"
+                      name="requestedBy"
                       placeholder="Enter supervisor name"
                       errorMessage={({ validationDetails }) =>
                         validationDetails.valueMissing &&
@@ -122,37 +152,38 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                     />
 
                     {/* Request Date */}
-                    <Input
+                    <DatePicker
                       isRequired
-                      type="date"
-                      label="Request Date"
+                      color="warning"
+                      errorMessage="Please enter a valid date."
+                      className=""
+                      label="Requested date"
                       labelPlacement="outside"
-                      name="requestDate"
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Request date is required'
-                      }
+                      defaultValue={today(getLocalTimeZone())}
+                      minValue={today(getLocalTimeZone())}
+                      name="requestedDate"
                     />
 
                     {/* Category */}
                     <div className="w-full">
                       <Select
                         isRequired
-                        label="Expense Category"
+                        label="Expense type"
                         labelPlacement="outside"
-                        name="category"
-                        placeholder="Select category"
+                        name="type"
+                        placeholder="Select type"
                       >
-                        <SelectItem key="Materials">Materials</SelectItem>
-                        <SelectItem key="Labor">Labor</SelectItem>
-                        <SelectItem key="Logistics">Logistics</SelectItem>
-                        <SelectItem key="Equipment">Equipment</SelectItem>
-                        <SelectItem key="Emergency">Emergency</SelectItem>
+                        <SelectItem key="material">Materials</SelectItem>
+                        <SelectItem key="labor">Labor</SelectItem>
+                        <SelectItem key="logistics">Logistics</SelectItem>
+                        <SelectItem key="electrical">Electrical</SelectItem>
+                        <SelectItem key="tools">Tools</SelectItem>
+                        <SelectItem key="wood">Wood</SelectItem>
                       </Select>
                     </div>
 
                     {/* Payment Method */}
-                    <div className="w-full">
+                    {/* <div className="w-full">
                       <Select
                         isRequired
                         label="Payment Method"
@@ -166,10 +197,10 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                         <SelectItem key="Cash">Cash</SelectItem>
                         <SelectItem key="POS">POS</SelectItem>
                       </Select>
-                    </div>
+                    </div> */}
 
                     {/* Vendor / Payee */}
-                    <Input
+                    {/* <Input
                       isRequired
                       label="Vendor / Payee Name"
                       labelPlacement="outside"
@@ -179,7 +210,7 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                         validationDetails.valueMissing &&
                         'Vendor name is required'
                       }
-                    />
+                    /> */}
 
                     {/* Amount Requested */}
                     <Input
@@ -193,20 +224,6 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                       startContent={<span className="text-default-400">₦</span>}
                       errorMessage={({ validationDetails }) =>
                         validationDetails.valueMissing && 'Amount is required'
-                      }
-                    />
-                  </div>
-                  {/* Description Full Width */}
-                  <div className="w-full">
-                    <Textarea
-                      isRequired
-                      label="Purpose / Description"
-                      labelPlacement="outside"
-                      name="description"
-                      placeholder="Explain why this fund is needed..."
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Description is required'
                       }
                     />
                   </div>
@@ -225,6 +242,20 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                       <SelectItem key="High">High</SelectItem>
                     </Select>
                   </div>
+                  {/* Description Full Width */}
+                  <div className="w-full">
+                    <Textarea
+                      isRequired
+                      label="Purpose / Description"
+                      labelPlacement="outside"
+                      name="description"
+                      placeholder="Explain why this fund is needed..."
+                      errorMessage={({ validationDetails }) =>
+                        validationDetails.valueMissing &&
+                        'Description is required'
+                      }
+                    />
+                  </div>
                 </Form>
               </ModalBody>
               <ModalFooter>
@@ -233,7 +264,7 @@ const FinanceRequestFormModal = (props: FinanceRequestFormModalProps) => {
                 </Button>
                 <Button
                   type="submit"
-                  form="finance-request-form" // 🔥 connects to form
+                  form="expense-request-form" // 🔥 connects to form
                   className="bg-orange-400 text-white font-semibold"
                 >
                   Submit Funds Request
