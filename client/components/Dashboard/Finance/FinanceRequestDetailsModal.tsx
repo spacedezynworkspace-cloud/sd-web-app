@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { SupervisorFundsRequestType } from '@/types';
+import { ExpenseFundsRequestType } from '@/types';
 import {
+  addToast,
   Button,
   Divider,
   Modal,
@@ -10,42 +11,39 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Spinner,
   User,
 } from '@heroui/react';
+import { useUpdateExpenseStatusMutation } from '@/lib/services/expense/expenses.api';
 
 interface FinanceRequestDetailsModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  supervisor: SupervisorFundsRequestType | null;
+  expense: ExpenseFundsRequestType | null;
 }
 const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
-  const [submitted, setSubmitted] = React.useState({});
-  const [errors, setErrors] = React.useState({});
+  const [updateExpense, { isLoading }] = useUpdateExpenseStatusMutation();
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = Object.fromEntries(
-      new FormData(e.currentTarget)
-    ) as Record<string, string>;
-
-    const newErrors: Record<string, string> = {};
-
-    Object.entries(formData).forEach(([key, value]) => {
-      if (!value) {
-        newErrors[key] = 'This field is required';
-      }
-    });
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+  const handleUpdateExpense = async (
+    status: 'pending' | 'approved' | 'declined'
+  ) => {
+    try {
+      const res = await updateExpense({
+        id: props.expense?.id || '',
+        status: status,
+      }).unwrap();
+      addToast({
+        title: 'Expense created',
+        description: res.message,
+        color: 'success',
+      });
+    } catch (error) {
+      addToast({
+        title: 'An error occured',
+        description: 'Please try again',
+        color: 'danger',
+      });
     }
-
-    setErrors({});
-    setSubmitted(formData);
-
-    console.log('Project created:', formData);
   };
 
   return (
@@ -60,24 +58,24 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                {props.supervisor && (
+                {props.expense && (
                   <div className="w-full">
                     <User
                       avatarProps={{
-                        src: props.supervisor.avatar,
+                        src: props.expense.avatar,
                       }}
                       description={
                         <div>
-                          <h3>{props.supervisor.name}</h3>
+                          <h3>{props.expense.name}</h3>
                           <p
-                            className={`${props.supervisor.opened ? '' : 'text-black dark:text-white'}`}
+                            className={`${props.expense.opened ? '' : 'text-black dark:text-white'}`}
                           >
-                            {props.supervisor.role}
+                            {props.expense.role}
                           </p>
                         </div>
                       }
                       name="Requested Funds"
-                      className={`${props.supervisor.opened ? '' : 'text-black dark:text-white'} `}
+                      className={`${props.expense.opened ? '' : 'text-black dark:text-white'} `}
                     />
                   </div>
                 )}
@@ -85,25 +83,32 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
 
               <ModalBody className="space-y-6">
                 <div className="grid grid-cols-1 gap-2">
+                  <div>{props.expense?.id}</div>
                   <div className="text-sm">
                     <span className="font-light">Project name:</span>
-                    <span> {props.supervisor?.requestDetails.projectName}</span>
+                    <span> {props.expense?.requestDetails.projectName}</span>
                   </div>
                   <div className="text-sm">
                     <span className="font-light">Amount:</span>
-                    <span> {props.supervisor?.requestDetails.amount}</span>
+                    <span className="font-bold">
+                      {' '}
+                      ₦{props.expense?.requestDetails.amount.toLocaleString()}
+                    </span>
                   </div>
                   <div className="text-sm">
                     <span className="font-light">Date:</span>
-                    <span> {props.supervisor?.requestDetails.date}</span>
+                    <span> {props.expense?.requestDetails.date}</span>
                   </div>
                   <div className="text-sm">
                     <span className="font-light">Request Time:</span>
-                    <span> 02:34PM</span>
+                    <span> {props.expense?.requestDetails.createdAt}</span>
                   </div>
                   <div className="text-sm">
-                    <span className="font-light">Purpose:</span>
-                    <span> {props.supervisor?.requestDetails.purpose}</span>
+                    <span className="font-light">Expense Type:</span>
+                    <span className="capitalize">
+                      {' '}
+                      {props.expense?.requestDetails.purpose}
+                    </span>
                   </div>
                 </div>
 
@@ -114,12 +119,13 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
                     Comment
                   </p>
                   <div className="bg-default-100 p-4 rounded-xl text-sm text-default-700">
-                    {props.supervisor?.requestDetails.description}
+                    {props.expense?.requestDetails.description}
                   </div>
                 </div>
                 <div className="flex justify-end">
                   <strong>
-                    Total : {props.supervisor?.requestDetails.amount}
+                    Total : ₦
+                    {props.expense?.requestDetails.amount.toLocaleString()}
                   </strong>
                 </div>
               </ModalBody>
@@ -140,15 +146,36 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
                   Decline
                 </Button>
 
-                <Button
-                  className="bg-orange-400 text-white font-semibold"
-                  onPress={() => {
-                    // onApprove(request);
-                    onClose();
-                  }}
-                >
-                  Approve
-                </Button>
+                {props.expense?.requestDetails.status === 'pending' && (
+                  <Button
+                    className="bg-orange-400 text-white font-semibold"
+                    onPress={() => {
+                      // onApprove(request);
+                      handleUpdateExpense('approved');
+                      onClose();
+                    }}
+                  >
+                    Approve Expense
+                    {isLoading && (
+                      <Spinner size="sm" variant="spinner" color="white" />
+                    )}
+                  </Button>
+                )}
+                {props.expense?.requestDetails.status === 'approved' && (
+                  <Button
+                    className="bg-orange-400 text-white font-semibold"
+                    onPress={() => {
+                      // onApprove(request);
+                      handleUpdateExpense('declined');
+                      onClose();
+                    }}
+                  >
+                    Decline Expense
+                    {isLoading && (
+                      <Spinner size="sm" variant="spinner" color="white" />
+                    )}
+                  </Button>
+                )}
               </ModalFooter>
             </>
           )}

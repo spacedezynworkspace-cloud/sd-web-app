@@ -1,7 +1,26 @@
-export const formatDate = (date: Date | string) => {
-  return new Intl.DateTimeFormat('en-US', {
+export const formatDate = (date: string) => {
+  const d = new Date(date);
+
+  return d.toLocaleDateString('en-US', {
     month: 'short',
     day: '2-digit',
     year: 'numeric',
-  }).format(new Date(date));
+    timeZone: 'UTC',
+  });
+};
+
+export const formatDateAndTime = (isoString: string) => {
+  if (!isoString) return '';
+
+  const date = new Date(isoString);
+
+  return date.toLocaleString('en-US', {
+    timeZone: 'Africa/Lagos',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
 };

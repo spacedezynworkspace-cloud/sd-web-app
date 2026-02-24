@@ -10,12 +10,14 @@ export interface Expense {
   approvedDate: Date;
   createdAt: Date;
   updatedAt: Date;
+  status: 'pending' | 'approved' | 'declined';
 }
 export interface CreateExpenseRequest {
-  project: string;
+  project?: string;
   amount: number;
   type: 'electrical' | 'wood' | 'tools' | 'material' | 'labor' | 'logistics';
   requestedDate: string;
-  requestedBy: string;
+  urgencyLevel: 'low' | 'medium' | 'high';
+  requestedBy?: string;
   description: string;
 }

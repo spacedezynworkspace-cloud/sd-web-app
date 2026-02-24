@@ -14,6 +14,7 @@ export const getFinanceAnalytics = async (_req: Request, res: Response) => {
         { $group: { _id: null, total: { $sum: '$amount' } } },
       ]),
       Expense.aggregate([
+        { $match: { status: 'approved' } },
         { $group: { _id: null, total: { $sum: '$amount' } } },
       ]),
     ]);
@@ -71,6 +72,7 @@ export const getMonthlyCashflow = async (req: Request, res: Response) => {
     const expenses = await Expense.aggregate([
       {
         $match: {
+          status: 'approved',
           createdAt: {
             $gte: startOfYear,
             $lte: endOfYear,
@@ -79,7 +81,7 @@ export const getMonthlyCashflow = async (req: Request, res: Response) => {
       },
       {
         $group: {
-          _id: { $month: '$approvedDate' },
+          _id: { $month: '$createdAt' }, // ✅ group by createdAt
           total: { $sum: '$amount' },
         },
       },

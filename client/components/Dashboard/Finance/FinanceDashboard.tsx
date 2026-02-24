@@ -13,22 +13,24 @@ import LineChart from '@/components/Charts/LineChart';
 import DonutChart from '@/components/Charts/DonutChart';
 import FinanceRequestDetailsModal from './FinanceRequestDetailsModal';
 import SupervisorFundsRequest from './SupervisorFundsRequest';
-import { SupervisorFundsRequestType } from '@/types';
+import { ExpenseFundsRequestType } from '@/types';
 import FinanceRecentTransactions from './FinanceRecentTransactions';
 import { useDisclosure } from '@heroui/react';
 import {
   useGetFinanceAnalyticsQuery,
-  useGetFinanceExpensesByTypeQuery,
   useGetFinanceMonthlyCashFlowQuery,
 } from '@/lib/services/finance/finance.api';
 import FinanceRequestFormModal from './FinanceRequestFormModal';
-import { useGetAllExpensesQuery } from '@/lib/services/expense/expenses.api';
-import { formatDate } from '@/utils/dateFormat.utils';
+import {
+  useGetAllExpensesByTypeQuery,
+  useGetAllExpensesQuery,
+} from '@/lib/services/expense/expenses.api';
+import { formatDate, formatDateAndTime } from '@/utils/dateFormat.utils';
 
 const FinanceDashboard = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedRequest, setSelectedRequest] =
-    React.useState<SupervisorFundsRequestType | null>(null);
+    React.useState<ExpenseFundsRequestType | null>(null);
 
   const {
     data: financeDataAnalytics,
@@ -40,13 +42,17 @@ const FinanceDashboard = () => {
     isLoading: isLoadingFinanceLineChartData,
   } = useGetFinanceMonthlyCashFlowQuery();
 
-  const { data: financeDataByType, isLoading: isLoadingFinanceDataByType } =
-    useGetFinanceExpensesByTypeQuery();
+  // const { data: financeDataByType, isLoading: isLoadingFinanceDataByType } =
+  //   useGetFinanceExpensesByTypeQuery();
 
   const { data: financeExpensesData, isLoading: isLoadingFinanceExpensesData } =
     useGetAllExpensesQuery();
+  const {
+    data: financeExpensesByTypeData,
+    isLoading: isLoadingFinanceExpensesByTypeData,
+  } = useGetAllExpensesByTypeQuery();
 
-  console.log('financeExpensesData: ', financeExpensesData);
+  console.log('financeExpensesByTypeData: ', financeExpensesByTypeData);
 
   const analyticsData = [
     {
@@ -80,21 +86,21 @@ const FinanceDashboard = () => {
     },
   ];
 
-  const supervisors: SupervisorFundsRequestType[] = financeExpensesData?.data
-    .length
-    ? financeExpensesData?.data.map((expense) => {
+  const expenses: ExpenseFundsRequestType[] = financeExpensesData?.data.length
+    ? financeExpensesData?.data.map((expense, index) => {
         return {
-          id: 1,
+          id: expense._id || '',
           name: expense.requestedBy,
           avatar: 'https://i.pravatar.cc/150?u=a04258114e29026702d',
           role: 'Site Supervisor',
           requestDetails: {
-            amount: `₦${expense.amount}`,
+            amount: expense.amount,
             purpose: expense.type,
             description: expense.description,
-            date: formatDate(expense.requestedDate),
+            date: formatDate(`${expense.requestedDate}`),
             projectName: 'Project A',
-            status: 'Pending',
+            createdAt: formatDateAndTime(`${expense.createdAt}`),
+            status: expense.status,
           },
           opened: false,
         };
@@ -103,11 +109,13 @@ const FinanceDashboard = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      <DashboardHeader
-        title="Finance Dashboard Overview"
-        description="Welcome to your finance dashboard overview. Here you can see an overview of your project's financial performance and recent activity."
-      />
-      <FinanceRequestFormModal />
+      <div className="flex sm:flex-row flex-col sm:justify-between gap-4 sm:gap-0 items-center">
+        <DashboardHeader
+          title="Finance Dashboard Overview"
+          description="Welcome to your finance dashboard overview. Here you can see an overview of your project's financial performance and recent activity."
+        />
+        <FinanceRequestFormModal />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Analytics Card */}
         {analyticsData.map((data, index) => (
@@ -147,11 +155,11 @@ const FinanceDashboard = () => {
             />
             <div className="mb-4">
               <div className="flex flex-col gap-2 overflow-y-scroll h-[350px]">
-                {supervisors.map((supervisor) => (
+                {expenses.map((expense) => (
                   <SupervisorFundsRequest
-                    key={supervisor.id}
+                    key={expense.id}
                     onOpen={onOpen}
-                    supervisor={supervisor}
+                    expense={expense}
                     setSelectedRequest={setSelectedRequest}
                   />
                 ))}
@@ -159,7 +167,7 @@ const FinanceDashboard = () => {
               <FinanceRequestDetailsModal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
-                supervisor={selectedRequest}
+                expense={selectedRequest}
               />
             </div>
           </div>

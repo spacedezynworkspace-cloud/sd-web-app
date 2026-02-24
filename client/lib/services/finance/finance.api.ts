@@ -15,13 +15,13 @@ export const financeApi = api.injectEndpoints({
       query: () => '/admin/finances/monthly-cashflow',
       providesTags: ['Finances'],
     }),
-    getFinanceExpensesByType: builder.query<
-      ApiResponse<FinanceLineChart>,
-      void
-    >({
-      query: () => '/admin/finances/expenses-by-type',
-      providesTags: ['Finances'],
-    }),
+    // getFinanceExpensesByType: builder.query<
+    //   ApiResponse<FinanceLineChart>,
+    //   void
+    // >({
+    //   query: () => '/admin/finances/expenses-by-type',
+    //   providesTags: ['Finances'],
+    // }),
   }),
   overrideExisting: false,
 });
@@ -29,5 +29,5 @@ export const financeApi = api.injectEndpoints({
 export const {
   useGetFinanceAnalyticsQuery,
   useGetFinanceMonthlyCashFlowQuery,
-  useGetFinanceExpensesByTypeQuery,
+  // useGetFinanceExpensesByTypeQuery,
 } = financeApi;

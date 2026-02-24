@@ -7,10 +7,12 @@ export interface IExpense extends Document {
   description?: string;
   requestedBy?: mongoose.Types.ObjectId;
   requestedDate: Date;
-  approved: boolean;
+  opened: boolean;
   approvedDate?: Date;
   createdAt: Date;
+  urgencyLevel: 'low' | 'medium' | 'high';
   updatedAt: Date;
+  status: 'pending' | 'approved' | 'declined';
   declined?: boolean;
 }
 
@@ -32,6 +34,18 @@ const expenseSchema = new Schema<IExpense>(
       required: true,
       index: true,
     },
+    urgencyLevel: {
+      type: String,
+      enum: ['low', 'medium', 'high'],
+      default: 'low',
+      index: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'declined'],
+      default: 'pending',
+      index: true,
+    },
     description: {
       type: String,
       trim: true,
@@ -40,7 +54,7 @@ const expenseSchema = new Schema<IExpense>(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    approved: {
+    opened: {
       type: Boolean,
       default: false,
       index: true,

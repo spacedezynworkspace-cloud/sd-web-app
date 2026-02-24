@@ -17,6 +17,8 @@ export const projectsApi = api.injectEndpoints({
       invalidatesTags: [
         { type: 'Projects', id: 'LIST' },
         { type: 'Projects', id: 'COUNT' },
+        { type: 'Finances', id: 'LIST' },
+        { type: 'Finances', id: 'COUNT' },
       ],
     }),
     getAllProjects: builder.query<

@@ -6,18 +6,19 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 
 export type ChartFilter = 'week' | 'month' | 'year';
 
-export type SupervisorFundsRequestType = {
-  id: number;
+export type ExpenseFundsRequestType = {
+  id: string;
   name: string;
   avatar: string;
   role: string;
   requestDetails: {
-    amount: string;
+    amount: number;
     purpose: string;
     projectName: string;
     description: string;
     date: string;
-    status: string;
+    createdAt: string;
+    status: 'pending' | 'approved' | 'declined';
   };
   opened: boolean;
 };

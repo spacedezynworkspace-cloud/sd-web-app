@@ -47,9 +47,9 @@ export const expensesApi = api.injectEndpoints({
             ]
           : [{ type: 'Expenses', id: 'LIST' }],
     }),
-    getAllExpnesesByType: builder.query<ApiResponse<Expense[]>, void>({
+    getAllExpensesByType: builder.query<ApiResponse<Expense[]>, void>({
       query: () => ({
-        url: '/admin/expenses-by-type',
+        url: '/admin/expenses/expenses-by-type',
         method: 'GET',
       }),
       providesTags: (result) =>
@@ -63,6 +63,22 @@ export const expensesApi = api.injectEndpoints({
             ]
           : [{ type: 'Expenses', id: 'LIST' }],
     }),
+    updateExpenseStatus: builder.mutation<
+      ApiResponse<Expense>,
+      { id: string; status: 'pending' | 'approved' | 'declined' }
+    >({
+      query: ({ id, status }) => ({
+        url: `/admin/expenses/${id}/update-expense-status`,
+        method: 'PATCH',
+        body: { status },
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Expenses', id },
+        { type: 'Expenses', id: 'LIST' },
+        { type: 'Expenses', id: 'COUNT' },
+        { type: 'Finances', id: 'LIST' },
+      ],
+    }),
   }),
   overrideExisting: false,
 });
@@ -70,5 +86,6 @@ export const expensesApi = api.injectEndpoints({
 export const {
   useCreateExpenseMutation,
   useGetAllExpensesQuery,
-  useGetAllExpnesesByTypeQuery,
+  useGetAllExpensesByTypeQuery,
+  useUpdateExpenseStatusMutation,
 } = expensesApi;

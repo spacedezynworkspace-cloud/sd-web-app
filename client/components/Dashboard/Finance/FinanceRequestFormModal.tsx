@@ -16,6 +16,7 @@ import {
   ModalHeader,
   Select,
   SelectItem,
+  Spinner,
   Textarea,
   useDisclosure,
 } from '@heroui/react';
@@ -38,7 +39,7 @@ const FinanceRequestFormModal = () => {
     const form = new FormData(e.currentTarget);
 
     const payload: CreateExpenseRequest = {
-      project: form.get('project') as string,
+      // project: form.get('project') as string,
       amount: Number(form.get('amount')),
       type: form.get('type') as
         | 'electrical'
@@ -48,7 +49,8 @@ const FinanceRequestFormModal = () => {
         | 'labor'
         | 'logistics',
       requestedDate: form.get('requestedDate') as string,
-      requestedBy: form.get('requestedBy') as string,
+      urgencyLevel: form.get('urgencyLevel') as 'low' | 'medium' | 'high',
+      // requestedBy: form.get('requestedBy') as string,
       description: form.get('description') as string,
     };
     console.log('payload: ', payload);
@@ -122,48 +124,6 @@ const FinanceRequestFormModal = () => {
                         </SelectItem>
                       </Select>
                     </div>
-
-                    {/* Site Location */}
-                    <div className="w-full">
-                      <Select
-                        isRequired
-                        label="Site Location"
-                        labelPlacement="outside"
-                        name="location"
-                        placeholder="Select location"
-                      >
-                        <SelectItem key="Lagos">Lagos</SelectItem>
-                        <SelectItem key="Abuja">Abuja</SelectItem>
-                        <SelectItem key="Ikoyi">Ikoyi</SelectItem>
-                      </Select>
-                    </div>
-
-                    {/* Supervisor Name */}
-                    <Input
-                      isRequired
-                      label="Supervisor Name"
-                      labelPlacement="outside"
-                      name="requestedBy"
-                      placeholder="Enter supervisor name"
-                      errorMessage={({ validationDetails }) =>
-                        validationDetails.valueMissing &&
-                        'Supervisor name is required'
-                      }
-                    />
-
-                    {/* Request Date */}
-                    <DatePicker
-                      isRequired
-                      color="warning"
-                      errorMessage="Please enter a valid date."
-                      className=""
-                      label="Requested date"
-                      labelPlacement="outside"
-                      defaultValue={today(getLocalTimeZone())}
-                      minValue={today(getLocalTimeZone())}
-                      name="requestedDate"
-                    />
-
                     {/* Category */}
                     <div className="w-full">
                       <Select
@@ -181,6 +141,48 @@ const FinanceRequestFormModal = () => {
                         <SelectItem key="wood">Wood</SelectItem>
                       </Select>
                     </div>
+
+                    {/* Site Location */}
+                    {/* <div className="w-full">
+                      <Select
+                        isRequired
+                        label="Site Location"
+                        labelPlacement="outside"
+                        name="location"
+                        placeholder="Select location"
+                      >
+                        <SelectItem key="Lagos">Lagos</SelectItem>
+                        <SelectItem key="Abuja">Abuja</SelectItem>
+                        <SelectItem key="Ikoyi">Ikoyi</SelectItem>
+                      </Select>
+                    </div> */}
+
+                    {/* Supervisor Name */}
+                    <Input
+                      // isRequired
+                      label="Supervisor Name"
+                      labelPlacement="outside"
+                      name="requestedBy"
+                      value={'Helen Paul'}
+                      placeholder="Enter supervisor name"
+                      // errorMessage={({ validationDetails }) =>
+                      //   validationDetails.valueMissing &&
+                      //   'Supervisor name is required'
+                      // }
+                    />
+
+                    {/* Request Date */}
+                    <DatePicker
+                      isRequired
+                      color="warning"
+                      errorMessage="Please enter a valid date."
+                      className=""
+                      label="Requested date"
+                      labelPlacement="outside"
+                      defaultValue={today(getLocalTimeZone())}
+                      minValue={today(getLocalTimeZone())}
+                      name="requestedDate"
+                    />
 
                     {/* Payment Method */}
                     {/* <div className="w-full">
@@ -226,6 +228,21 @@ const FinanceRequestFormModal = () => {
                         validationDetails.valueMissing && 'Amount is required'
                       }
                     />
+
+                    {/* code  */}
+                    <Input
+                      isRequired
+                      type="text"
+                      label="Code"
+                      labelPlacement="outside"
+                      name="code"
+                      placeholder="Enter code"
+                      min={0}
+                      // startContent={<span className="text-default-400">₦</span>}
+                      errorMessage={({ validationDetails }) =>
+                        validationDetails.valueMissing && 'Code is required'
+                      }
+                    />
                   </div>
                   {/* Urgency */}
                   <div className="w-full">
@@ -234,14 +251,15 @@ const FinanceRequestFormModal = () => {
                       isRequired
                       label="Urgency Level"
                       labelPlacement="outside"
-                      name="urgency"
+                      name="urgencyLevel"
                       placeholder="Select urgency"
                     >
-                      <SelectItem key="Low">Low</SelectItem>
-                      <SelectItem key="Medium">Medium</SelectItem>
-                      <SelectItem key="High">High</SelectItem>
+                      <SelectItem key="low">Low</SelectItem>
+                      <SelectItem key="medium">Medium</SelectItem>
+                      <SelectItem key="high">High</SelectItem>
                     </Select>
                   </div>
+
                   {/* Description Full Width */}
                   <div className="w-full">
                     <Textarea
@@ -268,6 +286,9 @@ const FinanceRequestFormModal = () => {
                   className="bg-orange-400 text-white font-semibold"
                 >
                   Submit Funds Request
+                  {isLoading && (
+                    <Spinner size="sm" variant="spinner" color="white" />
+                  )}
                 </Button>
               </ModalFooter>
             </>
