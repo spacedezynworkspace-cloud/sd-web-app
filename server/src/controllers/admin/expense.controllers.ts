@@ -30,12 +30,33 @@ export const getExpensesByType = async (_req: Request, res: Response) => {
   try {
     const expenses = await Expense.aggregate([
       {
+        $match: { status: 'approved' }, // ✅ only approved
+      },
+      {
         $group: {
           _id: '$type',
           total: { $sum: '$amount' },
         },
       },
     ]);
+
+    res.status(200).json({
+      success: true,
+      data: expenses,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch expenses by type',
+    });
+  }
+};
+
+export const getAllApprovedExpenses = async (_req: Request, res: Response) => {
+  try {
+    const expenses = await Expense.find({ status: 'approved' }).sort({
+      createdAt: -1,
+    });
 
     res.status(200).json({
       success: true,

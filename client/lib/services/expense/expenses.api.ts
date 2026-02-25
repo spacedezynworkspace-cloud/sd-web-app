@@ -47,7 +47,26 @@ export const expensesApi = api.injectEndpoints({
             ]
           : [{ type: 'Expenses', id: 'LIST' }],
     }),
-    getAllExpensesByType: builder.query<ApiResponse<Expense[]>, void>({
+    getAllApprovedExpenses: builder.query<ApiResponse<Expense[]>, void>({
+      query: () => ({
+        url: '/admin/expenses/approved',
+        method: 'GET',
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ _id }) => ({
+                type: 'Expenses' as const,
+                _id,
+              })),
+              { type: 'Expenses', id: 'LIST' },
+            ]
+          : [{ type: 'Expenses', id: 'LIST' }],
+    }),
+    getAllExpensesByType: builder.query<
+      ApiResponse<{ _id: string; total: number }[]>,
+      void
+    >({
       query: () => ({
         url: '/admin/expenses/expenses-by-type',
         method: 'GET',
@@ -87,5 +106,6 @@ export const {
   useCreateExpenseMutation,
   useGetAllExpensesQuery,
   useGetAllExpensesByTypeQuery,
+  useGetAllApprovedExpensesQuery,
   useUpdateExpenseStatusMutation,
 } = expensesApi;
