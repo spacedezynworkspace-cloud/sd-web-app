@@ -10,6 +10,7 @@ export interface Expense {
   approvedDate: Date;
   createdAt: Date;
   updatedAt: Date;
+  urgencyLevel?: 'low' | 'medium' | 'high';
   status: 'pending' | 'approved' | 'declined';
 }
 export interface CreateExpenseRequest {

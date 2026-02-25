@@ -1,12 +1,13 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IPayment extends Document {
-  project: mongoose.Types.ObjectId;
+  project?: mongoose.Types.ObjectId;
   amount: number;
   paymentDate: Date;
   method: 'cash' | 'bank_transfer' | 'cheque';
   reference?: string;
   receivedBy?: mongoose.Types.ObjectId;
+  approved?: boolean;
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -28,6 +29,11 @@ const paymentSchema = new Schema<IPayment>(
       type: Date,
       required: true,
       default: Date.now,
+      index: true,
+    },
+    approved: {
+      type: Boolean,
+      default: false,
       index: true,
     },
     method: {

@@ -8,7 +8,8 @@ export const createPayment = async (req: Request, res: Response) => {
   session.startTransaction();
 
   try {
-    const { projectId, amount, method, paymentDate } = req.body;
+    // const { projectId, amount, method, paymentDate } = req.body;
+    const { projectId, amount, method, notes } = req.body;
 
     if (!amount || amount <= 0) {
       throw new Error('Invalid payment amount');
@@ -42,7 +43,7 @@ export const createPayment = async (req: Request, res: Response) => {
           project: projectId,
           amount,
           method,
-          paymentDate,
+          notes,
         },
       ],
       { session }
