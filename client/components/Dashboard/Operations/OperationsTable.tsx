@@ -15,6 +15,7 @@ import {
 } from '@heroui/react';
 import { Project } from '@/types/projects.types';
 import { getPhaseLabel } from '@/utils/project.utils';
+import { formatDate } from '@/utils/dateFormat.utils';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -48,7 +49,7 @@ const OperationsTable = ({
         return `₦${project.budget.toLocaleString()}`;
 
       case 'startDate':
-        return new Date(project.startDate).toLocaleDateString();
+        return formatDate(project.startDate);
 
       case 'phase':
         return getPhaseLabel(project.phase || 0);

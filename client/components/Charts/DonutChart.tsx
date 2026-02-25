@@ -80,7 +80,7 @@ export default function DonutChart({ series, labels, colors }: Props) {
               fontSize: '18px',
               fontWeight: 600,
               formatter: function () {
-                return total.toString();
+                return `₦${total.toLocaleString()}`;
               },
             },
           },

@@ -1,13 +1,14 @@
 import express from 'express';
 import {
-  getExpensesByType,
-  getFinanceOverview,
+  getFinanceAnalytics,
   getMonthlyCashflow,
+  getOutstandingByProject,
 } from '../../controllers/admin/finance.controllers';
 
 const router = express.Router();
 
-router.get('/overview', getFinanceOverview);
+router.get('/analytics', getFinanceAnalytics);
 router.get('/monthly-cashflow', getMonthlyCashflow);
-router.get('/expenses-by-type', getExpensesByType);
-router.get('/outstanding-by-project', getExpensesByType);
+router.get('/outstanding-by-project', getOutstandingByProject);
+
+export default router;

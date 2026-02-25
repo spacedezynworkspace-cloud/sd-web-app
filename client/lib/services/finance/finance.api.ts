@@ -1,24 +1,33 @@
+import { ApiResponse } from '@/types/api.types';
 import { api } from '../api';
-
-export interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import { Finance, FinanceLineChart } from '@/types/finance.types';
 
 export const financeApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getAllFinances: builder.query<Post[], void>({
-      query: () => 'finances',
+    getFinanceAnalytics: builder.query<ApiResponse<Finance>, void>({
+      query: () => '/admin/finances/analytics',
       providesTags: ['Finances'],
     }),
-
-    getFinanceById: builder.query<Post, number>({
-      query: (id) => `finances/${id}`,
+    getFinanceMonthlyCashFlow: builder.query<
+      ApiResponse<FinanceLineChart>,
+      void
+    >({
+      query: () => '/admin/finances/monthly-cashflow',
+      providesTags: ['Finances'],
     }),
+    // getFinanceExpensesByType: builder.query<
+    //   ApiResponse<FinanceLineChart>,
+    //   void
+    // >({
+    //   query: () => '/admin/finances/expenses-by-type',
+    //   providesTags: ['Finances'],
+    // }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetAllFinancesQuery, useGetFinanceByIdQuery } = financeApi;
+export const {
+  useGetFinanceAnalyticsQuery,
+  useGetFinanceMonthlyCashFlowQuery,
+  // useGetFinanceExpensesByTypeQuery,
+} = financeApi;

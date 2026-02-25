@@ -4,9 +4,9 @@ import { Payment } from '../../models/payment.models';
 import { Expense } from '../../models/expense.models';
 
 // Finance analytics overview
-export const getFinanceOverview = async (_req: Request, res: Response) => {
+export const getFinanceAnalytics = async (_req: Request, res: Response) => {
   try {
-    const [contractAgg, paymentsAgg, expensesAgg] = await Promise.all([
+    const [projectAgg, paymentsAgg, expensesAgg] = await Promise.all([
       Project.aggregate([
         { $group: { _id: null, total: { $sum: '$budget' } } },
       ]),
@@ -14,21 +14,22 @@ export const getFinanceOverview = async (_req: Request, res: Response) => {
         { $group: { _id: null, total: { $sum: '$amount' } } },
       ]),
       Expense.aggregate([
+        { $match: { status: 'approved' } },
         { $group: { _id: null, total: { $sum: '$amount' } } },
       ]),
     ]);
 
-    const totalContractValue = contractAgg[0]?.total || 0;
+    const totalProjectValue = projectAgg[0]?.total || 0;
     const totalPayments = paymentsAgg[0]?.total || 0;
     const totalExpenses = expensesAgg[0]?.total || 0;
 
-    const outstanding = totalContractValue - totalPayments;
+    const outstanding = totalProjectValue - totalPayments;
     const netCashFlow = totalPayments - totalExpenses;
 
     res.status(200).json({
       success: true,
       data: {
-        totalContractValue,
+        totalProjectValue,
         totalPayments,
         totalExpenses,
         outstanding,
@@ -71,6 +72,7 @@ export const getMonthlyCashflow = async (req: Request, res: Response) => {
     const expenses = await Expense.aggregate([
       {
         $match: {
+          status: 'approved',
           createdAt: {
             $gte: startOfYear,
             $lte: endOfYear,
@@ -79,7 +81,7 @@ export const getMonthlyCashflow = async (req: Request, res: Response) => {
       },
       {
         $group: {
-          _id: { $month: '$createdAt' },
+          _id: { $month: '$createdAt' }, // ✅ group by createdAt
           total: { $sum: '$amount' },
         },
       },
@@ -111,30 +113,6 @@ export const getMonthlyCashflow = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch monthly cashflow',
-    });
-  }
-};
-
-// Expenses by type
-export const getExpensesByType = async (_req: Request, res: Response) => {
-  try {
-    const expenses = await Expense.aggregate([
-      {
-        $group: {
-          _id: '$type',
-          total: { $sum: '$amount' },
-        },
-      },
-    ]);
-
-    res.status(200).json({
-      success: true,
-      data: expenses,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch expenses by type',
     });
   }
 };

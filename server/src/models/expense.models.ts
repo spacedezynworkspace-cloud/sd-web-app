@@ -6,9 +6,14 @@ export interface IExpense extends Document {
   type: 'electrical' | 'wood' | 'tools' | 'material' | 'labor' | 'logistics';
   description?: string;
   requestedBy?: mongoose.Types.ObjectId;
-  approved: boolean;
+  requestedDate: Date;
+  opened: boolean;
+  approvedDate?: Date;
   createdAt: Date;
+  urgencyLevel: 'low' | 'medium' | 'high';
   updatedAt: Date;
+  status: 'pending' | 'approved' | 'declined';
+  declined?: boolean;
 }
 
 const expenseSchema = new Schema<IExpense>(
@@ -29,6 +34,18 @@ const expenseSchema = new Schema<IExpense>(
       required: true,
       index: true,
     },
+    urgencyLevel: {
+      type: String,
+      enum: ['low', 'medium', 'high'],
+      default: 'low',
+      index: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'declined'],
+      default: 'pending',
+      index: true,
+    },
     description: {
       type: String,
       trim: true,
@@ -37,18 +54,23 @@ const expenseSchema = new Schema<IExpense>(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    approved: {
+    opened: {
       type: Boolean,
       default: false,
       index: true,
     },
+    declined: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+    approvedDate: { type: Date },
+    requestedDate: { type: Date, required: true },
   },
   { timestamps: true }
 );
 
-expenseSchema.index({ createdAt: -1 });
-expenseSchema.index({ type: 1 });
-expenseSchema.index({ project: 1 });
+expenseSchema.index({ approvedDate: -1 });
 export const Expense: Model<IExpense> = mongoose.model(
   'Expense',
   expenseSchema

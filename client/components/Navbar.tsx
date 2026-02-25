@@ -102,13 +102,13 @@ const Navbar = () => {
   return (
     <Disclosure
       as="nav"
-      className={`${doNotDisPlayRouteList && 'hidden'} relative z-40 sm:bg-black/50 bg-black after:pointer-events-none dark:bg-amber-500/50 after:absolute after:inset-x-0 after:bottom-0 after:h-px `}
+      className={`${doNotDisPlayRouteList && 'hidden'} relative z-40  bg-white after:pointer-events-none  after:absolute after:inset-x-0 after:bottom-0 after:h-px `}
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-24 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 dark:text-white text-orange-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-orange-400">
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2  text-orange-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-orange-400">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <Bars3Icon
@@ -124,19 +124,19 @@ const Navbar = () => {
           <div className="flex flex-1 items-center h-full justify-center sm:justify-start">
             <div className="flex shrink-0 items-center">
               <Link href="/">
+                {/* <Image
+                  src={'/sd-web-app-logo-white.png'}
+                  alt="Space Dezyn logo"
+                  width={100}
+                  height={75}
+                  className="object-fill dark:flex hidden"
+                /> */}
                 <Image
                   src={'/sd-web-app-logo.png'}
                   alt="Space Dezyn logo"
                   width={100}
                   height={75}
-                  className="object-fill dark:flex hidden"
-                />
-                <Image
-                  src={'/sd-web-app-logo-orange.png'}
-                  alt="Space Dezyn logo"
-                  width={100}
-                  height={75}
-                  className="object-fill flex dark:hidden"
+                  className="object-fill"
                 />
               </Link>
             </div>
@@ -152,7 +152,7 @@ const Navbar = () => {
                           className={clsx(
                             item.mainLink.href === pathName
                               ? 'bg-orange-400 text-white'
-                              : 'text-orange-400 dark:text-white hover:bg-orange-200/50 hover:font-extrabold',
+                              : 'text-black hover:bg-orange-200/50 hover:font-extrabold',
                             'rounded-md px-3 py-2 text-sm font-medium'
                           )}
                         >
@@ -178,7 +178,7 @@ const Navbar = () => {
                       className={clsx(
                         item.mainLink.href === pathName
                           ? 'bg-orange-400 text-white'
-                          : 'text-orange-400 dark:text-white hover:bg-orange-200/50 hover:font-extrabold',
+                          : 'text-black dark:text-orange-400 hover:bg-orange-200/50 hover:font-extrabold',
                         'rounded-md px-3 py-2 text-sm font-medium'
                       )}
                     >
@@ -190,7 +190,7 @@ const Navbar = () => {
             </div>
             <button
               type="button"
-              className="relative hidden sm:flex rounded-full p-1 text-orange-400 dark:text-white focus:outline-2 focus:outline-offset-2 focus:outline-orange-400"
+              className="relative hidden sm:flex rounded-full p-1 text-orange-400 focus:outline-2 focus:outline-offset-2 focus:outline-orange-400"
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>

@@ -58,10 +58,12 @@ const DashboardOverview = () => {
   ];
   return (
     <section className="flex flex-col gap-4">
-      <DashboardHeader
-        title="Dashboard Overview"
-        description="Welcome to your dashboard overview. Here you can see an overview of your project's performance and recent activity."
-      />
+      <div className="bg-white dark:bg-transparent dark:p-0 shadow rounded-lg p-4">
+        <DashboardHeader
+          title="Dashboard Overview"
+          description="Welcome to your dashboard overview. Here you can see an overview of your project's performance and recent activity."
+        />
+      </div>
       {/* Analytics Card */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {analyticsData.map((data, index) => (
