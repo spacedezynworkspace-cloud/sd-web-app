@@ -13,6 +13,7 @@ import morgan from 'morgan';
 import adminProjectRoutes from './routes/admin/project.routes';
 import adminFinanceRoutes from './routes/admin/finance.routes';
 import adminExpenseRoutes from './routes/admin/expense.routes';
+import adminPaymentRoutes from './routes/admin/payment.routes';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use(
 app.use('/api/v1/admin/projects', adminProjectRoutes);
 app.use('/api/v1/admin/finances', adminFinanceRoutes);
 app.use('/api/v1/admin/expenses', adminExpenseRoutes);
+app.use('/api/v1/admin/payments', adminPaymentRoutes);
 
 // User endpoint
 

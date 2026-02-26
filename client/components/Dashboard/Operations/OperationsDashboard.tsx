@@ -43,11 +43,6 @@ const OperationsDashboard = () => {
   const [sortBy, setSortBy] = React.useState<string>('createdAt');
   const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('desc');
 
-  // 🔥 Reset page when filters/search change
-  React.useEffect(() => {
-    setPage(1);
-  }, [debouncedSearch, statusFilter, phaseFilter, sortBy, sortOrder]);
-
   const { data, isLoading } = useGetAllProjectsQuery({
     page,
     limit: rowsPerPage,
@@ -75,6 +70,11 @@ const OperationsDashboard = () => {
     },
     [sortBy, sortOrder]
   );
+
+  // 🔥 Reset page when filters/search change
+  React.useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, statusFilter, phaseFilter, sortBy, sortOrder]);
 
   return (
     <section className="bg-white dark:bg-black dark:p-0 p-4 rounded-lg flex flex-col gap-4">

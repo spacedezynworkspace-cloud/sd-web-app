@@ -61,8 +61,18 @@ export default function LineChart({ series }: Props) {
     },
     yaxis: {
       labels: {
+        formatter: (value: number) => {
+          return `₦${value.toLocaleString()}`;
+        },
         style: {
-          colors: '#6b7280', // gray-500
+          colors: '#6b7280',
+        },
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: (value: number) => {
+          return `₦${value.toLocaleString()}`;
         },
       },
     },

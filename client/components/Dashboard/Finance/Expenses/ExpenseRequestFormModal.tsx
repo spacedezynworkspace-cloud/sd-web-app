@@ -24,7 +24,7 @@ import {
 import { getLocalTimeZone, today } from '@internationalized/date';
 import React from 'react';
 
-const FinanceRequestFormModal = () => {
+const ExpenseRequestFormModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [submitted, setSubmitted] = React.useState({});
   const [errors, setErrors] = React.useState({});
@@ -39,6 +39,7 @@ const FinanceRequestFormModal = () => {
     const form = new FormData(e.currentTarget);
 
     const payload: CreateExpenseRequest = {
+      projectId: '699de52db38d8745729c8e10',
       // project: form.get('project') as string,
       amount: Number(form.get('amount')),
       type: form.get('type') as
@@ -70,6 +71,12 @@ const FinanceRequestFormModal = () => {
       onOpenChange();
     } catch (error) {
       console.log(error);
+
+      addToast({
+        title: 'Expense failed',
+        description: 'Please try again.',
+        color: 'danger',
+      });
     }
   };
 
@@ -80,7 +87,8 @@ const FinanceRequestFormModal = () => {
           onPress={onOpen}
           className="bg-orange-400 text-white font-semibold"
         >
-          <PlusIcon className="size-5 text-white" /> Fund request
+          <PlusIcon className="size-5 text-white" />
+          New expense
         </Button>
       </div>
       <Modal
@@ -93,7 +101,7 @@ const FinanceRequestFormModal = () => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                <h3 className="text-lg font-semibold">New Funds Request</h3>
+                <h3 className="text-lg font-semibold">New Expense Request</h3>
                 <p className="text-sm text-default-500">
                   Site supervisor fund requisition form.
                 </p>
@@ -299,4 +307,4 @@ const FinanceRequestFormModal = () => {
   );
 };
 
-export default FinanceRequestFormModal;
+export default ExpenseRequestFormModal;
