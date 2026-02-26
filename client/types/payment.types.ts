@@ -1,6 +1,12 @@
 export interface Payment {
   _id: string;
-  project?: string;
+  project?: {
+    budget: number;
+    client: string;
+    name: string;
+    serviceType: string;
+    _id: string;
+  };
   amount: number;
   paymentDate: Date;
   method: 'cash' | 'bank_transfer' | 'cheque';
@@ -11,7 +17,7 @@ export interface Payment {
 }
 
 export interface CreatePaymentRequest {
-  project?: string;
+  projectId?: string;
   amount: number;
   // paymentDate: Date;
   method: 'cash' | 'bank_transfer' | 'cheque';

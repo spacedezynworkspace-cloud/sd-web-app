@@ -39,6 +39,7 @@ const ExpenseRequestFormModal = () => {
     const form = new FormData(e.currentTarget);
 
     const payload: CreateExpenseRequest = {
+      projectId: '699de52db38d8745729c8e10',
       // project: form.get('project') as string,
       amount: Number(form.get('amount')),
       type: form.get('type') as
@@ -69,6 +70,8 @@ const ExpenseRequestFormModal = () => {
       setErrors({});
       onOpenChange();
     } catch (error) {
+      console.log(error);
+
       addToast({
         title: 'Expense failed',
         description: 'Please try again.',

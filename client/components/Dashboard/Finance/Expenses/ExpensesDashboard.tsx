@@ -1,42 +1,10 @@
 import React, { useCallback } from 'react';
 import ExpensesTable from './ExpensesTable';
-import useDebounce from '@/hooks/useDebounceHook';
-import { useGetAllProjectsQuery } from '@/lib/services/projects/projects.api';
-import { Project } from '@/types/projects.types';
 import { Expense } from '@/types/expenses.types';
+import { useGetAllExpensesQuery } from '@/lib/services/expense/expenses.api';
 
-interface ExpensesDashboardProps {
-  expenses: Expense[];
-}
-const ExpensesDashboard = (props: ExpensesDashboardProps) => {
-  const statuses = [
-    { key: '', label: 'All' },
-    { key: '5', label: 'Completed' },
-    { key: '3', label: 'In Progress' },
-    { key: '1', label: 'Inspection' },
-  ];
-  const phases = [
-    { key: '', label: 'All' },
-    { key: '0', label: 'Planning' },
-    { key: '1', label: 'Design' },
-    { key: '2', label: 'Execution' },
-    { key: '3', label: 'Closure' },
-  ];
-  const locations = [
-    { key: '', label: 'All' },
-    { key: 'abuja', label: 'Abuja' },
-    { key: 'ibadan', label: 'Ibadan' },
-    { key: 'lagos', label: 'Lagos' },
-  ];
-
+const ExpensesDashboard = () => {
   const [page, setPage] = React.useState<number>(1);
-
-  const [search, setSearch] = React.useState<string>('');
-  const debouncedSearch = useDebounce(search, 500);
-
-  const [statusFilter, setStatusFilter] = React.useState<string>('');
-  const [phaseFilter, setPhaseFilter] = React.useState<string>('');
-  const [locationFilter, setLocationFilter] = React.useState<string>('');
 
   const [sortBy, setSortBy] = React.useState<string>('createdAt');
   const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('desc');
@@ -44,23 +12,18 @@ const ExpensesDashboard = (props: ExpensesDashboardProps) => {
   // 🔥 Reset page when filters/search change
   React.useEffect(() => {
     setPage(1);
-  }, [debouncedSearch, statusFilter, phaseFilter, sortBy, sortOrder]);
+  }, [sortBy, sortOrder]);
 
-  const { data, isLoading } = useGetAllProjectsQuery({
+  const { data: financeExpensesData, isLoading } = useGetAllExpensesQuery({
     page,
     limit: 10,
-    search: debouncedSearch,
-    status: statusFilter ? Number(statusFilter) : undefined,
-    phase: phaseFilter ? Number(phaseFilter) : undefined,
-    state: locationFilter,
     sortBy,
     sortOrder,
   });
+  const expenses: Expense[] = financeExpensesData?.data ?? [];
+  const totalPages = financeExpensesData?.pagination?.totalPages ?? 1;
 
-  const projects: Project[] = data?.data ?? [];
-  const totalPages = data?.pagination?.totalPages ?? 1;
-
-  console.log('projects:', projects);
+  console.log('financeExpensesData:', financeExpensesData);
 
   const handleSort = useCallback(
     (column: string) => {
@@ -77,11 +40,9 @@ const ExpensesDashboard = (props: ExpensesDashboardProps) => {
   return (
     <div>
       <ExpensesTable
-        expenses={props.expenses}
+        expenses={expenses}
         handleSort={handleSort}
         isLoading={isLoading}
-        search={search}
-        setSearch={setSearch}
         page={page}
         totalPages={totalPages}
         setPage={setPage}

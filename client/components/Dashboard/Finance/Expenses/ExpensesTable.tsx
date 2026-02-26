@@ -30,8 +30,7 @@ interface ExpensesTableProps {
   expenses: Expense[];
   handleSort: (column: string) => void;
   isLoading: boolean;
-  search: string;
-  setSearch: (value: string) => void;
+
   page: number;
   totalPages: number;
   setPage: (value: number) => void;
@@ -65,19 +64,29 @@ const ExpensesTable = ({
         return <div className="text-sm">{expense.requestedBy}</div>;
 
       case 'requestedDate':
-        return formatDate(`${expense.requestedDate}`);
+        return formatDate(`${expense.createdAt}`);
 
       case 'status':
         return (
-          <div className="text-sm capitalize flex items-center gap-1">
-            <p> {expense.status}</p>
-            {expense.status === 'declined' ? (
-              <XCircleIcon className="size-4 text-red-400" />
-            ) : expense.status === 'approved' ? (
-              <CheckCircleIcon className="size-4 text-green-400" />
-            ) : (
-              <ClockIcon className="size-4 text-amber-400" />
-            )}
+          <div>
+            <div
+              className={`text-xs px-2 py-1 sm:w-1/2 rounded-lg capitalize flex justify-center items-center gap-1 ${
+                expense.status === 'declined'
+                  ? 'bg-red-200 text-red-600'
+                  : expense.status === 'approved'
+                    ? ' text-green-600 bg-green-200'
+                    : 'text-amber-600 bg-amber-200'
+              }`}
+            >
+              <p> {expense.status}</p>
+              {expense.status === 'declined' ? (
+                <XCircleIcon className="size-4 text-red-600" />
+              ) : expense.status === 'approved' ? (
+                <CheckCircleIcon className="size-4 text-green-600" />
+              ) : (
+                <ClockIcon className="size-4 text-amber-600" />
+              )}
+            </div>
           </div>
         );
 

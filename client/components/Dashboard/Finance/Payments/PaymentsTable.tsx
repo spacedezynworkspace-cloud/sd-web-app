@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   Pagination,
-  Progress,
   Table,
   TableBody,
   TableCell,
@@ -13,51 +12,101 @@ import {
   User,
   Spinner,
 } from '@heroui/react';
-import { Project } from '@/types/projects.types';
-import { getPhaseLabel } from '@/utils/project.utils';
 import { formatDate } from '@/utils/dateFormat.utils';
+import { Payment } from '@/types/payment.types';
 
 interface PaymentsTableProps {
-  projects: Project[];
+  payments: Payment[];
   handleSort: (column: string) => void;
   isLoading: boolean;
-  search: string;
-  setSearch: (value: string) => void;
+  // search: string;
   page: number;
   totalPages: number;
   setPage: (value: number) => void;
 }
 const PaymentsTable = ({
-  projects,
+  payments,
   handleSort,
   isLoading,
   page,
   totalPages,
   setPage,
 }: PaymentsTableProps) => {
-  const renderCell = (project: Project, columnKey: React.Key) => {
-    console.log('renderCell:', project);
+  const PAYMENT_METHOD: {
+    label: string;
+    value: 'cash' | 'bank_transfer' | 'cheque';
+  }[] = [
+    {
+      label: 'Bank trasnfer',
+      value: 'bank_transfer',
+    },
+    {
+      label: 'Cash',
+      value: 'cash',
+    },
+    {
+      label: 'Cheque',
+      value: 'cheque',
+    },
+  ];
+  const SERVICE_TYPE: {
+    label: string;
+    value: 'architech' | 'rennovation' | '3d_visualization' | 'interior_design';
+  }[] = [
+    {
+      label: 'Architech',
+      value: 'architech',
+    },
+    {
+      label: 'Rennovation',
+      value: 'rennovation',
+    },
+    {
+      label: '3d Visualization',
+      value: '3d_visualization',
+    },
+    {
+      label: 'Interior Design',
+      value: 'interior_design',
+    },
+  ];
+  const renderCell = (payment: Payment, columnKey: React.Key) => {
+    console.log('renderCell:', payment);
 
     switch (columnKey) {
       case 'client':
-        return <User name={project.name} description={project.email} />;
+        return (
+          <User
+            name={payment.project?.client}
+            description={payment.project?.name}
+          />
+        );
 
-      case 'project':
-        return <div className="text-sm">{project.client}</div>;
+      case 'serviceType':
+        return (
+          <div className="text-sm capitalize">
+            {SERVICE_TYPE.find(
+              (value) => value.value === payment.project?.serviceType
+            )?.label || 'Unknown'}
+          </div>
+        );
 
       case 'amount':
-        return `₦${project.budget.toLocaleString()}`;
+        return `₦${payment.amount.toLocaleString()}`;
 
       case 'paymentDate':
-        return formatDate(project.startDate);
+        return formatDate(`${payment.paymentDate}`);
 
       case 'method':
         return (
-          <div className="text-sm capitalize">{project.location.state}</div>
+          <div className="text-sm capitalize">
+            {PAYMENT_METHOD.find((value) => value.value === payment.method)
+              ?.label || 'Unknown'}
+          </div>
         );
 
       default:
-        return project[columnKey as keyof Project] as React.ReactNode;
+        return payment[columnKey as keyof Payment] as React.ReactNode;
     }
   };
 
@@ -87,35 +136,34 @@ const PaymentsTable = ({
       >
         <TableHeader>
           <TableColumn
-            key="project"
-            onClick={() => handleSort('project')}
-            allowsSorting
+            key="client"
+            // onClick={() => handleSort('project')}
+            // allowsSorting
           >
             Client Name
           </TableColumn>
 
           <TableColumn
-            key="type"
-            onClick={() => handleSort('type')}
-            allowsSorting
+            key="serviceType"
+            // onClick={() => handleSort('type')}
+            // allowsSorting
           >
-            Project
+            Service Type
           </TableColumn>
 
+          <TableColumn key="paymentDate">Date paid</TableColumn>
           <TableColumn
-            key="date"
-            onClick={() => handleSort('date')}
+            key="amount"
+            onClick={() => handleSort('amount')}
             allowsSorting
           >
             Amount
           </TableColumn>
 
-          <TableColumn key="requestedBy">Date paid</TableColumn>
-
           <TableColumn
-            key="status"
-            onClick={() => handleSort('status')}
-            allowsSorting
+            key="method"
+            // onClick={() => handleSort('method')}
+            // allowsSorting
           >
             Method
           </TableColumn>
@@ -123,9 +171,9 @@ const PaymentsTable = ({
           {/* <TableColumn key="actions">Actions</TableColumn> */}
         </TableHeader>
 
-        {projects.length > 0 || isLoading ? (
-          <TableBody<Project>
-            items={projects}
+        {payments.length > 0 || isLoading ? (
+          <TableBody<Payment>
+            items={payments}
             isLoading={isLoading}
             loadingContent={
               <Spinner
@@ -137,7 +185,7 @@ const PaymentsTable = ({
             }
           >
             {(item) => (
-              <TableRow key={item.email}>
+              <TableRow key={item._id}>
                 {(columnKey) => (
                   <TableCell>{renderCell(item, columnKey)}</TableCell>
                 )}

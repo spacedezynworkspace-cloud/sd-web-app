@@ -21,20 +21,17 @@ export const expensesApi = api.injectEndpoints({
     }),
     getAllExpenses: builder.query<
       ApiResponse<Expense[]>,
-      void
-      //  {
-      //   project?: string;
-      //   amount?: number;
-      //   requestedBy?: string;
-      //   requestedDate?: string;
-      //   approved?: boolean;
-      //   approvedDate?: string;
-      //   type?: string;
-      // }
+      {
+        page?: number;
+        limit?: number;
+        sortBy?: string;
+        sortOrder?: 'asc' | 'desc';
+      }
     >({
-      query: () => ({
+      query: (params) => ({
         url: '/admin/expenses',
         method: 'GET',
+        params,
       }),
       providesTags: (result) =>
         result

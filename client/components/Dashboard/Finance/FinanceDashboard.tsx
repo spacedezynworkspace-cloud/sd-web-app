@@ -56,7 +56,7 @@ const FinanceDashboard = () => {
   //   useGetFinanceExpensesByTypeQuery();
 
   const { data: financeExpensesData, isLoading: isLoadingFinanceExpensesData } =
-    useGetAllExpensesQuery();
+    useGetAllExpensesQuery({ page: 1, limit: 10 });
   const {
     data: financeExpensesByTypeData,
     isLoading: isLoadingFinanceExpensesByTypeData,
@@ -177,7 +177,7 @@ const FinanceDashboard = () => {
           </div>
           {/* Charts  */}
           <div className="flex sm:flex-row flex-col gap-4">
-            <div className="bg-white dark:bg-transparent dark:text-white rounded-lg sm:h-auto h-[570px] w-full">
+            <div className="bg-white dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] h-[570px] w-full">
               <div className=" dark:p-0 p-4">
                 <DashboardHeader
                   title="Net cash flow Over Time"
@@ -298,9 +298,7 @@ const FinanceDashboard = () => {
           </div>
         </>
       )}
-      {financeTab === 'expenses' && (
-        <ExpensesDashboard expenses={financeExpensesData?.data || []} />
-      )}
+      {financeTab === 'expenses' && <ExpensesDashboard />}
       {financeTab === 'payments' && <PaymentDashboard />}
     </section>
   );

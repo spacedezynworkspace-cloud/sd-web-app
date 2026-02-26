@@ -14,7 +14,7 @@ export interface Expense {
   status: 'pending' | 'approved' | 'declined';
 }
 export interface CreateExpenseRequest {
-  project?: string;
+  projectId?: string;
   amount: number;
   type: 'electrical' | 'wood' | 'tools' | 'material' | 'labor' | 'logistics';
   requestedDate: string;

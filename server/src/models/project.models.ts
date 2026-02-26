@@ -5,7 +5,11 @@ export interface IProject extends Document {
   client: string;
   email: string;
   phoneNum: string;
-  serviceType: string;
+  serviceType:
+    | 'architech'
+    | 'rennovation'
+    | '3d_visualization'
+    | 'interior_design';
   budget: number;
 
   phase: 0 | 1 | 2 | 3;

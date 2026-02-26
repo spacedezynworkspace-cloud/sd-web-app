@@ -20,10 +20,19 @@ export const paymentApi = api.injectEndpoints({
         { type: 'Payments', id: 'COUNT' },
       ],
     }),
-    getAllPayments: builder.query<ApiResponse<Payment[]>, void>({
-      query: () => ({
+    getAllPayments: builder.query<
+      ApiResponse<Payment[]>,
+      {
+        page?: number;
+        limit?: number;
+        sortBy?: string;
+        sortOrder?: 'asc' | 'desc';
+      }
+    >({
+      query: (params) => ({
         url: '/admin/payments',
         method: 'GET',
+        params,
       }),
       providesTags: (result) =>
         result

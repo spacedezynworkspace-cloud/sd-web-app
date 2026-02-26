@@ -33,7 +33,7 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
         status: status,
       }).unwrap();
       addToast({
-        title: 'Expense created',
+        title: 'Expense updated',
         description: res.message,
         color: 'success',
       });
