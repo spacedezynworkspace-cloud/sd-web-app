@@ -31,7 +31,7 @@ export const getAllExpenses = async (req: Request, res: Response) => {
 
     const query: any = {};
 
-    // ✅ Status filter
+    // Status filter
     if (
       status &&
       ['pending', 'approved', 'declined'].includes(String(status))

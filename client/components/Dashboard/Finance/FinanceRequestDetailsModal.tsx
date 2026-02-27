@@ -143,7 +143,7 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
                     onClose();
                   }}
                 >
-                  Decline
+                  Close
                 </Button>
 
                 {props.expense?.requestDetails.status === 'pending' && (
