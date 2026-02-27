@@ -9,12 +9,12 @@ import {
   UsersIcon,
 } from '@heroicons/react/24/outline';
 import AnalyticsCard from '@/components/Cards/Dashboard/AnalyticsCard';
-import LineChart from '@/components/Charts/LineChart';
 import BarChart from '@/components/Charts/BarChart';
 import DonutChart from '@/components/Charts/DonutChart';
 import ChartFilterToggle from '@/components/Charts/ChartFilterToggle';
 import { ChartFilter } from '@/types';
 import { Select, SelectItem } from '@heroui/react';
+import LineChart from './LineChart';
 
 const DashboardOverview = () => {
   const [filter, setFilter] = React.useState<ChartFilter>('week');

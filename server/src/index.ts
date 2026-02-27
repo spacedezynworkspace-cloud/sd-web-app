@@ -7,6 +7,9 @@ import swaggerOpenapiSpecification from './config/swagger.config';
 import morgan from 'morgan';
 
 // API routes
+// Auth API routes
+import authRoutes from './routes/auth.routes';
+
 // User API routes
 
 // Admin API routes
@@ -19,7 +22,12 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env['FRONTEND_URL'] || 'http://localhost:3000',
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -29,6 +37,9 @@ app.use(
   swaggerUI.serve,
   swaggerUI.setup(swaggerOpenapiSpecification)
 );
+
+// Auth endpoints
+app.use('/api/v1/auth', authRoutes);
 
 // Admin endpoints
 // app.use('/api/admin/dashboard', adminDashboardRoutes);
