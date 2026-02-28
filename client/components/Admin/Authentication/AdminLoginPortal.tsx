@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { addToast, Button, Form, Input, Spinner } from '@heroui/react';
+import { useRouter } from 'next/dist/client/components/navigation';
 
 interface FormErrors {
   name?: string;
@@ -16,6 +17,7 @@ interface FormData {
 }
 
 const AdminLoginPortal = () => {
+  const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] =
     React.useState<boolean>(false);
 
@@ -54,7 +56,21 @@ const AdminLoginPortal = () => {
           color: 'danger',
         });
       }
+      if (result?.ok) {
+        const session = await getSession();
 
+        const role = session?.user?.role;
+
+        if (role === 'admin') {
+          router.push('/dashboard');
+        } else if (role === 'director') {
+          router.push('/director/dashboard');
+        } else if (role === 'supervisor') {
+          router.push('/supervisor/dashboard');
+        } else {
+          router.push('/');
+        }
+      }
       setIsLoading(false);
     } catch (err: any) {
       setErrors(err.message);
