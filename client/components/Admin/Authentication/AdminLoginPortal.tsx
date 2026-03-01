@@ -93,9 +93,7 @@ const AdminLoginPortal = () => {
       router.push('/director/dashboard');
     } else if (role === 'supervisor') {
       router.push('/supervisor/dashboard');
-    } else {
-      router.push('/');
-    }
+    } 
   }, []);
   return (
     <div className="sm:w-[400px] w-full text-black  bg-white p-6 rounded-2xl sm:shadow">
