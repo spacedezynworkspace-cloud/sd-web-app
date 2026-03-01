@@ -64,6 +64,7 @@ export const getAllProjects = async (req: Request, res: Response) => {
       'client',
       'budget',
       'startDate',
+      'endDate',
       'createdAt',
     ];
 

@@ -49,6 +49,7 @@ const NewOperationsModal = () => {
         address: 'Address not included',
       },
       startDate: form.get('startDate') as string,
+      endDate: form.get('endDate') as string,
     };
     console.log('payload: ', payload);
 
@@ -222,6 +223,18 @@ const NewOperationsModal = () => {
                       defaultValue={today(getLocalTimeZone())}
                       minValue={today(getLocalTimeZone())}
                       name="startDate"
+                    />
+                    {/* Date Started */}
+                    <DatePicker
+                      isRequired
+                      color="warning"
+                      errorMessage="Please enter a valid date."
+                      className=""
+                      label="End date"
+                      labelPlacement="outside"
+                      defaultValue={today(getLocalTimeZone())}
+                      minValue={today(getLocalTimeZone())}
+                      name="endDate"
                     />
 
                     {/* Budget */}

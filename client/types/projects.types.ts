@@ -27,7 +27,7 @@ export interface CreateProjectRequest {
   serviceType: string;
   budget: number;
   startDate: string; // comes as ISO string from backend
-  // endDate?: string;
+  endDate: string;
   // paymentStatus: 'pending' | 'paid' | 'refunded';
   location: {
     state: string;
