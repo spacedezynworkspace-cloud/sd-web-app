@@ -6,7 +6,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl:
       process.env['NEXT_PUBLIC_API_BASE_URL'] || 'http://localhost:5000/api/v1',
-    credentials: 'include', // 🔥 required for refresh cookie
+    //credentials: 'include', // 🔥 required for refresh cookie
     prepareHeaders: async (headers) => {
       const session = await getSession();
 
