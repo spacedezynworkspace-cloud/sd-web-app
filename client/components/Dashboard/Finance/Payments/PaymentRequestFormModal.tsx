@@ -37,7 +37,7 @@ const PaymentRequestFormModal = () => {
     const form = new FormData(e.currentTarget);
 
     const payload: CreatePaymentRequest = {
-      projectId: '699de52db38d8745729c8e10',
+      projectId: '69a49d0a7148fe93ebeeb2f3',
       amount: Number(form.get('amount')),
       method: form.get('method') as 'cash' | 'bank_transfer' | 'cheque',
       // requestedDate: form.get('requestedDate') as string,

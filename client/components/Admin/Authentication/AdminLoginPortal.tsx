@@ -1,6 +1,6 @@
 'use client';
-import React from 'react';
-import { getSession, signIn } from 'next-auth/react';
+import React, { useEffect } from 'react';
+import { getSession, signIn, useSession } from 'next-auth/react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { addToast, Button, Form, Input, Spinner } from '@heroui/react';
@@ -11,13 +11,10 @@ interface FormErrors {
   password?: string;
 }
 
-interface FormData {
-  email: string;
-  password: string;
-}
-
 const AdminLoginPortal = () => {
+  const { data: session } = useSession();
   const router = useRouter();
+
   const [isPasswordVisible, setIsPasswordVisible] =
     React.useState<boolean>(false);
 
@@ -49,27 +46,33 @@ const AdminLoginPortal = () => {
         redirect: false,
       });
 
+      console.log('result: ', result);
+
+      if (result?.ok) {
+        const session = await getSession();
+
+        console.log('session', session);
+
+        const role = session?.user?.role;
+
+        console.log('role: ', role);
+
+        if (role === 'admin') {
+          return router.push('/dashboard');
+        } else if (role === 'director') {
+          return router.push('/director/dashboard');
+        } else if (role === 'supervisor') {
+          return router.push('/supervisor/dashboard');
+        } else {
+          return router.push('/');
+        }
+      }
       if (!result?.ok) {
-        addToast({
+        return addToast({
           title: 'Error occured',
           description: result?.error,
           color: 'danger',
         });
-      }
-      if (result?.ok) {
-        const session = await getSession();
-
-        const role = session?.user?.role;
-
-        if (role === 'admin') {
-          router.push('/dashboard');
-        } else if (role === 'director') {
-          router.push('/director/dashboard');
-        } else if (role === 'supervisor') {
-          router.push('/supervisor/dashboard');
-        } else {
-          router.push('/');
-        }
       }
       setIsLoading(false);
     } catch (err: any) {
@@ -83,6 +86,19 @@ const AdminLoginPortal = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    const role = session?.user?.role;
+
+    if (role === 'admin') {
+      router.push('/dashboard');
+    } else if (role === 'director') {
+      router.push('/director/dashboard');
+    } else if (role === 'supervisor') {
+      router.push('/supervisor/dashboard');
+    } else {
+      router.push('/');
+    }
+  }, []);
   return (
     <div className="sm:w-[400px] w-full text-black  bg-white p-6 rounded-2xl sm:shadow">
       <div className="w-full flex mb-10 flex-col items-center gap-3">
