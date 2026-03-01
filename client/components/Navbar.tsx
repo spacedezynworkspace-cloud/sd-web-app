@@ -8,7 +8,12 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowRightEndOnRectangleIcon,
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { ThemeSwitch } from './theme-switch';
 import Image from 'next/image';
@@ -19,7 +24,9 @@ import {
   DropdownMenu,
   DropdownTrigger,
   DropdownItem,
+  Button,
 } from '@heroui/react';
+import { signOut } from 'next-auth/react';
 
 type NavLink = {
   name: string;
@@ -231,12 +238,19 @@ const Navbar = () => {
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:outline-hidden"
-                  >
-                    Sign out
-                  </a>
+                  <div>
+                    <Button
+                      onPress={() =>
+                        signOut({
+                          callbackUrl: '/admin-dashboard-login-portal',
+                        })
+                      }
+                      className="text-orange-400 bg-transparent font-semibold"
+                    >
+                      <ArrowRightEndOnRectangleIcon className="size-5 text-white" />
+                      Sign Out
+                    </Button>
+                  </div>
                 </MenuItem>
               </MenuItems>
             </Menu>

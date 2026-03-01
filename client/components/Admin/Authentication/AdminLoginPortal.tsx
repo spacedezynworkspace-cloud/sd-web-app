@@ -25,7 +25,7 @@ const AdminLoginPortal = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     // Custom validation checks
     const newErrors: FormErrors = {};
 
@@ -39,7 +39,6 @@ const AdminLoginPortal = () => {
     setErrors({});
 
     try {
-      setIsLoading(true);
       const result = await signIn('credentials', {
         email,
         password,
@@ -58,21 +57,20 @@ const AdminLoginPortal = () => {
         console.log('role: ', role);
 
         if (role === 'admin') {
-          return router.push('/dashboard');
+          router.push('/dashboard');
         } else if (role === 'director') {
-          return router.push('/director/dashboard');
+          router.push('/director/dashboard');
         } else if (role === 'supervisor') {
-          return router.push('/supervisor/dashboard');
-        } 
+          router.push('/supervisor/dashboard');
+        }
       }
       if (!result?.ok) {
-        return addToast({
+        addToast({
           title: 'Error occured',
           description: result?.error,
           color: 'danger',
         });
       }
-      setIsLoading(false);
     } catch (err: any) {
       setErrors(err.message);
       addToast({
@@ -80,8 +78,9 @@ const AdminLoginPortal = () => {
         description: err.message,
         color: 'danger',
       });
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -93,7 +92,7 @@ const AdminLoginPortal = () => {
       router.push('/director/dashboard');
     } else if (role === 'supervisor') {
       router.push('/supervisor/dashboard');
-    } 
+    }
   }, []);
   return (
     <div className="sm:w-[400px] w-full text-black  bg-white p-6 rounded-2xl sm:shadow">
