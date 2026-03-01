@@ -3,7 +3,7 @@ import { getToken } from 'next-auth/jwt';
 import type { NextRequest } from 'next/server';
 
 
-const ADMIN_LOGIN_ROUTE = '/admin-dashboard-login-portal'
+const ADMIN_LOGIN_PORTAL = '/admin-dashboard-login-portal'
 export async function middleware(req: NextRequest) {
   const token = await getToken({
     req,
