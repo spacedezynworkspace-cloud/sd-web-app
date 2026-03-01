@@ -63,9 +63,7 @@ const AdminLoginPortal = () => {
           return router.push('/director/dashboard');
         } else if (role === 'supervisor') {
           return router.push('/supervisor/dashboard');
-        } else {
-          return router.push('/');
-        }
+        } 
       }
       if (!result?.ok) {
         return addToast({
@@ -95,9 +93,7 @@ const AdminLoginPortal = () => {
       router.push('/director/dashboard');
     } else if (role === 'supervisor') {
       router.push('/supervisor/dashboard');
-    } else {
-      router.push('/');
-    }
+    } 
   }, []);
   return (
     <div className="sm:w-[400px] w-full text-black  bg-white p-6 rounded-2xl sm:shadow">
@@ -109,7 +105,7 @@ const AdminLoginPortal = () => {
           height={75}
           className="object-fill "
         />
-        <h1 className="sm:text-xl text-lg font-bold">Admin Login Form</h1>
+        <h1 className="sm:text-xl text-lg font-bold">Staff Login Form</h1>
         <small className="text-center">
           Log in to manage all your projects, staff, operations, finance and
           overview.
