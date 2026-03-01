@@ -127,6 +127,7 @@ const OperationsTable = ({
             />
           </div>
         }
+        aria-sort="other"
       >
         <TableHeader>
           <TableColumn
@@ -184,7 +185,7 @@ const OperationsTable = ({
             }
           >
             {(item) => (
-              <TableRow key={item.email}>
+              <TableRow key={item._id}>
                 {(columnKey) => (
                   <TableCell>{renderCell(item, columnKey)}</TableCell>
                 )}

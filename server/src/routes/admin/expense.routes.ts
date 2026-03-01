@@ -6,12 +6,17 @@ import {
   getExpensesByType,
   getAllApprovedExpenses,
 } from '../../controllers/admin/expense.controllers';
+import authenticateMiddleWare from '../../middlewares/authenticate.middleware';
 const router = express.Router();
 
-router.post('/', createExpense);
-router.get('/', getAllExpenses);
-router.get('/approved', getAllApprovedExpenses);
-router.get('/expenses-by-type', getExpensesByType);
-router.patch('/:id/update-expense-status', updateExpenseStatus);
+router.post('/', authenticateMiddleWare, createExpense);
+router.get('/', authenticateMiddleWare, getAllExpenses);
+router.get('/approved', authenticateMiddleWare, getAllApprovedExpenses);
+router.get('/expenses-by-type', authenticateMiddleWare, getExpensesByType);
+router.patch(
+  '/:id/update-expense-status',
+  authenticateMiddleWare,
+  updateExpenseStatus
+);
 
 export default router;
