@@ -45,8 +45,8 @@ export const login = async (req: Request, res: Response) => {
     // 5️⃣ Send refresh token as httpOnly cookie (recommended)
     res.cookie('refreshToken', refreshAccessToken, {
       httpOnly: true,
-      secure: process.env['NODE_ENV'] === 'production',
-      sameSite: 'strict',
+      secure: true,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
