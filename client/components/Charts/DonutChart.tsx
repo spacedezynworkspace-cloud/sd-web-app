@@ -69,8 +69,8 @@ export default function DonutChart({ series, labels, colors }: Props) {
             value: {
               show: true,
               fontSize: '16px',
-              formatter: function (val: string) {
-                return val;
+              formatter: function (val: number) {
+                return val.toLocaleString();
               },
             },
 
