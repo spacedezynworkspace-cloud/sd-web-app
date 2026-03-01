@@ -24,7 +24,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env['FRONTEND_URL'] || 'http://localhost:3000',
+    origin:process.env['FRONTEND_URL'] || 'https://sd-web-app-p4vc.onrender.com',
     credentials: true,
   })
 );
@@ -33,7 +33,7 @@ app.use(morgan('dev'));
 
 // swagger endpoints
 app.use(
-  '/api-docs',
+  '/api/v1/api-docs',
   swaggerUI.serve,
   swaggerUI.setup(swaggerOpenapiSpecification)
 );
