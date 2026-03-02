@@ -12,6 +12,7 @@ import {
   ArrowRightEndOnRectangleIcon,
   Bars3Icon,
   BellIcon,
+  UserCircleIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
@@ -26,7 +27,7 @@ import {
   DropdownItem,
   Button,
 } from '@heroui/react';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 type NavLink = {
   name: string;
@@ -103,6 +104,8 @@ const adminavigation: NavigationType[] = [
 const Navbar = () => {
   const pathName = usePathname();
   console.log('path name: ', pathName);
+
+  const { data: session } = useSession();
 
   const doNotDisPlayRouteList = pathName === '/dashboard-login-portal';
 
@@ -210,11 +213,7 @@ const Navbar = () => {
               <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 hover:cursor-pointer">
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">Open user menu</span>
-                <img
-                  alt=""
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  className="size-8 rounded-full bg-black outline -outline-offset-1 outline-white/10"
-                />
+                <UserCircleIcon className="size-7 text-orange-400" />
               </MenuButton>
 
               <MenuItems
@@ -224,7 +223,7 @@ const Navbar = () => {
                 <MenuItem>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:outline-hidden"
+                    className="block px-4 py-2 text-sm text-white data-focus:outline-hidden"
                   >
                     Your profile
                   </a>
@@ -232,25 +231,34 @@ const Navbar = () => {
                 <MenuItem>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-focus:outline-hidden"
+                    className="block px-4 py-2 text-sm text-white data-focus:outline-hidden"
                   >
                     Settings
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <div>
-                    <Button
-                      onPress={() =>
-                        signOut({
-                          callbackUrl: '/dashboard-login-portal',
-                        })
-                      }
-                      className="text-orange-400 bg-transparent font-semibold"
+                  {session?.accessToken ? (
+                    <div>
+                      <Button
+                        onPress={() =>
+                          signOut({
+                            callbackUrl: '/dashboard-login-portal',
+                          })
+                        }
+                        className="dark:text-white text-orange-400 bg-transparent font-semibold"
+                      >
+                        <ArrowRightEndOnRectangleIcon className="size-5 text-white" />
+                        Sign Out
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link
+                      href="/dashboard-login-portal"
+                      className="block px-4 py-2 text-sm text-white data-focus:outline-hidden"
                     >
-                      <ArrowRightEndOnRectangleIcon className="size-5 text-white" />
-                      Sign Out
-                    </Button>
-                  </div>
+                      Login
+                    </Link>
+                  )}
                 </MenuItem>
               </MenuItems>
             </Menu>
