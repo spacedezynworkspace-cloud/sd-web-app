@@ -24,8 +24,10 @@ const app = express();
 
 app.use(
   cors({
-    origin:
-      process.env['FRONTEND_URL'] || 'https://sd-web-app-p4vc.onrender.com',
+    origin: [
+      'https://spacedezyn.com',
+      process.env['FRONTEND_URL']! || 'https://app.spacedezyn.com',
+    ],
     credentials: true,
   })
 );
