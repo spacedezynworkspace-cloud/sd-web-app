@@ -11,7 +11,7 @@ interface FormErrors {
   password?: string;
 }
 
-const AdminLoginPortal = () => {
+const LoginPortal = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -192,4 +192,4 @@ const AdminLoginPortal = () => {
   );
 };
 
-export default AdminLoginPortal;
+export default LoginPortal;

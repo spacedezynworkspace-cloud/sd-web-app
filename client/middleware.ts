@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import type { NextRequest } from 'next/server';
 
-const ADMIN_LOGIN_PORTAL = '/admin-dashboard-login-portal';
+const LOGIN_PORTAL = '/dashboard-login-portal';
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({
@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
   // 🔐 Protect admin routes
   if (pathname.startsWith('/dashboard')) {
     if (!token || token.role !== 'admin') {
-      return NextResponse.redirect(new URL(ADMIN_LOGIN_PORTAL, req.url));
+      return NextResponse.redirect(new URL(LOGIN_PORTAL, req.url));
     }
   }
 

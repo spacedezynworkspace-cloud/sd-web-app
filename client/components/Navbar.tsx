@@ -104,7 +104,7 @@ const Navbar = () => {
   const pathName = usePathname();
   console.log('path name: ', pathName);
 
-  const doNotDisPlayRouteList = pathName === '/admin-dashboard-login-portal';
+  const doNotDisPlayRouteList = pathName === '/dashboard-login-portal';
 
   return (
     <Disclosure
@@ -242,7 +242,7 @@ const Navbar = () => {
                     <Button
                       onPress={() =>
                         signOut({
-                          callbackUrl: '/admin-dashboard-login-portal',
+                          callbackUrl: '/dashboard-login-portal',
                         })
                       }
                       className="text-orange-400 bg-transparent font-semibold"
