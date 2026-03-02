@@ -24,10 +24,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      'https://spacedezyn.com',
-      process.env['FRONTEND_URL']! || 'https://app.spacedezyn.com',
-    ],
+    origin: [process.env['FRONTEND_URL']!],
     credentials: true,
   })
 );

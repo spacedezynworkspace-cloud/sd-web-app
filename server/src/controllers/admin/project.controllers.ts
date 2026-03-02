@@ -1,20 +1,41 @@
 import { Request, Response } from 'express';
 import Project from '../../models/project.models';
 import { SortOrder } from 'mongoose';
+import { sendProjectConfirmationEmail } from '../../utils/sendEmail';
 
-// Create project
 export const createProject = async (req: Request, res: Response) => {
-  const project = await Project.create({
-    ...req.body,
-  });
+  try {
+    const project = await Project.create({
+      ...req.body,
+    });
 
-  console.log('Created project: ', project);
+    console.log('Created project: ', project);
 
-  res.status(201).json({
-    message: 'Project created successfully',
-    success: true,
-    data: project,
-  });
+    // 🔥 Send email (non-blocking but awaited safely)
+    try {
+      await sendProjectConfirmationEmail(
+        project.email, // make sure this exists
+        project.budget,
+        project.name,
+        project.client
+      );
+    } catch (emailError) {
+      console.error('Email failed but project created:', emailError);
+      // We DO NOT throw here
+    }
+
+    return res.status(201).json({
+      message: 'Project created successfully',
+      success: true,
+      data: project,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to create project',
+      error,
+    });
+  }
 };
 
 // Get all projects

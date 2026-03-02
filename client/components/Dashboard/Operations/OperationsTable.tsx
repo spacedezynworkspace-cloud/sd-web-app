@@ -183,6 +183,7 @@ const OperationsTable = ({
                 color="warning"
               />
             }
+            aria-sort="other"
           >
             {(item) => (
               <TableRow key={item._id}>

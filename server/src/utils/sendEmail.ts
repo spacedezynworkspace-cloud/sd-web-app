@@ -1,11 +1,15 @@
-import { sendEmail } from "../config/sendGrid.config";
-import { paymentSuccessTemplate } from "../templates/bookings/paymentSuccessful";
-import { otpEmailTemplate } from "../templates/auth/otpEmail.template";
-import { otpForgotPasswordTemplate } from "../templates/auth/otpForgotPassword.template";
-import { newsLetterTemplate } from "../templates/user/newsLetter.template";
-import { staffInivitationEmailTemplate } from "../templates/staff/staffInivitationEmail";
-
-export const sendOtpEmail = async (to: string, otp: string, purpose: string) => {
+import { sendEmail } from '../config/sendGrid.config';
+import { paymentSuccessTemplate } from '../templates/project/paymentSuccessful';
+import { otpEmailTemplate } from '../templates/auth/otpEmail.template';
+import { otpForgotPasswordTemplate } from '../templates/auth/otpForgotPassword.template';
+import { newsLetterTemplate } from '../templates/user/newsLetter.template';
+import { staffInivitationEmailTemplate } from '../templates/staff/staffInivitationEmail';
+import { newProjectConfirmedTemplate } from '../templates/project/newProjectConfirmed';
+export const sendOtpEmail = async (
+  to: string,
+  otp: string,
+  purpose: string
+) => {
   await sendEmail({
     to,
     subject: `${purpose} Code`,
@@ -13,15 +17,15 @@ export const sendOtpEmail = async (to: string, otp: string, purpose: string) => 
   });
 };
 
-export const sendBookingPaymentEmail = async (
+export const sendProjectPaymentEmail = async (
   to: string,
   amount: number,
-  sessionType: string
+  project: string
 ) => {
   await sendEmail({
     to,
-    subject: `${sessionType} Session Payment`,
-    html: paymentSuccessTemplate({ amount, sessionType }),
+    subject: `${project} Payment Confirmation`,
+    html: paymentSuccessTemplate({ amount, project }),
   });
 };
 
@@ -37,15 +41,13 @@ export const sendOtpForgotPasswordEmail = async (
   });
 };
 
-export const sendNewsletterEmail = async (to: string,) => {
+export const sendNewsletterEmail = async (to: string) => {
   await sendEmail({
     to,
     subject: `Newsletter Subscription`,
     html: newsLetterTemplate(),
-  })
-}
-
-
+  });
+};
 
 export const sendStaffInivitationEmail = async (
   to: string,
@@ -55,6 +57,19 @@ export const sendStaffInivitationEmail = async (
   await sendEmail({
     to,
     subject: `Invitation to Join Momodust Studios Team`,
-    html: staffInivitationEmailTemplate({firstName, invitationLink }),
+    html: staffInivitationEmailTemplate({ firstName, invitationLink }),
+  });
+};
+
+export const sendProjectConfirmationEmail = async (
+  to: string,
+  amount: number,
+  project: string,
+  clientName: string
+) => {
+  await sendEmail({
+    to,
+    subject: `${project} Confirmation`,
+    html: newProjectConfirmedTemplate({ amount, project, clientName }),
   });
 };
