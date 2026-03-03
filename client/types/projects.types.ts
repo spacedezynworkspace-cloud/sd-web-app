@@ -37,3 +37,11 @@ export interface CreateProjectRequest {
   // createdAt: string;
   // updatedAt: string;
 }
+
+export interface UpdateProjectRequest {
+  id: string;
+  data: {
+    status?: number;
+    phase?: number;
+  };
+}

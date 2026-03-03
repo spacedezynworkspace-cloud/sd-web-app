@@ -4,8 +4,6 @@ import React from 'react';
 import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
 import {
   addToast,
-  alert,
-  Avatar,
   Button,
   DatePicker,
   Form,
@@ -23,7 +21,6 @@ import {
 import { getLocalTimeZone, today } from '@internationalized/date';
 import { useCreateProjectMutation } from '@/lib/services/projects/projects.api';
 import { CreateProjectRequest } from '@/types/projects.types';
-import { SearchIcon } from '@/components/icons';
 import { useGetAllSupervisorsQuery } from '@/lib/services/supervisor/supervisors.api';
 const NewOperationsModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

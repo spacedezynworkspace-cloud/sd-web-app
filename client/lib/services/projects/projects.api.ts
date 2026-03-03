@@ -53,8 +53,26 @@ export const projectsApi = api.injectEndpoints({
             ]
           : [{ type: 'Projects', id: 'LIST' }],
     }),
+    updateProject: builder.mutation<
+      ApiResponse<null>,
+      { id: string; data: { status?: number; phase?: number } }
+    >({
+      query: ({ id, data }) => ({
+        url: `/supervisors/projects/${id}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Projects', id },
+        { type: 'Projects', id: 'LIST' },
+      ],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateProjectMutation, useGetAllProjectsQuery } = projectsApi;
+export const {
+  useCreateProjectMutation,
+  useGetAllProjectsQuery,
+  useUpdateProjectMutation,
+} = projectsApi;

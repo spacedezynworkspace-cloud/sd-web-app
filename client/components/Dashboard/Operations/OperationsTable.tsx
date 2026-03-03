@@ -13,12 +13,15 @@ import {
   User,
   Spinner,
   Tooltip,
+  Button,
+  useDisclosure,
 } from '@heroui/react';
 import { Project } from '@/types/projects.types';
 import { getPhaseLabel } from '@/utils/project.utils';
 import { formatDate } from '@/utils/dateFormat.utils';
 import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
+import UpdateOperationsModal from './UpdateOperationsModal';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -40,7 +43,11 @@ const OperationsTable = ({
   setPage,
   operationsTab,
 }: OperationsTabledProps) => {
-  const { data: session } = useSession();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const [selectedProject, setSelectedProject] = React.useState<Project | null>(
+    null
+  );
   const renderCell = (project: Project, columnKey: React.Key) => {
     console.log('renderCell:', project);
 
@@ -96,7 +103,15 @@ const OperationsTable = ({
         return (
           <div className="flex gap-2">
             <Tooltip content="Edit">
-              <PencilIcon className="w-5 h-5 cursor-pointer" />
+              <Button
+                onPress={() => {
+                  setSelectedProject(project);
+                  onOpen();
+                }}
+                className="bg-orange-400 text-white font-semibold"
+              >
+                <PencilIcon className="w-5 h-5 cursor-pointer" />
+              </Button>
             </Tooltip>
           </div>
         );
@@ -187,6 +202,16 @@ const OperationsTable = ({
           <TableBody emptyContent={'No data to display.'}>{[]}</TableBody>
         )}
       </Table>
+      <UpdateOperationsModal
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+        selectedProject={{
+          phase: selectedProject?.phase,
+          status: selectedProject?.status,
+          id: selectedProject?._id || '',
+          name: selectedProject?.name || '',
+        }}
+      />
     </>
   );
 };
