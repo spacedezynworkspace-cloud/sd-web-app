@@ -29,6 +29,7 @@ export const projectsApi = api.injectEndpoints({
         phase?: number;
         state?: string;
         startDate?: string;
+        assignedTo?: string;
         endDate?: string;
         page?: number;
         limit?: number;

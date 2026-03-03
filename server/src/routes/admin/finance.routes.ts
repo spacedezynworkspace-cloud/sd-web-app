@@ -4,11 +4,16 @@ import {
   getMonthlyCashflow,
   getOutstandingByProject,
 } from '../../controllers/admin/finance.controllers';
+import { authenticateMiddleWare } from '../../middlewares/authenticate.middleware';
 
 const router = express.Router();
 
-router.get('/analytics', getFinanceAnalytics);
-router.get('/monthly-cashflow', getMonthlyCashflow);
-router.get('/outstanding-by-project', getOutstandingByProject);
+router.get('/analytics', authenticateMiddleWare, getFinanceAnalytics);
+router.get('/monthly-cashflow', authenticateMiddleWare, getMonthlyCashflow);
+router.get(
+  '/outstanding-by-project',
+  authenticateMiddleWare,
+  getOutstandingByProject
+);
 
 export default router;

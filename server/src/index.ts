@@ -12,11 +12,15 @@ import authRoutes from './routes/auth.routes';
 
 // User API routes
 
+// Supervisor API routes
+import supervisorRoutes from './routes/supervisor/supervisor.routes';
+
 // Admin API routes
 import adminProjectRoutes from './routes/admin/project.routes';
 import adminFinanceRoutes from './routes/admin/finance.routes';
 import adminExpenseRoutes from './routes/admin/expense.routes';
 import adminPaymentRoutes from './routes/admin/payment.routes';
+import adminDasboardRoutes from './routes/admin/dashboard.routes';
 
 dotenv.config();
 
@@ -42,11 +46,14 @@ app.use(
 app.use('/api/v1/auth', authRoutes);
 
 // Admin endpoints
-// app.use('/api/admin/dashboard', adminDashboardRoutes);
 app.use('/api/v1/admin/projects', adminProjectRoutes);
 app.use('/api/v1/admin/finances', adminFinanceRoutes);
 app.use('/api/v1/admin/expenses', adminExpenseRoutes);
 app.use('/api/v1/admin/payments', adminPaymentRoutes);
+app.use('/api/v1/admin/dashboard', adminDasboardRoutes);
+
+// Supervisor endpoints
+app.use('/api/v1/supervisors', supervisorRoutes);
 
 // User endpoint
 
