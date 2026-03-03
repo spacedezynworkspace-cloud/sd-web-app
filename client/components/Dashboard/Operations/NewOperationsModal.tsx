@@ -5,6 +5,7 @@ import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
 import {
   addToast,
   alert,
+  Avatar,
   Button,
   DatePicker,
   Form,
@@ -22,13 +23,18 @@ import {
 import { getLocalTimeZone, today } from '@internationalized/date';
 import { useCreateProjectMutation } from '@/lib/services/projects/projects.api';
 import { CreateProjectRequest } from '@/types/projects.types';
+import { SearchIcon } from '@/components/icons';
+import { useGetAllSupervisorsQuery } from '@/lib/services/supervisor/supervisors.api';
 const NewOperationsModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [password, setPassword] = React.useState('');
-  const [submitted, setSubmitted] = React.useState({});
   const [errors, setErrors] = React.useState({});
+  const [searchSupervisor, setSearchSupervisor] = React.useState('');
 
   const [createProject, { isLoading }] = useCreateProjectMutation();
+
+  const { data: supervisors } = useGetAllSupervisorsQuery({
+    search: searchSupervisor,
+  });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
@@ -43,6 +49,7 @@ const NewOperationsModal = () => {
       email: form.get('email') as string,
       phoneNum: form.get('phoneNum') as string,
       serviceType: form.get('serviceType') as string,
+      assignedTo: form.get('assignedTo') as string, // will be set in backend for now
       budget: Number(form.get('budget')),
       location: {
         state: form.get('state') as string,
@@ -63,7 +70,6 @@ const NewOperationsModal = () => {
         color: 'success',
       });
 
-      setSubmitted(payload);
       setErrors({});
       onOpenChange();
     } catch (error) {
@@ -181,21 +187,7 @@ const NewOperationsModal = () => {
                         </SelectItem>
                       </Select>
                     </div>
-                    {/* Phase */}
-                    {/* <div className="w-full">
-                      <Select
-                        isRequired
-                        label="Phase"
-                        labelPlacement="outside"
-                        name="phase"
-                        placeholder="Select project phase"
-                      >
-                        <SelectItem key="Planning">Planning</SelectItem>
-                        <SelectItem key="Design">Design</SelectItem>
-                        <SelectItem key="Execution">Execution</SelectItem>
-                        <SelectItem key="Closure">Closure</SelectItem>
-                      </Select>
-                    </div> */}
+
                     {/* Location */}
                     <div className="w-full">
                       {' '}
@@ -208,7 +200,6 @@ const NewOperationsModal = () => {
                       >
                         <SelectItem key="abuja">Abuja</SelectItem>
                         <SelectItem key="lagos">Lagos</SelectItem>
-                        {/* <SelectItem key="Ikoyi">Ikoyi</SelectItem> */}
                       </Select>
                     </div>
 
@@ -250,6 +241,61 @@ const NewOperationsModal = () => {
                         validationDetails.valueMissing && 'Budget is required'
                       }
                     />
+
+                    {/* Assigned to  */}
+                    <Select
+                      classNames={{
+                        base: 'max-w-xs',
+                        // trigger: 'h-12',
+                      }}
+                      items={supervisors?.data || []}
+                      label="Assigned to"
+                      name="assignedTo"
+                      labelPlacement="outside"
+                      placeholder="Select a user"
+                      // renderValue={(items) => {
+                      //   return items.map((item) => (
+                      //     <div
+                      //       key={item._id}
+                      //       className="flex items-center gap-2"
+                      //     >
+                      //       <Avatar
+                      //         alt={item.name}
+                      //         className="shrink-0"
+                      //         size="sm"
+                      //         src={item.avatar}
+                      //       />
+                      //       <div className="flex flex-col">
+                      //         <span>{item.name}</span>
+                      //         <span className="text-default-500 text-tiny">
+                      //           ({item.email})
+                      //         </span>
+                      //       </div>
+                      //     </div>
+                      //   ));
+                      // }}
+                    >
+                      {(user) => (
+                        <SelectItem key={user._id} textValue={user.name}>
+                          <div className="flex gap-2 items-center">
+                            {/* <Avatar
+                              alt={user.name}
+                              className="shrink-0"
+                              size="sm"
+                              src={
+                                ' https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png'
+                              }
+                            /> */}
+                            <div className="flex flex-col">
+                              <span className="text-small">{user.name}</span>
+                              <span className="text-tiny text-default-400">
+                                {user.email}
+                              </span>
+                            </div>
+                          </div>
+                        </SelectItem>
+                      )}
+                    </Select>
                   </div>
                 </Form>
               </ModalBody>

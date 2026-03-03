@@ -72,7 +72,7 @@ const FinanceDashboard = () => {
   const expensesByTypeLabels = expensesByTypeChartData.map((item) => item._id);
   const analyticsData = [
     {
-      value: `₦${financeDataAnalytics?.data.totalProjectValue.toLocaleString() || 0} revenue`,
+      value: `₦${(financeDataAnalytics?.data.totalProjectValue && financeDataAnalytics.data.totalProjectValue / 1000000)?.toLocaleString('en-US', { maximumFractionDigits: 2 }) || 0}M revenue`,
       icon: <ArrowTrendingUpIcon className="h-6 w-6 text-green-400" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '5% increase from last week',

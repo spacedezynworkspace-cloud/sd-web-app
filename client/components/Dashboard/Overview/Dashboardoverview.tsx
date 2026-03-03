@@ -15,13 +15,25 @@ import ChartFilterToggle from '@/components/Charts/ChartFilterToggle';
 import { ChartFilter } from '@/types';
 import { Select, SelectItem } from '@heroui/react';
 import LineChart from './LineChart';
+import {
+  useGetDashboardOverviewQuery,
+  useGetMonthlyCompletedProjectsQuery,
+} from '@/lib/services/dashboard/dashboard.api';
 
 const DashboardOverview = () => {
   const [filter, setFilter] = React.useState<ChartFilter>('week');
+
+  const { data: dashboardOverview, isLoading: isLoadingDashboardOverview } =
+    useGetDashboardOverviewQuery();
+  const {
+    data: monthlyCompletedProjects,
+    isLoading: isLoadingMonthlyCompletedProjects,
+  } = useGetMonthlyCompletedProjectsQuery({ year: new Date().getFullYear() });
+
   const seriesLine = [
     {
       name: 'Projects Completed',
-      data: [2, 4, 6, 8, 12, 15, 18, 20, 22, 25, 28, 30],
+      data: monthlyCompletedProjects?.data[0]?.completed || [],
     },
   ];
   const seriesBar = [
@@ -32,25 +44,25 @@ const DashboardOverview = () => {
   ];
   const analyticsData = [
     {
-      value: `1.26k total projects`,
+      value: `${dashboardOverview?.data?.totalProjects || 0} total projects`,
       icon: <FolderOpenIcon className="h-6 w-6 text-orange-400" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '5% increase from last week',
     },
     {
-      value: `1.11k completed projects`,
+      value: `${dashboardOverview?.data?.completedProjects || 0} completed projects`,
       icon: <CheckCircleIcon className="h-6 w-6 text-orange-400" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '12% increase from last month',
     },
     {
-      value: `₦500M revenue`,
+      value: `₦${(dashboardOverview?.data?.totalRevenue && dashboardOverview.data.totalRevenue / 1000000)?.toLocaleString('en-US', { maximumFractionDigits: 2 }) || 0}M revenue`,
       icon: <ArrowTrendingUpIcon className="h-6 w-6 text-orange-400" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: ' 8% increase from last quarter',
     },
     {
-      value: `145 clients`,
+      value: `${dashboardOverview?.data?.totalClients || 0} clients`,
       icon: <UsersIcon className="h-6 w-6 text-orange-400" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '15% increase from last quarter',

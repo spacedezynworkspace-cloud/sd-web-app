@@ -9,7 +9,7 @@ export interface Project {
   phase: 0 | 1 | 2 | 3;
   status: 1 | 2 | 3 | 4 | 5;
   startDate: string; // comes as ISO string from backend
-  // endDate?: string;
+  endDate: string;
   // paymentStatus: 'pending' | 'paid' | 'refunded';
   location: {
     state: string;
@@ -25,6 +25,7 @@ export interface CreateProjectRequest {
   email: string;
   phoneNum: string;
   serviceType: string;
+  assignedTo?: string; // will be set in backend for now
   budget: number;
   startDate: string; // comes as ISO string from backend
   endDate: string;

@@ -1,6 +1,8 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IProject extends Document {
+  user: mongoose.Types.ObjectId;
+  assignedTo?: mongoose.Types.ObjectId[];
   name: string;
   client: string;
   email: string;
@@ -31,8 +33,8 @@ export interface IProject extends Document {
 
 const projectSchema = new Schema<IProject>(
   {
-    // user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    // assignedTo: [{ type: Schema.Types.ObjectId, ref: 'Staff' }],
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    assignedTo: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true },
     client: { type: String, required: true, trim: true },

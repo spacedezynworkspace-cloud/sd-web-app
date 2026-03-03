@@ -12,10 +12,13 @@ import {
   // Tooltip,
   User,
   Spinner,
+  Tooltip,
 } from '@heroui/react';
 import { Project } from '@/types/projects.types';
 import { getPhaseLabel } from '@/utils/project.utils';
 import { formatDate } from '@/utils/dateFormat.utils';
+import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -26,6 +29,7 @@ interface OperationsTabledProps {
   page: number;
   totalPages: number;
   setPage: (value: number) => void;
+  operationsTab: 'owner' | '';
 }
 const OperationsTable = ({
   projects,
@@ -34,7 +38,9 @@ const OperationsTable = ({
   page,
   totalPages,
   setPage,
+  operationsTab,
 }: OperationsTabledProps) => {
+  const { data: session } = useSession();
   const renderCell = (project: Project, columnKey: React.Key) => {
     console.log('renderCell:', project);
 
@@ -42,14 +48,16 @@ const OperationsTable = ({
       case 'name':
         return <User name={project.name} description={project.email} />;
 
-      case 'client':
-        return <div className="text-sm">{project.client}</div>;
+      // case 'client':
+      //   return <div className="text-sm">{project.client}</div>;
 
-      case 'budget':
-        return `₦${project.budget.toLocaleString()}`;
+      // case 'budget':
+      //   return `₦${project.budget.toLocaleString()}`;
 
       case 'startDate':
         return formatDate(project.startDate);
+      case 'endDate':
+        return formatDate(project.endDate);
 
       case 'phase':
         return getPhaseLabel(project.phase || 0);
@@ -84,20 +92,14 @@ const OperationsTable = ({
           <div className="text-sm capitalize">{project.location.state}</div>
         );
 
-      // case 'actions':
-      //   return (
-      //     <div className="flex gap-2">
-      //       <Tooltip content="Details">
-      //         <EyeIcon className="w-5 h-5 cursor-pointer" />
-      //       </Tooltip>
-      //       <Tooltip content="Edit">
-      //         <PencilIcon className="w-5 h-5 cursor-pointer" />
-      //       </Tooltip>
-      //       <Tooltip color="danger" content="Delete">
-      //         <TrashIcon className="w-5 h-5 cursor-pointer" />
-      //       </Tooltip>
-      //     </div>
-      //   );
+      case 'actions':
+        return (
+          <div className="flex gap-2">
+            <Tooltip content="Edit">
+              <PencilIcon className="w-5 h-5 cursor-pointer" />
+            </Tooltip>
+          </div>
+        );
 
       default:
         return project[columnKey as keyof Project] as React.ReactNode;
@@ -106,14 +108,6 @@ const OperationsTable = ({
 
   return (
     <>
-      {/* 🔎 Search */}
-      {/* <Input
-        placeholder="Search by name, email, client..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-4"
-      /> */}
-
       <Table
         isHeaderSticky
         bottomContent={
@@ -138,21 +132,22 @@ const OperationsTable = ({
             Project Name
           </TableColumn>
 
-          <TableColumn
+          {/* <TableColumn
             key="client"
             onClick={() => handleSort('client')}
             allowsSorting
           >
             Client
-          </TableColumn>
+          </TableColumn> */}
 
           <TableColumn
             key="startDate"
             onClick={() => handleSort('startDate')}
             allowsSorting
           >
-            Date Started
+            Start Date
           </TableColumn>
+          <TableColumn key="endDate">End Date</TableColumn>
 
           <TableColumn key="status">Status</TableColumn>
 
@@ -160,15 +155,11 @@ const OperationsTable = ({
 
           <TableColumn key="location">Location</TableColumn>
 
-          <TableColumn
-            key="budget"
-            onClick={() => handleSort('budget')}
-            allowsSorting
-          >
-            Budget
-          </TableColumn>
-
-          {/* <TableColumn key="actions">Actions</TableColumn> */}
+          {operationsTab === 'owner' ? (
+            <TableColumn key="actions">Action</TableColumn>
+          ) : (
+            <></>
+          )}
         </TableHeader>
 
         {projects.length > 0 || isLoading ? (
@@ -183,7 +174,6 @@ const OperationsTable = ({
                 color="warning"
               />
             }
-            aria-sort="other"
           >
             {(item) => (
               <TableRow key={item._id}>

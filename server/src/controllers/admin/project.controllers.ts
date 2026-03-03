@@ -2,31 +2,45 @@ import { Request, Response } from 'express';
 import Project from '../../models/project.models';
 import { SortOrder } from 'mongoose';
 import { sendProjectConfirmationEmail } from '../../utils/sendEmail';
+import { User } from '../../models/user.model';
 
 export const createProject = async (req: Request, res: Response) => {
   try {
+    const { email, name, budget } = req.body;
+
+    // 1️⃣ Check if user exists by email
+    let user = await User.findOne({ email });
+
+    // 2️⃣ If user does not exist → create one
+    if (!user) {
+      user = await User.create({
+        name: name || 'Client User',
+        email,
+        password: `${email}Default123!`, // ⚠️ Improve later
+        role: 'user',
+      });
+    }
+
+    // 3️⃣ Create project linked to user
     const project = await Project.create({
       ...req.body,
+      user: user._id, // 🔥 link project to user
     });
 
     console.log('Created project: ', project);
 
-    // 🔥 Send email (non-blocking but awaited safely)
-    try {
-      await sendProjectConfirmationEmail(
-        project.email, // make sure this exists
-        project.budget,
-        project.name,
-        project.client
-      );
-    } catch (emailError) {
-      console.error('Email failed but project created:', emailError);
-      // We DO NOT throw here
-    }
+    // 4️⃣ Send email (non-blocking)
+    sendProjectConfirmationEmail(user.email, budget, project.name, user.name)
+      .then(() => {
+        console.log('Project confirmation email sent to:', user.email);
+      })
+      .catch((emailError) => {
+        console.error('Email failed but project created:', emailError);
+      });
 
     return res.status(201).json({
-      message: 'Project created successfully',
       success: true,
+      message: 'Project created successfully',
       data: project,
     });
   } catch (error) {
@@ -47,6 +61,7 @@ export const getAllProjects = async (req: Request, res: Response) => {
       phase,
       state,
       startDate,
+      assignedTo,
       endDate,
       page = 1,
       limit = 10,
@@ -62,6 +77,7 @@ export const getAllProjects = async (req: Request, res: Response) => {
         { email: { $regex: search, $options: 'i' } },
         { client: { $regex: search, $options: 'i' } },
         { name: { $regex: search, $options: 'i' } },
+        { assignedTo: { $regex: search, $options: 'i' } },
       ];
     }
 
@@ -73,6 +89,10 @@ export const getAllProjects = async (req: Request, res: Response) => {
       query.startDate = {};
       if (startDate) query.startDate.$gte = new Date(startDate as string);
       if (endDate) query.startDate.$lte = new Date(endDate as string);
+    }
+
+    if (assignedTo) {
+      query.assignedTo = assignedTo;
     }
 
     const pageNumber = Number(page);
@@ -87,6 +107,7 @@ export const getAllProjects = async (req: Request, res: Response) => {
       'startDate',
       'endDate',
       'createdAt',
+      'assignedTo',
     ];
 
     const sortField = allowedSortFields.includes(String(sortBy))

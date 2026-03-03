@@ -85,13 +85,13 @@ const navigation: NavigationType[] = [
   { mainLink: { name: 'Book Appointment', href: '#', current: false } },
 ];
 const adminavigation: NavigationType[] = [
-  { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
-  { mainLink: { name: 'Clients', href: '#', current: false } },
+  // { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
+  // { mainLink: { name: 'Clients', href: '#', current: false } },
   {
     mainLink: {
       name: 'Operations',
       href: '/dashboard/operations',
-      current: false,
+      current: true,
     },
   },
   { mainLink: { name: 'Finance', href: '/dashboard/finance', current: false } },
@@ -144,7 +144,7 @@ const Navbar = () => {
                 <Image
                   src={'/sd-web-app-logo.png'}
                   alt="Space Dezyn logo"
-                  width={100}
+                  width={75}
                   height={75}
                   className="object-fill"
                 />

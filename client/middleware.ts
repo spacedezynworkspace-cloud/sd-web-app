@@ -13,18 +13,18 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // 🔐 Protect admin routes
-  if (pathname.startsWith('/dashboard')) {
-    if (!token || token.role !== 'admin') {
-      return NextResponse.redirect(new URL(LOGIN_PORTAL, req.url));
-    }
-  }
+  // if (pathname.startsWith('/dashboard')) {
+  //   if (!token || token.role !== 'admin') {
+  //     return NextResponse.redirect(new URL(LOGIN_PORTAL, req.url));
+  //   }
+  // }
 
   // 🔐 Protect director routes
-  if (pathname.startsWith('/director')) {
-    if (!token || token.role !== 'director') {
-      return NextResponse.redirect(new URL('/unauthorized', req.url));
-    }
-  }
+  // if (pathname.startsWith('/director')) {
+  //   if (!token || token.role !== 'director') {
+  //     return NextResponse.redirect(new URL('/unauthorized', req.url));
+  //   }
+  // }
 
   return NextResponse.next();
 }

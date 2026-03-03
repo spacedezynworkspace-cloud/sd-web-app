@@ -2,13 +2,16 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../../models/user.model';
 import { generateAuthTokens } from '../../utils/generateAuthToken';
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export const login = async (req: Request, res: Response) => {
   //   const hash = await bcrypt.hash('Admin123!', 10);
   //   console.log(hash);
   try {
     const { email, password } = req.body;
+
+    const hashpass = await bcrypt.hash(password, 10);
+    console.log(hashpass);
 
     // 1️⃣ Check if user exists
     const user = await User.findOne({ email }).select('+password');

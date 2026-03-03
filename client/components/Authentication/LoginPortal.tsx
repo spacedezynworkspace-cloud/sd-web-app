@@ -56,13 +56,14 @@ const LoginPortal = () => {
 
         console.log('role: ', role);
 
-        if (role === 'admin') {
-          router.push('/dashboard');
-        } else if (role === 'director') {
-          router.push('/director/dashboard');
-        } else if (role === 'supervisor') {
-          router.push('/supervisor/dashboard');
-        }
+        // if (role === 'admin') {
+        router.push('/dashboard/operations');
+        // }
+        //  else if (role === 'director') {
+        //   router.push('/director/dashboard');
+        // } else if (role === 'supervisor') {
+        //   router.push('/supervisor/dashboard');
+        // }
       }
       if (!result?.ok) {
         addToast({

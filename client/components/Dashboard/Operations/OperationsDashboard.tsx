@@ -4,18 +4,20 @@ import DashboardHeader from '../DashboardHeader';
 import { SearchIcon } from '@/components/icons';
 import NewOperationsModal from './NewOperationsModal';
 import OperationsTable from './OperationsTable';
-import { Input, Select, SelectItem } from '@heroui/react';
+import { Button, ButtonGroup, Input, Select, SelectItem } from '@heroui/react';
 import useDebounce from '@/hooks/useDebounceHook';
 import { useGetAllProjectsQuery } from '@/lib/services/projects/projects.api';
 import { Project } from '@/types/projects.types';
+import { useSession } from 'next-auth/react';
 
 const rowsPerPage = 10;
 const OperationsDashboard = () => {
+  const { data: session } = useSession();
   const statuses = [
     { key: '', label: 'All' },
+    { key: '1', label: 'In Progress' },
+    { key: '3', label: 'Inspection' },
     { key: '5', label: 'Completed' },
-    { key: '3', label: 'In Progress' },
-    { key: '1', label: 'Inspection' },
   ];
   const phases = [
     { key: '', label: 'All' },
@@ -43,6 +45,16 @@ const OperationsDashboard = () => {
   const [sortBy, setSortBy] = React.useState<string>('createdAt');
   const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('desc');
 
+  const [operationsTab, setOperationsTab] = React.useState<'owner' | ''>('');
+
+  const filters: {
+    label: string;
+    value: 'owner' | '';
+  }[] = [
+    { label: 'My Projects', value: 'owner' },
+    { label: 'General', value: '' },
+  ];
+
   const { data, isLoading } = useGetAllProjectsQuery({
     page,
     limit: rowsPerPage,
@@ -50,6 +62,7 @@ const OperationsDashboard = () => {
     status: statusFilter ? Number(statusFilter) : undefined,
     phase: phaseFilter ? Number(phaseFilter) : undefined,
     state: locationFilter,
+    assignedTo: operationsTab === 'owner' ? session?.user?.id : '',
     sortBy,
     sortOrder,
   });
@@ -100,8 +113,7 @@ const OperationsDashboard = () => {
         </div>
       </div>
       <div className="flex items-center sm:justify-between flex-wrap gap-4">
-        <div className="w-[750px] grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
-          <div className="w-full">10 results found</div>
+        <div className="w-[830px] grid sm:grid-cols-4 grid-cols-1 items-center gap-4">
           <Select
             className="sm:max-w-xs w-full"
             placeholder="Select status"
@@ -140,6 +152,25 @@ const OperationsDashboard = () => {
               <SelectItem key={city.key}>{city.label}</SelectItem>
             ))}
           </Select>
+          <div className="sm:max-w-xs w-full">
+            {' '}
+            <ButtonGroup>
+              {filters.map((filter) => (
+                <Button
+                  key={filter.value}
+                  variant={operationsTab === filter.value ? 'solid' : 'flat'}
+                  className={
+                    operationsTab === filter.value
+                      ? 'bg-orange-400 text-white font-semibold'
+                      : ''
+                  }
+                  onPress={() => setOperationsTab(filter.value)}
+                >
+                  {filter.label}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
         </div>
         <NewOperationsModal />
       </div>
@@ -154,6 +185,7 @@ const OperationsDashboard = () => {
         page={page}
         totalPages={totalPages}
         setPage={setPage}
+        operationsTab={operationsTab}
       />
     </section>
   );
