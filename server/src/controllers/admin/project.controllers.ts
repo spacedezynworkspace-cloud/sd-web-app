@@ -143,3 +143,33 @@ export const getAllProjects = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateProject = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    const updatedProject = await Project.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+
+    if (!updatedProject) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project not found',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Project updated successfully',
+      data: updatedProject,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update project',
+      error,
+    });
+  }
+};
