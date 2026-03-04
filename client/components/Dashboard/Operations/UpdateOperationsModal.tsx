@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import {
   addToast,
   Button,
@@ -12,11 +12,12 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  NumberInput,
   Select,
   SelectItem,
   Spinner,
 } from '@heroui/react';
-import { getLocalTimeZone, today } from '@internationalized/date';
+import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import { useUpdateProjectMutation } from '@/lib/services/projects/projects.api';
 import { UpdateProjectRequest } from '@/types/projects.types';
 
@@ -27,7 +28,8 @@ interface UpdateOperationsModalProps {
     id: string;
     status?: number;
     name: string;
-    phase?: number;
+    phase?: string;
+    endDate?: string;
   } | null;
 }
 const UpdateOperationsModal = ({
@@ -36,6 +38,21 @@ const UpdateOperationsModal = ({
   selectedProject,
 }: UpdateOperationsModalProps) => {
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
+
+  const [phase, setPhase] = useState<string>(selectedProject?.phase || '');
+  const [status, setStatus] = useState<number>(selectedProject?.status || 0);
+  const [endDate, setEndDate] = useState<string>(
+    selectedProject?.endDate || ''
+  );
+
+  const handleEndDateChange = (value: any) => {
+    if (value) {
+      setEndDate(value.toString());
+    } else {
+      setEndDate('');
+    }
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
 
@@ -47,7 +64,8 @@ const UpdateOperationsModal = ({
       id: selectedProject?.id || '',
       data: {
         status: Number(form.get('status')),
-        phase: Number(form.get('phase')),
+        phase: form.get('phase') as string,
+        // endDate: form.get('endDate') as string,
       },
     };
     console.log('payload: ', payload);
@@ -94,7 +112,7 @@ const UpdateOperationsModal = ({
                   id="new-project-form"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                    <Select
+                    {/* <Select
                       className="sm:max-w-xs w-full"
                       // placeholder="Select status"
                       name="status"
@@ -106,30 +124,44 @@ const UpdateOperationsModal = ({
                       <SelectItem key={1}>{'In Progress'}</SelectItem>
                       <SelectItem key={3}>{'Inspection'}</SelectItem>
                       <SelectItem key={5}>{'Completed'}</SelectItem>
-                    </Select>
+                    </Select> */}
+                    <NumberInput
+                      hideStepper
+                      name="status"
+                      type="number"
+                      label="Status"
+                      labelPlacement="outside"
+                      value={status || 0}
+                      onValueChange={setStatus}
+                    />
                     <Select
                       className="sm:max-w-xs w-full"
                       label="Phase"
                       name="phase"
+                      labelPlacement="outside"
+                      selectedKeys={[phase]}
+                      onSelectionChange={(keys) =>
+                        setPhase(Array.from(keys)[0] as string)
+                      }
                     >
-                      <SelectItem key={0}>{'Planning'}</SelectItem>
-                      <SelectItem key={1}>{'Design'}</SelectItem>
-                      <SelectItem key={2}>{'Execution'}</SelectItem>
-                      <SelectItem key={3}>{'Closure'}</SelectItem>
+                      <SelectItem key={'planning'}>{'Planning'}</SelectItem>
+                      <SelectItem key={'design'}>{'Design'}</SelectItem>
+                      <SelectItem key={'execution'}>{'Execution'}</SelectItem>
+                      <SelectItem key={'closure'}>{'Closure'}</SelectItem>
                     </Select>
 
                     {/* Date end */}
-                    <DatePicker
-                      isRequired
+                    {/* <DatePicker
                       color="warning"
                       errorMessage="Please enter a valid date."
                       className=""
                       label="End date"
                       labelPlacement="outside"
-                      defaultValue={today(getLocalTimeZone())}
+                      defaultValue={endDate ? parseDate(endDate) : undefined}
                       minValue={today(getLocalTimeZone())}
                       name="endDate"
-                    />
+                      onChange={handleEndDateChange}
+                    /> */}
                   </div>
                 </Form>
               </ModalBody>

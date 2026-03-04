@@ -38,7 +38,7 @@ interface NavigationType {
   mainLink: NavLink;
   subLinks?: NavLink[];
 }
-const navigation: NavigationType[] = [
+const webNavbar: NavigationType[] = [
   { mainLink: { name: 'Home', href: '#', current: true } },
   {
     mainLink: { name: 'Academy', href: '#', current: false },
@@ -84,7 +84,7 @@ const navigation: NavigationType[] = [
   },
   { mainLink: { name: 'Book Appointment', href: '#', current: false } },
 ];
-const adminavigation: NavigationType[] = [
+const appNavbar: NavigationType[] = [
   // { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
   // { mainLink: { name: 'Clients', href: '#', current: false } },
   {
@@ -108,7 +108,7 @@ const Navbar = () => {
   const { data: session } = useSession();
 
   const doNotDisPlayRouteList = pathName === '/dashboard-login-portal';
-
+  const NAVBARITEMS = session?.user ? appNavbar : webNavbar;
   return (
     <Disclosure
       as="nav"
@@ -154,7 +154,7 @@ const Navbar = () => {
           <div className="absolute inset-y-0 right-0 flex sm:gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {adminavigation.map((item) => {
+                {NAVBARITEMS.map((item) => {
                   return item.subLinks ? (
                     <Dropdown key={item.mainLink.name}>
                       <DropdownTrigger>
@@ -268,7 +268,7 @@ const Navbar = () => {
 
       <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 ">
         <div className="space-y-1 px-2 pt-2 pb-3 bg-black w-full h-screen left-0">
-          {adminavigation.map((item) => (
+          {NAVBARITEMS.map((item) => (
             <DisclosureButton
               key={item.mainLink.name}
               as="a"

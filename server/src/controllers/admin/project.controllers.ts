@@ -149,6 +149,8 @@ export const updateProject = async (req: Request, res: Response) => {
     const { id } = req.params;
     const updates = req.body;
 
+    console.log(req.body);
+
     const updatedProject = await Project.findByIdAndUpdate(id, updates, {
       new: true,
     });

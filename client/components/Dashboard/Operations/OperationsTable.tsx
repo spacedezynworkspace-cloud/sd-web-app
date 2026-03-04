@@ -67,7 +67,7 @@ const OperationsTable = ({
         return formatDate(project.endDate);
 
       case 'phase':
-        return getPhaseLabel(project.phase || 0);
+        return <div className="capitalize">{project.phase}</div>;
 
       case 'status':
         return (
@@ -76,21 +76,20 @@ const OperationsTable = ({
             classNames={{
               base: 'w-[220px]',
               // track: ' border border-default radius-lg',
-              indicator: 'bg-orange-400',
+              indicator: `${project.status === 100 ? 'bg-green-400' : 'bg-orange-400'}`,
               label: 'tracking-wider font-medium text-default-600',
               value: 'text-sm',
             }}
-            color={
-              project.status === 1
-                ? 'success'
-                : project.status === 2
-                  ? 'danger'
-                  : 'warning'
-            }
+            // color={
+            //   project.status === 1
+            //     ? 'success'
+            //     : project.status === 2
+            //       ? 'danger'
+            //       : 'warning'
+            // }
             showValueLabel={true}
             size="md"
-            value={project.status * 20}
-            //   isIndeterminate={true}
+            value={project.status}
           />
         );
 
@@ -170,7 +169,7 @@ const OperationsTable = ({
 
           <TableColumn key="location">Location</TableColumn>
 
-          {operationsTab === 'owner' ? (
+          {operationsTab === 'owner' && !isLoading ? (
             <TableColumn key="actions">Action</TableColumn>
           ) : (
             <></>
@@ -210,6 +209,7 @@ const OperationsTable = ({
           status: selectedProject?.status,
           id: selectedProject?._id || '',
           name: selectedProject?.name || '',
+          endDate: selectedProject?.endDate || '',
         }}
       />
     </>

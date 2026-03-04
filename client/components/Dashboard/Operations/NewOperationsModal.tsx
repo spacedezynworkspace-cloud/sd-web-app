@@ -13,6 +13,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  NumberInput,
   Select,
   SelectItem,
   Spinner,
@@ -226,14 +227,20 @@ const NewOperationsModal = () => {
                     />
 
                     {/* Budget */}
-                    <Input
+                    <NumberInput
+                      hideStepper
                       isRequired
                       type="number"
                       label="Budget"
                       labelPlacement="outside"
                       name="budget"
+                      formatOptions={{
+                        style: 'currency',
+                        currency: 'NGN',
+                      }}
                       placeholder="Enter project budget"
-                      min={0}
+                      min={5000000}
+                      defaultValue={0}
                       errorMessage={({ validationDetails }) =>
                         validationDetails.valueMissing && 'Budget is required'
                       }
@@ -241,6 +248,7 @@ const NewOperationsModal = () => {
 
                     {/* Assigned to  */}
                     <Select
+                      isRequired
                       classNames={{
                         base: 'max-w-xs',
                         // trigger: 'h-12',
@@ -250,6 +258,7 @@ const NewOperationsModal = () => {
                       name="assignedTo"
                       labelPlacement="outside"
                       placeholder="Select a user"
+                      className="text-black"
                       // renderValue={(items) => {
                       //   return items.map((item) => (
                       //     <div
@@ -285,7 +294,7 @@ const NewOperationsModal = () => {
                             /> */}
                             <div className="flex flex-col">
                               <span className="text-small">{user.name}</span>
-                              <span className="text-tiny text-default-400">
+                              <span className="text-tiny text-black">
                                 {user.email}
                               </span>
                             </div>
