@@ -21,9 +21,9 @@ export default async function Layout({
 }) {
   const session = await getServerSession();
 
-  // if (!session) {
-  //   redirect('/dashboard-login-portal');
-  // }
+  if (!session) {
+    redirect('/dashboard-login-portal');
+  }
   return (
     <section className="mt-28 pb-20 container mx-auto max-w-7xl pt-10 px-4 flex-grow">
       {children}
