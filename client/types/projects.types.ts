@@ -6,6 +6,7 @@ export interface Project {
   phoneNum: string;
   serviceType: string;
   budget: number;
+  assignedTo: { _id: string; email: string }[];
   phase: string;
   status: number;
   startDate: string; // comes as ISO string from backend

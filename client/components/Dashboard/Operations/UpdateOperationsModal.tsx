@@ -26,11 +26,11 @@ interface UpdateOperationsModalProps {
   onOpenChange: () => void;
   selectedProject: {
     id: string;
-    status?: number;
+    status: number;
     name: string;
-    phase?: string;
-    endDate?: string;
-  } | null;
+    phase: string;
+    endDate: string;
+  };
 }
 const UpdateOperationsModal = ({
   isOpen,
@@ -39,19 +39,21 @@ const UpdateOperationsModal = ({
 }: UpdateOperationsModalProps) => {
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
 
-  const [phase, setPhase] = useState<string>(selectedProject?.phase || '');
-  const [status, setStatus] = useState<number>(selectedProject?.status || 0);
-  const [endDate, setEndDate] = useState<string>(
-    selectedProject?.endDate || ''
-  );
+  const [phase, setPhase] = useState<string>(selectedProject.phase);
+  const [status, setStatus] = useState<number>(selectedProject?.status);
+  // const [endDate, setEndDate] = useState<string>(
+  //   selectedProject?.endDate || ''
+  // );
 
-  const handleEndDateChange = (value: any) => {
-    if (value) {
-      setEndDate(value.toString());
-    } else {
-      setEndDate('');
-    }
-  };
+  console.log(selectedProject);
+
+  const PHASES = [
+    { key: 'planning', label: 'Planning' },
+    { key: 'design', label: 'Design' },
+    { key: 'inspection', label: 'Inspection' },
+    { key: 'execution', label: 'Execution' },
+    { key: 'closure', label: 'Closure' },
+  ];
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
@@ -131,7 +133,7 @@ const UpdateOperationsModal = ({
                       type="number"
                       label="Status"
                       labelPlacement="outside"
-                      value={status || 0}
+                      value={status}
                       onValueChange={setStatus}
                     />
                     <Select
@@ -140,14 +142,11 @@ const UpdateOperationsModal = ({
                       name="phase"
                       labelPlacement="outside"
                       selectedKeys={[phase]}
-                      onSelectionChange={(keys) =>
-                        setPhase(Array.from(keys)[0] as string)
-                      }
+                      onChange={(e) => setPhase(e.target.value)}
                     >
-                      <SelectItem key={'planning'}>{'Planning'}</SelectItem>
-                      <SelectItem key={'design'}>{'Design'}</SelectItem>
-                      <SelectItem key={'execution'}>{'Execution'}</SelectItem>
-                      <SelectItem key={'closure'}>{'Closure'}</SelectItem>
+                      {PHASES.map((phase) => (
+                        <SelectItem key={phase.key}>{phase.label}</SelectItem>
+                      ))}
                     </Select>
 
                     {/* Date end */}

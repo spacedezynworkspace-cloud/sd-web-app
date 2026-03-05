@@ -38,64 +38,6 @@ interface NavigationType {
   mainLink: NavLink;
   subLinks?: NavLink[];
 }
-const webNavbar: NavigationType[] = [
-  { mainLink: { name: 'Home', href: '#', current: true } },
-  {
-    mainLink: { name: 'Academy', href: '#', current: false },
-    subLinks: [
-      {
-        name: '3D Animations',
-        href: '#',
-      },
-      {
-        name: 'Interior Design',
-        href: '#',
-      },
-      {
-        name: 'Supervisor Training',
-        href: '#',
-      },
-    ],
-  },
-  {
-    mainLink: { name: 'Services', href: '#', current: false },
-    subLinks: [
-      {
-        name: 'Interior Design',
-        href: '#Interior',
-      },
-      {
-        name: 'Virtual Tour',
-        href: '#Virtual',
-      },
-      {
-        name: '3D Visualization',
-        href: '#Visualization',
-      },
-      {
-        name: 'Rennovation',
-        href: '#Rennovation',
-      },
-      {
-        name: 'Consultation',
-        href: '#Consultation',
-      },
-    ],
-  },
-  { mainLink: { name: 'Book Appointment', href: '#', current: false } },
-];
-const appNavbar: NavigationType[] = [
-  // { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
-  // { mainLink: { name: 'Clients', href: '#', current: false } },
-  {
-    mainLink: {
-      name: 'Operations',
-      href: '/dashboard/operations',
-      current: true,
-    },
-  },
-  { mainLink: { name: 'Finance', href: '/dashboard/finance', current: false } },
-];
 
 // function classNames(...classes: (string | undefined | false)[]) {
 //   return classes.filter(Boolean).join(' ')
@@ -103,9 +45,71 @@ const appNavbar: NavigationType[] = [
 
 const Navbar = () => {
   const pathName = usePathname();
-  console.log('path name: ', pathName);
 
   const { data: session } = useSession();
+  const webNavbar: NavigationType[] = [
+    { mainLink: { name: 'Home', href: '#', current: true } },
+    {
+      mainLink: { name: 'Academy', href: '#', current: false },
+      subLinks: [
+        {
+          name: '3D Animations',
+          href: '#',
+        },
+        {
+          name: 'Interior Design',
+          href: '#',
+        },
+        {
+          name: 'Supervisor Training',
+          href: '#',
+        },
+      ],
+    },
+    {
+      mainLink: { name: 'Services', href: '#', current: false },
+      subLinks: [
+        {
+          name: 'Interior Design',
+          href: '#Interior',
+        },
+        {
+          name: 'Virtual Tour',
+          href: '#Virtual',
+        },
+        {
+          name: '3D Visualization',
+          href: '#Visualization',
+        },
+        {
+          name: 'Rennovation',
+          href: '#Rennovation',
+        },
+        {
+          name: 'Consultation',
+          href: '#Consultation',
+        },
+      ],
+    },
+    { mainLink: { name: 'Book Appointment', href: '#', current: false } },
+  ];
+  const appNavbar: NavigationType[] = [
+    // { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
+    // { mainLink: { name: 'Clients', href: '#', current: false } },
+    {
+      mainLink: {
+        name: 'Operations',
+        href: '/dashboard/operations',
+        current: true,
+      },
+    },
+  ];
+
+  if (session?.user.role === 'admin') {
+    appNavbar.push({
+      mainLink: { name: 'Finance', href: '/dashboard/finance', current: false },
+    });
+  }
 
   const doNotDisPlayRouteList = pathName === '/dashboard-login-portal';
   const NAVBARITEMS = session?.user ? appNavbar : webNavbar;

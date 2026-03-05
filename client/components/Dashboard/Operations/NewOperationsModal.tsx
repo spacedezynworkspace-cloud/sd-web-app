@@ -259,39 +259,10 @@ const NewOperationsModal = () => {
                       labelPlacement="outside"
                       placeholder="Select a user"
                       className="text-black"
-                      // renderValue={(items) => {
-                      //   return items.map((item) => (
-                      //     <div
-                      //       key={item._id}
-                      //       className="flex items-center gap-2"
-                      //     >
-                      //       <Avatar
-                      //         alt={item.name}
-                      //         className="shrink-0"
-                      //         size="sm"
-                      //         src={item.avatar}
-                      //       />
-                      //       <div className="flex flex-col">
-                      //         <span>{item.name}</span>
-                      //         <span className="text-default-500 text-tiny">
-                      //           ({item.email})
-                      //         </span>
-                      //       </div>
-                      //     </div>
-                      //   ));
-                      // }}
                     >
                       {(user) => (
-                        <SelectItem key={user._id} textValue={user.name}>
+                        <SelectItem key={user._id} textValue={user.email}>
                           <div className="flex gap-2 items-center">
-                            {/* <Avatar
-                              alt={user.name}
-                              className="shrink-0"
-                              size="sm"
-                              src={
-                                ' https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png'
-                              }
-                            /> */}
                             <div className="flex flex-col">
                               <span className="text-small">{user.name}</span>
                               <span className="text-tiny text-black">

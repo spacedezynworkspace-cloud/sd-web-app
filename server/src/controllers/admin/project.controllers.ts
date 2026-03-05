@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import Project from '../../models/project.models';
 import { SortOrder } from 'mongoose';
-import { sendProjectConfirmationEmail } from '../../utils/sendEmail';
+import {
+  sendProjectConfirmationEmail,
+  sendProjectProgressEmail,
+} from '../../utils/sendEmail';
 import { User } from '../../models/user.model';
 
 export const createProject = async (req: Request, res: Response) => {
@@ -30,7 +33,7 @@ export const createProject = async (req: Request, res: Response) => {
     console.log('Created project: ', project);
 
     // 4️⃣ Send email (non-blocking)
-    sendProjectConfirmationEmail(user.email, budget, project.name, user.name)
+    sendProjectConfirmationEmail(user.email, budget, project.name, name)
       .then(() => {
         console.log('Project confirmation email sent to:', user.email);
       })
@@ -120,7 +123,8 @@ export const getAllProjects = async (req: Request, res: Response) => {
       Project.find(query)
         .sort({ [sortField]: sortDirection } as Record<string, SortOrder>)
         .skip(skip)
-        .limit(limitNumber),
+        .limit(limitNumber)
+        .populate('assignedTo', 'email'),
       Project.countDocuments(query),
     ]);
 
@@ -149,8 +153,9 @@ export const updateProject = async (req: Request, res: Response) => {
     const { id } = req.params;
     const updates = req.body;
 
-    console.log(req.body);
+    console.log(updates);
 
+    // 1️⃣ Update project
     const updatedProject = await Project.findByIdAndUpdate(id, updates, {
       new: true,
     });
@@ -161,6 +166,33 @@ export const updateProject = async (req: Request, res: Response) => {
         message: 'Project not found',
       });
     }
+
+    // 2️⃣ Get the project owner
+    const user = await User.findById(updatedProject.user);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    const { status, phase } = req.body;
+
+    // 3️⃣ Send progress email
+    sendProjectProgressEmail(
+      user.email,
+      updatedProject.name,
+      user?.name || '',
+      status,
+      phase
+    )
+      .then(() => {
+        console.log('Project progress email sent to:', user.email);
+      })
+      .catch((emailError) => {
+        console.error('Email failed but project updated:', emailError);
+      });
 
     return res.status(200).json({
       success: true,
