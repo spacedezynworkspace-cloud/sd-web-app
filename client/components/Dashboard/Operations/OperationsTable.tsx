@@ -22,6 +22,7 @@ import { formatDate } from '@/utils/dateFormat.utils';
 import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import UpdateOperationsModal from './UpdateOperationsModal';
+import ExpenseRequestFormModal from '../Finance/Expenses/ExpenseRequestFormModal';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -45,8 +46,8 @@ const OperationsTable = ({
 }: OperationsTabledProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [selectedProject, setSelectedProject] = React.useState<Project>(
-    projects[0]
+  const [selectedProject, setSelectedProject] = React.useState<Project | null>(
+    null
   );
   const renderCell = (project: Project, columnKey: React.Key) => {
     console.log('renderCell:', project);
@@ -200,17 +201,21 @@ const OperationsTable = ({
           <TableBody emptyContent={'No data to display.'}>{[]}</TableBody>
         )}
       </Table>
-      <UpdateOperationsModal
-        onOpenChange={onOpenChange}
-        isOpen={isOpen}
-        selectedProject={{
-          phase: selectedProject?.phase || '',
-          status: selectedProject?.status || 0,
-          id: selectedProject?._id || '',
-          name: selectedProject?.name || '',
-          endDate: selectedProject?.endDate || '',
-        }}
-      />
+      {selectedProject && (
+        <UpdateOperationsModal
+          onOpenChange={onOpenChange}
+          isOpen={isOpen}
+          selectedProject={{
+            phase: selectedProject?.phase,
+            status: selectedProject?.status,
+            id: selectedProject?._id,
+            name: selectedProject?.name,
+            endDate: selectedProject?.endDate,
+          }}
+        />
+      )}
+
+      <ExpenseRequestFormModal />
     </>
   );
 };
