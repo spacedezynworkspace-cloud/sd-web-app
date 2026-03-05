@@ -38,64 +38,6 @@ interface NavigationType {
   mainLink: NavLink;
   subLinks?: NavLink[];
 }
-const navigation: NavigationType[] = [
-  { mainLink: { name: 'Home', href: '#', current: true } },
-  {
-    mainLink: { name: 'Academy', href: '#', current: false },
-    subLinks: [
-      {
-        name: '3D Animations',
-        href: '#',
-      },
-      {
-        name: 'Interior Design',
-        href: '#',
-      },
-      {
-        name: 'Supervisor Training',
-        href: '#',
-      },
-    ],
-  },
-  {
-    mainLink: { name: 'Services', href: '#', current: false },
-    subLinks: [
-      {
-        name: 'Interior Design',
-        href: '#Interior',
-      },
-      {
-        name: 'Virtual Tour',
-        href: '#Virtual',
-      },
-      {
-        name: '3D Visualization',
-        href: '#Visualization',
-      },
-      {
-        name: 'Rennovation',
-        href: '#Rennovation',
-      },
-      {
-        name: 'Consultation',
-        href: '#Consultation',
-      },
-    ],
-  },
-  { mainLink: { name: 'Book Appointment', href: '#', current: false } },
-];
-const adminavigation: NavigationType[] = [
-  // { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
-  // { mainLink: { name: 'Clients', href: '#', current: false } },
-  {
-    mainLink: {
-      name: 'Operations',
-      href: '/dashboard/operations',
-      current: true,
-    },
-  },
-  { mainLink: { name: 'Finance', href: '/dashboard/finance', current: false } },
-];
 
 // function classNames(...classes: (string | undefined | false)[]) {
 //   return classes.filter(Boolean).join(' ')
@@ -103,12 +45,74 @@ const adminavigation: NavigationType[] = [
 
 const Navbar = () => {
   const pathName = usePathname();
-  console.log('path name: ', pathName);
 
   const { data: session } = useSession();
+  const webNavbar: NavigationType[] = [
+    { mainLink: { name: 'Home', href: '#', current: true } },
+    {
+      mainLink: { name: 'Academy', href: '#', current: false },
+      subLinks: [
+        {
+          name: '3D Animations',
+          href: '#',
+        },
+        {
+          name: 'Interior Design',
+          href: '#',
+        },
+        {
+          name: 'Supervisor Training',
+          href: '#',
+        },
+      ],
+    },
+    {
+      mainLink: { name: 'Services', href: '#', current: false },
+      subLinks: [
+        {
+          name: 'Interior Design',
+          href: '#Interior',
+        },
+        {
+          name: 'Virtual Tour',
+          href: '#Virtual',
+        },
+        {
+          name: '3D Visualization',
+          href: '#Visualization',
+        },
+        {
+          name: 'Rennovation',
+          href: '#Rennovation',
+        },
+        {
+          name: 'Consultation',
+          href: '#Consultation',
+        },
+      ],
+    },
+    { mainLink: { name: 'Book Appointment', href: '#', current: false } },
+  ];
+  const appNavbar: NavigationType[] = [
+    // { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
+    // { mainLink: { name: 'Clients', href: '#', current: false } },
+    {
+      mainLink: {
+        name: 'Operations',
+        href: '/dashboard/operations',
+        current: true,
+      },
+    },
+  ];
+
+  if (session?.user.role === 'admin') {
+    appNavbar.push({
+      mainLink: { name: 'Finance', href: '/dashboard/finance', current: false },
+    });
+  }
 
   const doNotDisPlayRouteList = pathName === '/dashboard-login-portal';
-
+  const NAVBARITEMS = session?.user ? appNavbar : webNavbar;
   return (
     <Disclosure
       as="nav"
@@ -154,7 +158,7 @@ const Navbar = () => {
           <div className="absolute inset-y-0 right-0 flex sm:gap-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {adminavigation.map((item) => {
+                {NAVBARITEMS.map((item) => {
                   return item.subLinks ? (
                     <Dropdown key={item.mainLink.name}>
                       <DropdownTrigger>
@@ -268,7 +272,7 @@ const Navbar = () => {
 
       <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 ">
         <div className="space-y-1 px-2 pt-2 pb-3 bg-black w-full h-screen left-0">
-          {adminavigation.map((item) => (
+          {NAVBARITEMS.map((item) => (
             <DisclosureButton
               key={item.mainLink.name}
               as="a"

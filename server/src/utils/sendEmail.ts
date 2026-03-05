@@ -5,6 +5,7 @@ import { otpForgotPasswordTemplate } from '../templates/auth/otpForgotPassword.t
 import { newsLetterTemplate } from '../templates/user/newsLetter.template';
 import { staffInivitationEmailTemplate } from '../templates/staff/staffInivitationEmail';
 import { newProjectConfirmedTemplate } from '../templates/project/newProjectConfirmed';
+import { updateProjectTemplate } from '../templates/project/updateProjectTemplate';
 export const sendOtpEmail = async (
   to: string,
   otp: string,
@@ -71,5 +72,19 @@ export const sendProjectConfirmationEmail = async (
     to,
     subject: `${project} Confirmation`,
     html: newProjectConfirmedTemplate({ amount, project, clientName }),
+  });
+};
+
+export const sendProjectProgressEmail = async (
+  to: string,
+  project: string,
+  clientName: string,
+  status: number,
+  phase: string
+) => {
+  await sendEmail({
+    to,
+    subject: `${project} Confirmation`,
+    html: updateProjectTemplate({ project, clientName, status, phase }),
   });
 };

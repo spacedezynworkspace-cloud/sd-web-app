@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 export type UserRole = 'user' | 'supervisor' | 'admin' | 'director';
 
 export interface IUser extends Document {
-  name: string;
+  name?: string;
   email: string;
   password: string;
   refreshToken?: string;
@@ -20,7 +20,7 @@ const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
 

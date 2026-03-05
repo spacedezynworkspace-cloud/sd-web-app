@@ -14,8 +14,8 @@ export interface IProject extends Document {
     | 'interior_design';
   budget: number;
 
-  phase: 0 | 1 | 2 | 3;
-  status: 1 | 2 | 3 | 4 | 5;
+  phase: 'planning' | 'design' | 'execution' | 'closure';
+  status: number;
 
   startDate: Date;
   endDate: Date;
@@ -44,14 +44,13 @@ const projectSchema = new Schema<IProject>(
 
     endDate: { type: Date },
     phase: {
-      type: Number,
-      enum: [0, 1, 2, 3],
-      default: 0,
+      type: String,
+      enum: ['planning', 'design', 'execution', 'closure'],
+      default: 'planning',
     },
     status: {
       type: Number,
-      enum: [1, 2, 3, 4, 5],
-      default: 1,
+      default: 5,
     },
     budget: { type: Number },
     paymentStatus: {

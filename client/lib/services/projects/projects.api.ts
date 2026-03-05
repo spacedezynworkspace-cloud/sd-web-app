@@ -25,8 +25,8 @@ export const projectsApi = api.injectEndpoints({
       ApiResponse<Project[]>,
       {
         search?: string;
-        status?: number;
-        phase?: number;
+        status?: string;
+        phase?: string;
         state?: string;
         startDate?: string;
         assignedTo?: string;
@@ -55,7 +55,10 @@ export const projectsApi = api.injectEndpoints({
     }),
     updateProject: builder.mutation<
       ApiResponse<null>,
-      { id: string; data: { status?: number; phase?: number } }
+      {
+        id: string;
+        data: { status?: number; phase?: string; endDate?: string };
+      }
     >({
       query: ({ id, data }) => ({
         url: `/supervisors/projects/${id}`,

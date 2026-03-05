@@ -47,7 +47,7 @@ const OperationsDashboard = () => {
 
   const [operationsTab, setOperationsTab] = React.useState<'owner' | ''>('');
 
-  const filters: {
+  const OPERATIONS_TABS: {
     label: string;
     value: 'owner' | '';
   }[] = [
@@ -59,8 +59,8 @@ const OperationsDashboard = () => {
     page,
     limit: rowsPerPage,
     search: debouncedSearch,
-    status: statusFilter ? Number(statusFilter) : undefined,
-    phase: phaseFilter ? Number(phaseFilter) : undefined,
+    status: statusFilter ? statusFilter : undefined,
+    phase: phaseFilter ? phaseFilter : undefined,
     state: locationFilter,
     assignedTo: operationsTab === 'owner' ? session?.user?.id : '',
     sortBy,
@@ -84,7 +84,7 @@ const OperationsDashboard = () => {
     [sortBy, sortOrder]
   );
 
-  // 🔥 Reset page when filters/search change
+  // 🔥 Reset page when OPERATIONS_TABS/search change
   React.useEffect(() => {
     setPage(1);
   }, [debouncedSearch, statusFilter, phaseFilter, sortBy, sortOrder]);
@@ -152,27 +152,30 @@ const OperationsDashboard = () => {
               <SelectItem key={city.key}>{city.label}</SelectItem>
             ))}
           </Select>
-          <div className="sm:max-w-xs w-full">
-            {' '}
-            <ButtonGroup>
-              {filters.map((filter) => (
-                <Button
-                  key={filter.value}
-                  variant={operationsTab === filter.value ? 'solid' : 'flat'}
-                  className={
-                    operationsTab === filter.value
-                      ? 'bg-orange-400 text-white font-semibold'
-                      : ''
-                  }
-                  onPress={() => setOperationsTab(filter.value)}
-                >
-                  {filter.label}
-                </Button>
-              ))}
-            </ButtonGroup>
-          </div>
+
+          {session?.user.role !== 'admin' && (
+            <div className="sm:max-w-xs w-full">
+              {' '}
+              <ButtonGroup>
+                {OPERATIONS_TABS.map((filter) => (
+                  <Button
+                    key={filter.value}
+                    variant={operationsTab === filter.value ? 'solid' : 'flat'}
+                    className={
+                      operationsTab === filter.value
+                        ? 'bg-orange-400 text-white font-semibold'
+                        : ''
+                    }
+                    onPress={() => setOperationsTab(filter.value)}
+                  >
+                    {filter.label}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            </div>
+          )}
         </div>
-        <NewOperationsModal />
+        {session?.user.role === 'admin' && <NewOperationsModal />}
       </div>
 
       {/* Operations table  */}

@@ -6,8 +6,9 @@ export interface Project {
   phoneNum: string;
   serviceType: string;
   budget: number;
-  phase: 0 | 1 | 2 | 3;
-  status: 1 | 2 | 3 | 4 | 5;
+  assignedTo: { _id: string; email: string }[];
+  phase: string;
+  status: number;
   startDate: string; // comes as ISO string from backend
   endDate: string;
   // paymentStatus: 'pending' | 'paid' | 'refunded';
@@ -42,6 +43,7 @@ export interface UpdateProjectRequest {
   id: string;
   data: {
     status?: number;
-    phase?: number;
+    phase?: string;
+    endDate?: string;
   };
 }

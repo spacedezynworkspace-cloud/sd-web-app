@@ -45,8 +45,8 @@ const OperationsTable = ({
 }: OperationsTabledProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [selectedProject, setSelectedProject] = React.useState<Project | null>(
-    null
+  const [selectedProject, setSelectedProject] = React.useState<Project>(
+    projects[0]
   );
   const renderCell = (project: Project, columnKey: React.Key) => {
     console.log('renderCell:', project);
@@ -67,7 +67,9 @@ const OperationsTable = ({
         return formatDate(project.endDate);
 
       case 'phase':
-        return getPhaseLabel(project.phase || 0);
+        return <div className="capitalize">{project.phase}</div>;
+      case 'assignedTo':
+        return <div className="capitalize">{project.assignedTo[0].email}</div>;
 
       case 'status':
         return (
@@ -75,22 +77,13 @@ const OperationsTable = ({
             aria-label="Project progress"
             classNames={{
               base: 'w-[220px]',
-              // track: ' border border-default radius-lg',
-              indicator: 'bg-orange-400',
+              indicator: `${project.status === 100 ? 'bg-green-400' : 'bg-orange-400'}`,
               label: 'tracking-wider font-medium text-default-600',
               value: 'text-sm',
             }}
-            color={
-              project.status === 1
-                ? 'success'
-                : project.status === 2
-                  ? 'danger'
-                  : 'warning'
-            }
             showValueLabel={true}
             size="md"
-            value={project.status * 20}
-            //   isIndeterminate={true}
+            value={project.status}
           />
         );
 
@@ -102,17 +95,21 @@ const OperationsTable = ({
       case 'actions':
         return (
           <div className="flex gap-2">
-            <Tooltip content="Edit">
-              <Button
-                onPress={() => {
-                  setSelectedProject(project);
-                  onOpen();
-                }}
-                className="bg-orange-400 text-white font-semibold"
-              >
-                <PencilIcon className="w-5 h-5 cursor-pointer" />
-              </Button>
-            </Tooltip>
+            {project.status === 100 ? (
+              <div>Closed</div>
+            ) : (
+              <Tooltip content="Edit">
+                <Button
+                  onPress={() => {
+                    setSelectedProject(project);
+                    onOpen();
+                  }}
+                  className="bg-orange-400 text-white font-semibold"
+                >
+                  <PencilIcon className="w-5 h-5 cursor-pointer" />
+                </Button>
+              </Tooltip>
+            )}
           </div>
         );
 
@@ -167,10 +164,11 @@ const OperationsTable = ({
           <TableColumn key="status">Status</TableColumn>
 
           <TableColumn key="phase">Phase</TableColumn>
+          <TableColumn key="assignedTo">Supervisor</TableColumn>
 
           <TableColumn key="location">Location</TableColumn>
 
-          {operationsTab === 'owner' ? (
+          {operationsTab === 'owner' && !isLoading ? (
             <TableColumn key="actions">Action</TableColumn>
           ) : (
             <></>
@@ -206,10 +204,11 @@ const OperationsTable = ({
         onOpenChange={onOpenChange}
         isOpen={isOpen}
         selectedProject={{
-          phase: selectedProject?.phase,
-          status: selectedProject?.status,
+          phase: selectedProject?.phase || '',
+          status: selectedProject?.status || 0,
           id: selectedProject?._id || '',
           name: selectedProject?.name || '',
+          endDate: selectedProject?.endDate || '',
         }}
       />
     </>
