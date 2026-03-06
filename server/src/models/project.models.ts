@@ -45,7 +45,7 @@ const projectSchema = new Schema<IProject>(
     endDate: { type: Date },
     phase: {
       type: String,
-      enum: ['planning', 'design', 'execution', 'closure'],
+      enum: ['planning', 'design', 'execution', 'inspection', 'closure'],
       default: 'planning',
     },
     status: {

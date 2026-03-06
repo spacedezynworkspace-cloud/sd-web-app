@@ -1,10 +1,15 @@
 'use client';
 
+import useDebounce from '@/hooks/useDebounceHook';
 import { useCreatePaymentMutation } from '@/lib/services/payment/payment.api';
+import { useGetAllProjectsQuery } from '@/lib/services/projects/projects.api';
 import { CreatePaymentRequest } from '@/types/payment.types';
+import { Project } from '@/types/projects.types';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import {
   addToast,
+  Autocomplete,
+  AutocompleteItem,
   Button,
   Form,
   Input,
@@ -13,6 +18,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  NumberInput,
   Select,
   SelectItem,
   Spinner,
@@ -24,10 +30,22 @@ import React from 'react';
 
 const PaymentRequestFormModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [submitted, setSubmitted] = React.useState({});
   const [errors, setErrors] = React.useState({});
+  const [search, setSearch] = React.useState<string>('');
+  const debouncedSearch = useDebounce(search, 500);
+  const [projectId, setSelectedProjectId] = React.useState<string>('');
+
+  const limit = 10;
+  const { data, isLoading: isLoadingProjects } = useGetAllProjectsQuery({
+    limit: limit,
+    search: debouncedSearch,
+  });
 
   const [createPayment, { isLoading }] = useCreatePaymentMutation();
+
+  const onSelectionChange = (key: string) => {
+    setSelectedProjectId(key);
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
@@ -37,12 +55,9 @@ const PaymentRequestFormModal = () => {
     const form = new FormData(e.currentTarget);
 
     const payload: CreatePaymentRequest = {
-      projectId: '69a49d0a7148fe93ebeeb2f3',
+      projectId: projectId,
       amount: Number(form.get('amount')),
       method: form.get('method') as 'cash' | 'bank_transfer' | 'cheque',
-      // requestedDate: form.get('requestedDate') as string,
-      // urgencyLevel: form.get('urgencyLevel') as 'low' | 'medium' | 'high',
-      // requestedBy: form.get('requestedBy') as string,
       notes: form.get('notes') as string,
     };
     console.log('payload: ', payload);
@@ -57,7 +72,6 @@ const PaymentRequestFormModal = () => {
         color: 'success',
       });
 
-      setSubmitted(payload);
       setErrors({});
       onOpenChange();
     } catch (error) {
@@ -104,17 +118,50 @@ const PaymentRequestFormModal = () => {
                   onSubmit={onSubmit}
                   id="payment-request-form"
                 >
+                  <Autocomplete
+                    isRequired
+                    label="Search Projects"
+                    placeholder="Type a project name..."
+                    labelPlacement="outside"
+                    inputValue={search}
+                    onInputChange={setSearch}
+                    isLoading={isLoadingProjects}
+                    defaultItems={data?.data || []}
+                    className="max-w-md"
+                    onSelectionChange={(key) =>
+                      onSelectionChange(key as string)
+                    }
+                  >
+                    {(project) => (
+                      <AutocompleteItem
+                        key={project._id}
+                        textValue={project.name}
+                      >
+                        <div className="flex flex-col">
+                          <span className="text-small">{project.name}</span>
+                          <span className="text-tiny text-default-400">
+                            {project.client} - {project.name}
+                          </span>
+                        </div>
+                      </AutocompleteItem>
+                    )}
+                  </Autocomplete>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                     {/* Amount Requested */}
-                    <Input
+                    <NumberInput
+                      hideStepper
                       isRequired
                       type="number"
-                      label="Amount"
+                      label="Amount Requested"
                       labelPlacement="outside"
                       name="amount"
                       placeholder="Enter amount"
-                      min={0}
-                      startContent={<span className="text-default-400">₦</span>}
+                      formatOptions={{
+                        style: 'currency',
+                        currency: 'NGN',
+                      }}
+                      // min={5000000}
+                      // defaultValue={0}
                       errorMessage={({ validationDetails }) =>
                         validationDetails.valueMissing && 'Amount is required'
                       }

@@ -30,9 +30,9 @@ const SupervisorFundsRequest = (props: SupervisorFundsRequestProps) => {
           ? 'bg-amber-200'
           : 'bg-green-100'}{' '} */}
       <User
-        avatarProps={{
-          src: props.expense.avatar,
-        }}
+        // avatarProps={{
+        //   src: props.expense.avatar,
+        // }}
         description={
           <p className={`${props.expense.opened ? '' : 'text-black'}`}>
             {props.expense.role}

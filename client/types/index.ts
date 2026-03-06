@@ -9,7 +9,7 @@ export type ChartFilter = 'week' | 'month' | 'year';
 export type ExpenseFundsRequestType = {
   id: string;
   name: string;
-  avatar: string;
+  // avatar: string;
   role: string;
   requestDetails: {
     amount: number;
