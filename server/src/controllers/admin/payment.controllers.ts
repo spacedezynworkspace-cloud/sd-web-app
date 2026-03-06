@@ -10,6 +10,7 @@ export const createPayment = async (req: Request, res: Response) => {
   try {
     // const { projectId, amount, method, paymentDate } = req.body;
     const { projectId, amount, method, notes } = req.body;
+    console.log(req.body);
 
     if (!amount || amount <= 0) {
       return res.status(405).json({
