@@ -15,16 +15,15 @@ const OperationsDashboard = () => {
   const { data: session } = useSession();
   const statuses = [
     { key: '', label: 'All' },
-    { key: '1', label: 'In Progress' },
-    { key: '3', label: 'Inspection' },
-    { key: '5', label: 'Completed' },
+    { key: '100', label: 'Completed' },
   ];
   const phases = [
     { key: '', label: 'All' },
-    { key: '0', label: 'Planning' },
-    { key: '1', label: 'Design' },
-    { key: '2', label: 'Execution' },
-    { key: '3', label: 'Closure' },
+    { key: 'planning', label: 'Planning' },
+    { key: 'design', label: 'Design' },
+    { key: 'execution', label: 'Execution' },
+    { key: 'inspection', label: 'Inspection' },
+    { key: 'closure', label: 'Closure' },
   ];
   const locations = [
     { key: '', label: 'All' },

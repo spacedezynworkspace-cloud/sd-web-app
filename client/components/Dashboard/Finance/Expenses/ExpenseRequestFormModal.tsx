@@ -2,7 +2,7 @@
 
 import { useCreateExpenseMutation } from '@/lib/services/expense/expenses.api';
 import { CreateExpenseRequest } from '@/types/expenses.types';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { BanknotesIcon } from '@heroicons/react/24/outline';
 import {
   addToast,
   Button,
@@ -18,6 +18,7 @@ import {
   SelectItem,
   Spinner,
   Textarea,
+  Tooltip,
   useDisclosure,
 } from '@heroui/react';
 
@@ -83,13 +84,14 @@ const ExpenseRequestFormModal = () => {
   return (
     <div className="sm:w-auto w-full flex justify-end">
       <div>
-        <Button
-          onPress={onOpen}
-          className="bg-orange-400 text-white font-semibold"
-        >
-          <PlusIcon className="size-5 text-white" />
-          New expense
-        </Button>
+        <Tooltip content="Add expenses">
+          <button
+            onClick={onOpen}
+            className="bg-orange-400 p-2 rounded-lg text-white font-semibold"
+          >
+            <BanknotesIcon className="size-5 text-white" />
+          </button>
+        </Tooltip>
       </div>
       <Modal
         isOpen={isOpen}

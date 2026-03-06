@@ -14,7 +14,7 @@ export interface IProject extends Document {
     | 'interior_design';
   budget: number;
 
-  phase: 'planning' | 'design' | 'execution' | 'closure';
+  phase: 'planning' | 'design' | 'inspection' | 'execution' | 'closure';
   status: number;
 
   startDate: Date;

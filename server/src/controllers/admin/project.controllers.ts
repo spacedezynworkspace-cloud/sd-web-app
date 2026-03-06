@@ -80,12 +80,11 @@ export const getAllProjects = async (req: Request, res: Response) => {
         { email: { $regex: search, $options: 'i' } },
         { client: { $regex: search, $options: 'i' } },
         { name: { $regex: search, $options: 'i' } },
-        { assignedTo: { $regex: search, $options: 'i' } },
       ];
     }
 
     if (status) query.status = Number(status);
-    if (phase) query.phase = Number(phase);
+    if (phase) query.phase = phase;
     if (state) query['location.state'] = state;
 
     if (startDate || endDate) {

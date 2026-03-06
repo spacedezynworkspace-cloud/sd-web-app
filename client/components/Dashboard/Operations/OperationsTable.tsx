@@ -22,6 +22,7 @@ import { formatDate } from '@/utils/dateFormat.utils';
 import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import UpdateOperationsModal from './UpdateOperationsModal';
+import ExpenseRequestFormModal from '../Finance/Expenses/ExpenseRequestFormModal';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -45,8 +46,8 @@ const OperationsTable = ({
 }: OperationsTabledProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [selectedProject, setSelectedProject] = React.useState<Project>(
-    projects[0]
+  const [selectedProject, setSelectedProject] = React.useState<Project | null>(
+    null
   );
   const renderCell = (project: Project, columnKey: React.Key) => {
     console.log('renderCell:', project);
@@ -68,6 +69,7 @@ const OperationsTable = ({
 
       case 'phase':
         return <div className="capitalize">{project.phase}</div>;
+
       case 'assignedTo':
         return <div className="capitalize">{project.assignedTo[0].email}</div>;
 
@@ -98,17 +100,20 @@ const OperationsTable = ({
             {project.status === 100 ? (
               <div>Closed</div>
             ) : (
-              <Tooltip content="Edit">
-                <Button
-                  onPress={() => {
-                    setSelectedProject(project);
-                    onOpen();
-                  }}
-                  className="bg-orange-400 text-white font-semibold"
-                >
-                  <PencilIcon className="w-5 h-5 cursor-pointer" />
-                </Button>
-              </Tooltip>
+              <div className="flex items-center gap-2">
+                <Tooltip content="Edit">
+                  <button
+                    onClick={() => {
+                      setSelectedProject(project);
+                      onOpen();
+                    }}
+                    className="bg-orange-400 p-2 rounded-lg text-white font-semibold"
+                  >
+                    <PencilIcon className="w-5 h-5 cursor-pointer" />
+                  </button>
+                </Tooltip>
+                <ExpenseRequestFormModal />
+              </div>
             )}
           </div>
         );
@@ -164,7 +169,11 @@ const OperationsTable = ({
           <TableColumn key="status">Status</TableColumn>
 
           <TableColumn key="phase">Phase</TableColumn>
-          <TableColumn key="assignedTo">Supervisor</TableColumn>
+          {operationsTab !== 'owner' ? (
+            <TableColumn key="assignedTo">Supervisor</TableColumn>
+          ) : (
+            <></>
+          )}
 
           <TableColumn key="location">Location</TableColumn>
 
@@ -200,17 +209,19 @@ const OperationsTable = ({
           <TableBody emptyContent={'No data to display.'}>{[]}</TableBody>
         )}
       </Table>
-      <UpdateOperationsModal
-        onOpenChange={onOpenChange}
-        isOpen={isOpen}
-        selectedProject={{
-          phase: selectedProject?.phase || '',
-          status: selectedProject?.status || 0,
-          id: selectedProject?._id || '',
-          name: selectedProject?.name || '',
-          endDate: selectedProject?.endDate || '',
-        }}
-      />
+      {selectedProject && (
+        <UpdateOperationsModal
+          onOpenChange={onOpenChange}
+          isOpen={isOpen}
+          selectedProject={{
+            phase: selectedProject?.phase,
+            status: selectedProject?.status,
+            id: selectedProject?._id,
+            name: selectedProject?.name,
+            endDate: selectedProject?.endDate,
+          }}
+        />
+      )}
     </>
   );
 };
