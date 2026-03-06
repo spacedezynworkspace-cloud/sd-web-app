@@ -23,7 +23,7 @@ import { getLocalTimeZone, today } from '@internationalized/date';
 import { useCreateProjectMutation } from '@/lib/services/projects/projects.api';
 import { CreateProjectRequest } from '@/types/projects.types';
 import { useGetAllSupervisorsQuery } from '@/lib/services/supervisor/supervisors.api';
-const NewOperationsModal = () => {
+const CreateProjectForm = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [errors, setErrors] = React.useState({});
   const [searchSupervisor, setSearchSupervisor] = React.useState('');
@@ -299,4 +299,4 @@ const NewOperationsModal = () => {
   );
 };
 
-export default NewOperationsModal;
+export default CreateProjectForm;

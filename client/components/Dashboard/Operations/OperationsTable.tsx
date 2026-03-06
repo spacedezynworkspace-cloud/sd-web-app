@@ -19,10 +19,13 @@ import {
 import { Project } from '@/types/projects.types';
 import { getPhaseLabel } from '@/utils/project.utils';
 import { formatDate } from '@/utils/dateFormat.utils';
-import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react';
-import UpdateOperationsModal from './UpdateOperationsModal';
-import ExpenseRequestFormModal from '../Finance/Expenses/ExpenseRequestFormModal';
+import {
+  BanknotesIcon,
+  EyeIcon,
+  PencilIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline';
+import ProjectFormModal from '../Forms/ProjectFormModal';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -49,6 +52,21 @@ const OperationsTable = ({
   const [selectedProject, setSelectedProject] = React.useState<Project | null>(
     null
   );
+  const [formSelected, setFormSelected] = React.useState<'update' | 'expense'>(
+    'update'
+  );
+
+  const handleModalFormSelected = ({
+    formSelected,
+    project,
+  }: {
+    formSelected: 'update' | 'expense';
+    project: Project;
+  }) => {
+    setSelectedProject(project);
+    setFormSelected(formSelected);
+    onOpen();
+  };
   const renderCell = (project: Project, columnKey: React.Key) => {
     console.log('renderCell:', project);
 
@@ -71,7 +89,11 @@ const OperationsTable = ({
         return <div className="capitalize">{project.phase}</div>;
 
       case 'assignedTo':
-        return <div className="capitalize">{project.assignedTo[0].email}</div>;
+        return (
+          <div className="capitalize truncate w-1/2">
+            {project.assignedTo[0].email}
+          </div>
+        );
 
       case 'status':
         return (
@@ -99,21 +121,38 @@ const OperationsTable = ({
           <div className="flex gap-2">
             {project.status === 100 ? (
               <div>Closed</div>
-            ) : (
+            ) : !isLoading ? (
               <div className="flex items-center gap-2">
                 <Tooltip content="Edit">
                   <button
                     onClick={() => {
-                      setSelectedProject(project);
-                      onOpen();
+                      handleModalFormSelected({
+                        formSelected: 'update',
+                        project,
+                      });
                     }}
                     className="bg-orange-400 p-2 rounded-lg text-white font-semibold"
                   >
                     <PencilIcon className="w-5 h-5 cursor-pointer" />
                   </button>
                 </Tooltip>
-                <ExpenseRequestFormModal />
+                <Tooltip content="Add expense">
+                  <button
+                    onClick={() => {
+                      handleModalFormSelected({
+                        formSelected: 'expense',
+                        project,
+                      });
+                    }}
+                    className="bg-orange-400 p-2 rounded-lg text-white font-semibold"
+                  >
+                    <BanknotesIcon className="w-5 h-5 cursor-pointer" />
+                  </button>
+                </Tooltip>
+                {/* <ExpenseRequestFormModal />  */}
               </div>
+            ) : (
+              <></>
             )}
           </div>
         );
@@ -210,7 +249,8 @@ const OperationsTable = ({
         )}
       </Table>
       {selectedProject && (
-        <UpdateOperationsModal
+        <ProjectFormModal
+          formSelected={formSelected}
           onOpenChange={onOpenChange}
           isOpen={isOpen}
           selectedProject={{
@@ -219,6 +259,7 @@ const OperationsTable = ({
             id: selectedProject?._id,
             name: selectedProject?.name,
             endDate: selectedProject?.endDate,
+            assignedTo: selectedProject?.assignedTo[0].email,
           }}
         />
       )}

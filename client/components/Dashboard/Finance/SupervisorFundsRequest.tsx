@@ -5,6 +5,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { User } from '@heroui/react';
+import exp from 'constants';
 import React from 'react';
 
 interface SupervisorFundsRequestProps {
@@ -37,7 +38,7 @@ const SupervisorFundsRequest = (props: SupervisorFundsRequestProps) => {
             {props.expense.role}
           </p>
         }
-        name={'Nma Nwanta'}
+        name={<div className="truncate w-1/2">{props.expense.name}</div>}
         className={`${props.expense.opened ? '' : 'text-black'} `}
       />
       <span className="text-xs dark:text-black capitalize flex items-center gap-2">

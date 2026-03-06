@@ -1,10 +1,17 @@
 export interface Expense {
   _id: string;
-  project: string;
+  project: {
+    _id: string;
+    name: string;
+    client: string;
+    serviceType: string;
+  };
   amount: number;
   type: 'electrical' | 'wood' | 'tools' | 'material' | 'labor' | 'logistics';
   description: string;
-  requestedBy: string;
+  requestedBy: {
+    email: string;
+  };
   requestedDate: Date;
   approved: boolean;
   approvedDate: Date;
@@ -14,7 +21,7 @@ export interface Expense {
   status: 'pending' | 'approved' | 'declined';
 }
 export interface CreateExpenseRequest {
-  projectId?: string;
+  project?: string;
   amount: number;
   type: 'electrical' | 'wood' | 'tools' | 'material' | 'labor' | 'logistics';
   requestedDate: string;
