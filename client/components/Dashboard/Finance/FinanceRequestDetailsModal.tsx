@@ -61,9 +61,6 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
                 {props.expense && (
                   <div className="w-full">
                     <User
-                      avatarProps={{
-                        src: props.expense.avatar,
-                      }}
                       description={
                         <div>
                           <h3>{props.expense.name}</h3>
