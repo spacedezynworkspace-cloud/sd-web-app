@@ -2,13 +2,14 @@
 import React, { useCallback } from 'react';
 import DashboardHeader from '../DashboardHeader';
 import { SearchIcon } from '@/components/icons';
-import NewOperationsModal from './NewOperationsModal';
+import NewOperationsModal from '../Forms/Project/CreateProjectForm';
 import OperationsTable from './OperationsTable';
 import { Button, ButtonGroup, Input, Select, SelectItem } from '@heroui/react';
 import useDebounce from '@/hooks/useDebounceHook';
 import { useGetAllProjectsQuery } from '@/lib/services/projects/projects.api';
 import { Project } from '@/types/projects.types';
 import { useSession } from 'next-auth/react';
+import CreateProjectForm from '../Forms/Project/CreateProjectForm';
 
 const rowsPerPage = 10;
 const OperationsDashboard = () => {
@@ -174,7 +175,7 @@ const OperationsDashboard = () => {
             </div>
           )}
         </div>
-        {session?.user.role === 'admin' && <NewOperationsModal />}
+        {session?.user.role === 'admin' && <CreateProjectForm />}
       </div>
 
       {/* Operations table  */}

@@ -1,13 +1,22 @@
 import { Request, Response } from 'express';
 import { Expense } from '../../models/expense.models';
 import { SortOrder } from 'mongoose';
-
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string;
+    }
+  }
+}
 // Create expense
 export const createExpense = async (req: Request, res: Response) => {
   console.log('req body: ', req.body);
 
+  const requestedBy = req?.userId;
+
   const expense = await Expense.create({
     ...req.body,
+    requestedBy,
   });
   res.status(201).json({
     message: 'Expense created successfully',
@@ -63,6 +72,10 @@ export const getAllExpenses = async (req: Request, res: Response) => {
         .populate({
           path: 'project',
           select: 'name client serviceType',
+        })
+        .populate({
+          path: 'requestedBy',
+          select: 'name email',
         })
         .sort({ [sortField]: sortDirection })
         .skip(skip)

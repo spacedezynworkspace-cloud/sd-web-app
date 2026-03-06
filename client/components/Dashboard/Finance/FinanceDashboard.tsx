@@ -15,19 +15,11 @@ import FinanceRequestDetailsModal from './FinanceRequestDetailsModal';
 import SupervisorFundsRequest from './SupervisorFundsRequest';
 import { ExpenseFundsRequestType } from '@/types';
 import FinanceRecentTransactions from './FinanceRecentTransactions';
-import {
-  Button,
-  ButtonGroup,
-  Spinner,
-  Tab,
-  Tabs,
-  useDisclosure,
-} from '@heroui/react';
+import { Button, ButtonGroup, Spinner, useDisclosure } from '@heroui/react';
 import {
   useGetFinanceAnalyticsQuery,
   useGetFinanceMonthlyCashFlowQuery,
 } from '@/lib/services/finance/finance.api';
-import ExpenseRequestFormModal from './Expenses/ExpenseRequestFormModal';
 import {
   useGetAllExpensesByTypeQuery,
   useGetAllExpensesQuery,
@@ -106,7 +98,7 @@ const FinanceDashboard = () => {
     ? financeExpensesData?.data.map((expense, index) => {
         return {
           id: expense._id || '',
-          name: expense.requestedBy,
+          name: expense.requestedBy.email,
           avatar: 'https://i.pravatar.cc/150?u=a04258114e29026702d',
           role: 'Site Supervisor',
           requestDetails: {
@@ -114,7 +106,7 @@ const FinanceDashboard = () => {
             purpose: expense.type,
             description: expense.description,
             date: formatDate(`${expense.requestedDate}`),
-            projectName: 'Project A',
+            projectName: expense.project.name,
             createdAt: formatDateAndTime(`${expense.createdAt}`),
             status: expense.status,
           },
@@ -145,7 +137,7 @@ const FinanceDashboard = () => {
             description="Welcome to your finance dashboard overview. Here you can see an overview of your project's financial performance and recent activity."
           />
 
-          {financeTab === 'expenses' && <ExpenseRequestFormModal />}
+          {/* {financeTab === 'expenses' && <ExpenseRequestFormModal />}  */}
           {financeTab === 'payments' && <PaymentRequestFormModal />}
         </div>
         <div className="">

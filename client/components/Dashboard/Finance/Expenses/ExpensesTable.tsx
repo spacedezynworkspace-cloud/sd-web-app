@@ -14,7 +14,6 @@ import {
   Spinner,
   Tooltip,
 } from '@heroui/react';
-import { getPhaseLabel } from '@/utils/project.utils';
 import { formatDate } from '@/utils/dateFormat.utils';
 import { Expense } from '@/types/expenses.types';
 import {
@@ -51,7 +50,14 @@ const ExpensesTable = ({
         return `₦${expense.amount.toLocaleString()}`;
 
       case 'project':
-        return <div className="text-sm">{expense.project}</div>;
+        return (
+          <div className="text-sm flex flex-col gap-1">
+            <span>{expense.project.name}</span>
+            {/* <span className="text-xs text-gray-500">
+              {expense.project.client}
+            </span> */}
+          </div>
+        );
 
       case 'type':
         // return `₦${expense.budget.toLocaleString()}`;
@@ -61,7 +67,7 @@ const ExpensesTable = ({
         return <div className="text-sm">{expense.description}</div>;
 
       case 'requestedBy':
-        return <div className="text-sm">{expense.requestedBy}</div>;
+        return <div className="text-sm">{expense.requestedBy.email}</div>;
 
       case 'requestedDate':
         return formatDate(`${expense.createdAt}`);

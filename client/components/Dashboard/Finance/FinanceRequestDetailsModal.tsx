@@ -83,7 +83,7 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
 
               <ModalBody className="space-y-6">
                 <div className="grid grid-cols-1 gap-2">
-                  <div>{props.expense?.id}</div>
+                  {/* <div>{props.expense?.id}</div> */}
                   <div className="text-sm">
                     <span className="font-light">Project name:</span>
                     <span> {props.expense?.requestDetails.projectName}</span>
