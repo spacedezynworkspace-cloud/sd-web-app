@@ -80,8 +80,6 @@ export const getAllProjects = async (req: Request, res: Response) => {
         { email: { $regex: search, $options: 'i' } },
         { client: { $regex: search, $options: 'i' } },
         { name: { $regex: search, $options: 'i' } },
-        { assignedTo: { $regex: search, $options: 'i' } },
-        { status: { $regex: search, $options: 'i' } },
       ];
     }
 

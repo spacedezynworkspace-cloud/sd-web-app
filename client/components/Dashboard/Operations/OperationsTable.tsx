@@ -69,6 +69,7 @@ const OperationsTable = ({
 
       case 'phase':
         return <div className="capitalize">{project.phase}</div>;
+
       case 'assignedTo':
         return <div className="capitalize">{project.assignedTo[0].email}</div>;
 
@@ -99,17 +100,20 @@ const OperationsTable = ({
             {project.status === 100 ? (
               <div>Closed</div>
             ) : (
-              <Tooltip content="Edit">
-                <Button
-                  onPress={() => {
-                    setSelectedProject(project);
-                    onOpen();
-                  }}
-                  className="bg-orange-400 text-white font-semibold"
-                >
-                  <PencilIcon className="w-5 h-5 cursor-pointer" />
-                </Button>
-              </Tooltip>
+              <div className="flex items-center gap-2">
+                <Tooltip content="Edit">
+                  <button
+                    onClick={() => {
+                      setSelectedProject(project);
+                      onOpen();
+                    }}
+                    className="bg-orange-400 p-2 rounded-lg text-white font-semibold"
+                  >
+                    <PencilIcon className="w-5 h-5 cursor-pointer" />
+                  </button>
+                </Tooltip>
+                <ExpenseRequestFormModal />
+              </div>
             )}
           </div>
         );
@@ -165,7 +169,11 @@ const OperationsTable = ({
           <TableColumn key="status">Status</TableColumn>
 
           <TableColumn key="phase">Phase</TableColumn>
-          <TableColumn key="assignedTo">Supervisor</TableColumn>
+          {operationsTab !== 'owner' ? (
+            <TableColumn key="assignedTo">Supervisor</TableColumn>
+          ) : (
+            <></>
+          )}
 
           <TableColumn key="location">Location</TableColumn>
 
@@ -214,8 +222,6 @@ const OperationsTable = ({
           }}
         />
       )}
-
-      <ExpenseRequestFormModal />
     </>
   );
 };
