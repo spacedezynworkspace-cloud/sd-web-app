@@ -36,7 +36,7 @@ const FinanceRecentTransactions = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium">
-                      {expense.project} House of Anugu
+                      {expense.project.client} - {expense.project.name}
                     </p>
                     <p className="text-xs text-default-500">Invoice Payment</p>
                   </div>
