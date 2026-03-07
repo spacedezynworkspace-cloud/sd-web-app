@@ -9,6 +9,8 @@
 @theme {
   --font-sans: 'font', sans-serif;
   --font-mono: 'monospace', monospace;
+  --font-montserrat: 'montserrat';
+  --font-raleway: 'raleway';
 }
 
 button:hover {

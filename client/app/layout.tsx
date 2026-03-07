@@ -1,15 +1,15 @@
-import '@/styles/globals.css';
 import { Metadata, Viewport } from 'next';
 import clsx from 'clsx';
 
 import { Providers as HeroUIProvider } from '@/lib/providers/HeroUIProvider';
 import { ReduxProvider as ReduxProvider } from '@/lib/providers/ReduxProvider';
 import { siteConfig } from '@/config/site';
-import { fontSans } from '@/config/fonts';
+import { montserrat, raleWay } from '@/config/fonts';
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/config/nextAuthOptions';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
@@ -38,11 +38,12 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning lang="en">
-      <head />
+      {/* <head />  */}
       <body
         className={clsx(
-          'min-h-screen text-foreground bg-background font-sans antialiased',
-          fontSans.variable
+          'min-h-screen text-foreground bg-background antialiased',
+          montserrat.className
+          // raleWay.className
         )}
       >
         <ReduxProvider session={session}>

@@ -8,11 +8,11 @@ const TypewriterComponent = () => {
   const [text] = useTypewriter({
     words: [
       'Interior Design',
-      'Smart Home',
-      'Architecture',
-      'Rennovation',
-      'residential',
-      'Commercial',
+      'Smart Home Technology',
+      'Architectural Design',
+      'Home Renovation',
+      'Residential Projects',
+      'Commercial Spaces',
       '3D Visualization',
     ],
     loop: true,
@@ -21,7 +21,7 @@ const TypewriterComponent = () => {
   return (
     <div>
       {' '}
-      <h1 className="text-4xl font-bold text-center">
+      <h1 className="text-4xl font-bold">
         {' '}
         <span
           className={clsx(

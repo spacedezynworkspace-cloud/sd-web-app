@@ -28,6 +28,7 @@ import {
   Button,
 } from '@heroui/react';
 import { signOut, useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 type NavLink = {
   name: string;
@@ -47,22 +48,28 @@ const Navbar = () => {
   const pathName = usePathname();
 
   const { data: session } = useSession();
+
+  const [navbarBg, setNavbarBg] = useState<boolean>(false);
   const webNavbar: NavigationType[] = [
-    { mainLink: { name: 'Home', href: '#', current: true } },
+    { mainLink: { name: 'Home', href: '/', current: true } },
     {
-      mainLink: { name: 'Academy', href: '#', current: false },
+      mainLink: {
+        name: 'Academy',
+        href: 'dezynlab.spacedezyn.com',
+        current: false,
+      },
       subLinks: [
         {
-          name: '3D Animations',
-          href: '#',
+          name: '3D Visualization',
+          href: 'dezynlab.spacedezyn.com/3d-visualization',
         },
         {
           name: 'Interior Design',
-          href: '#',
+          href: 'dezynlab.spacedezyn.com/interior-dezyn',
         },
         {
           name: 'Supervisor Training',
-          href: '#',
+          href: 'dezynlab.spacedezyn.com/supervisor-training',
         },
       ],
     },
@@ -71,27 +78,33 @@ const Navbar = () => {
       subLinks: [
         {
           name: 'Interior Design',
-          href: '#Interior',
+          href: '/interior-design',
         },
         {
           name: 'Virtual Tour',
-          href: '#Virtual',
+          href: '/virtual-tour',
         },
         {
           name: '3D Visualization',
-          href: '#Visualization',
+          href: '/3d-visualization',
         },
         {
           name: 'Rennovation',
-          href: '#Rennovation',
+          href: '/rennovation',
         },
         {
           name: 'Consultation',
-          href: '#Consultation',
+          href: '/consultation',
         },
       ],
     },
-    { mainLink: { name: 'Book Appointment', href: '#', current: false } },
+    {
+      mainLink: {
+        name: 'Book Appointment',
+        href: 'https://www.spacedezyn.com/book-a-consultation',
+        current: false,
+      },
+    },
   ];
   const appNavbar: NavigationType[] = [
     // { mainLink: { name: 'Dashboard', href: '/dashboard', current: true } },
@@ -116,7 +129,7 @@ const Navbar = () => {
   return (
     <Disclosure
       as="nav"
-      className={`${doNotDisPlayRouteList && 'hidden'} relative z-40  bg-white after:pointer-events-none  after:absolute after:inset-x-0 after:bottom-0 after:h-px `}
+      className={`${doNotDisPlayRouteList && 'hidden'} relative z-40 sm:bg-none ${navbarBg && 'bg-black'} after:pointer-events-none  after:absolute after:inset-x-0 after:bottom-0 after:h-px `}
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-24 items-center justify-between">
@@ -125,9 +138,11 @@ const Navbar = () => {
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2  text-orange-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-orange-400">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
+
               <Bars3Icon
                 aria-hidden="true"
                 className="block size-6 group-data-open:hidden"
+                onClick={() => console.log('clicked')}
               />
               <XMarkIcon
                 aria-hidden="true"
@@ -148,7 +163,7 @@ const Navbar = () => {
                 <Image
                   src={'/sd-web-app-logo.png'}
                   alt="Space Dezyn logo"
-                  width={75}
+                  width={85}
                   height={75}
                   className="object-fill"
                 />
@@ -165,8 +180,8 @@ const Navbar = () => {
                         <button
                           className={clsx(
                             item.mainLink.href === pathName
-                              ? 'bg-orange-400 text-white'
-                              : 'text-black hover:bg-orange-200/50 hover:font-extrabold',
+                              ? ' text-white'
+                              : 'text-orange-400 hover:bg-orange-200/50 hover:font-extrabold',
                             'rounded-md px-3 py-2 text-sm font-medium'
                           )}
                         >
@@ -191,9 +206,9 @@ const Navbar = () => {
                       }
                       className={clsx(
                         item.mainLink.href === pathName
-                          ? 'bg-orange-400 text-white'
-                          : 'text-black dark:text-orange-400 hover:bg-orange-200/50 hover:font-extrabold',
-                        'rounded-md px-3 py-2 text-sm font-medium'
+                          ? ' bg-orange-200/50'
+                          : ' hover:bg-orange-200/50 hover:font-extrabold',
+                        'rounded-md px-3 py-2 text-sm font-medium text-orange-400'
                       )}
                     >
                       {item.mainLink.name}
@@ -224,7 +239,7 @@ const Navbar = () => {
                 transition
                 className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-black dark:bg-orange-400 py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in opacity-100"
               >
-                <MenuItem>
+                {/* <MenuItem>
                   <a
                     href="#"
                     className="block px-4 py-2 text-sm text-white data-focus:outline-hidden"
@@ -239,7 +254,7 @@ const Navbar = () => {
                   >
                     Settings
                   </a>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem>
                   {session?.accessToken ? (
                     <div>
@@ -270,8 +285,8 @@ const Navbar = () => {
         </div>
       </div>
 
-      <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 ">
-        <div className="space-y-1 px-2 pt-2 pb-3 bg-black w-full h-screen left-0">
+      <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 top-0 -z-10">
+        <div className="space-y-1 px-2 pt-32 pb-3 dark:bg-black bg-white w-full h-screen left-0">
           {NAVBARITEMS.map((item) => (
             <DisclosureButton
               key={item.mainLink.name}
