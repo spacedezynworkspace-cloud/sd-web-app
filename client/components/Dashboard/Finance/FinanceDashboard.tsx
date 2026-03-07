@@ -88,7 +88,7 @@ const FinanceDashboard = () => {
     },
     {
       value: `₦${financeDataAnalytics?.data.outstanding.toLocaleString() || 0}`,
-      icon: <BanknotesIcon className="h-6 w-6 text-orange-400" />,
+      icon: <BanknotesIcon className="h-6 w-6 text-[#F19645]" />,
       descriptionIcon: '',
       descriptionText: 'Outstanding payments',
     },
@@ -148,7 +148,7 @@ const FinanceDashboard = () => {
                 variant={financeTab === filter.value ? 'solid' : 'flat'}
                 className={
                   financeTab === filter.value
-                    ? 'bg-orange-400 text-white font-semibold'
+                    ? 'bg-[#F19645] text-white font-semibold'
                     : ''
                 }
                 onPress={() => setFilter(filter.value)}

@@ -24,7 +24,7 @@ const ChartFilterToggle = ({ value, onChange }: ChartFilterToggleProps) => {
           variant={value === filter.value ? 'solid' : 'flat'}
           className={
             value === filter.value
-              ? 'bg-orange-400 text-white font-semibold'
+              ? 'bg-[#F19645] text-white font-semibold'
               : ''
           }
           onPress={() => onChange(filter.value)}

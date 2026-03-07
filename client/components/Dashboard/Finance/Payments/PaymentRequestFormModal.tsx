@@ -89,7 +89,7 @@ const PaymentRequestFormModal = () => {
       <div>
         <Button
           onPress={onOpen}
-          className="bg-orange-400 text-white font-semibold"
+          className="bg-[#F19645] text-white font-semibold"
         >
           <PlusIcon className="size-5 text-white" /> New payment
         </Button>
@@ -208,7 +208,7 @@ const PaymentRequestFormModal = () => {
                 <Button
                   type="submit"
                   form="payment-request-form" // 🔥 connects to form
-                  className="bg-orange-400 text-white font-semibold"
+                  className="bg-[#F19645] text-white font-semibold"
                 >
                   Add payment
                   {isLoading && (

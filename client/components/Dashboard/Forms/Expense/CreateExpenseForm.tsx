@@ -236,7 +236,7 @@ const CreateExpenseForm = ({
                 <Button
                   type="submit"
                   form="expense-request-form" // 🔥 connects to form
-                  className="bg-orange-400 text-white font-semibold"
+                  className="bg-[#F19645] text-white font-semibold"
                 >
                   Submit Funds Request
                   {isLoading && (

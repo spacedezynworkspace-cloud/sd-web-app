@@ -101,7 +101,7 @@ const OperationsTable = ({
             aria-label="Project progress"
             classNames={{
               base: 'w-[220px]',
-              indicator: `${project.status === 100 ? 'bg-green-400' : 'bg-orange-400'}`,
+              indicator: `${project.status === 100 ? 'bg-green-400' : 'bg-[#F19645]'}`,
               label: 'tracking-wider font-medium text-default-600',
               value: 'text-sm',
             }}
@@ -131,7 +131,7 @@ const OperationsTable = ({
                         project,
                       });
                     }}
-                    className="bg-orange-400 p-2 rounded-lg text-white font-semibold"
+                    className="bg-[#F19645] p-2 rounded-lg text-white font-semibold"
                   >
                     <PencilIcon className="w-5 h-5 cursor-pointer" />
                   </button>
@@ -144,7 +144,7 @@ const OperationsTable = ({
                         project,
                       });
                     }}
-                    className="bg-orange-400 p-2 rounded-lg text-white font-semibold"
+                    className="bg-[#F19645] p-2 rounded-lg text-white font-semibold"
                   >
                     <BanknotesIcon className="w-5 h-5 cursor-pointer" />
                   </button>

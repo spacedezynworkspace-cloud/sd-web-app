@@ -54,7 +54,7 @@ const Navbar = () => {
     { mainLink: { name: 'Home', href: '/', current: true } },
     {
       mainLink: {
-        name: 'Academy',
+        name: 'DezynLab',
         href: 'dezynlab.spacedezyn.com',
         current: false,
       },
@@ -77,6 +77,10 @@ const Navbar = () => {
       mainLink: { name: 'Services', href: '#', current: false },
       subLinks: [
         {
+          name: 'Smart AirBnB',
+          href: '/air-bnb',
+        },
+        {
           name: 'Interior Design',
           href: '/interior-design',
         },
@@ -95,6 +99,10 @@ const Navbar = () => {
         {
           name: 'Consultation',
           href: '/consultation',
+        },
+        {
+          name: 'Professional Cleaning',
+          href: 'https://urbancleaningng.my.canva.site',
         },
       ],
     },
@@ -135,7 +143,7 @@ const Navbar = () => {
         <div className="relative flex h-24 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2  text-orange-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-orange-400">
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2  text-[#F19645] hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-[#F19645]">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
 
@@ -181,7 +189,7 @@ const Navbar = () => {
                           className={clsx(
                             item.mainLink.href === pathName
                               ? ' text-white'
-                              : 'text-orange-400 hover:bg-orange-200/50 hover:font-extrabold',
+                              : 'text-[#F19645] hover:bg-orange-200/50 hover:font-extrabold',
                             'rounded-md px-3 py-2 text-sm font-medium'
                           )}
                         >
@@ -208,7 +216,7 @@ const Navbar = () => {
                         item.mainLink.href === pathName
                           ? ' bg-orange-200/50'
                           : ' hover:bg-orange-200/50 hover:font-extrabold',
-                        'rounded-md px-3 py-2 text-sm font-medium text-orange-400'
+                        'rounded-md px-3 py-2 text-sm font-medium text-[#F19645]'
                       )}
                     >
                       {item.mainLink.name}
@@ -219,7 +227,7 @@ const Navbar = () => {
             </div>
             <button
               type="button"
-              className="relative hidden sm:flex rounded-full p-1 text-orange-400 focus:outline-2 focus:outline-offset-2 focus:outline-orange-400"
+              className="relative hidden sm:flex rounded-full p-1 text-[#F19645] focus:outline-2 focus:outline-offset-2 focus:outline-[#F19645]"
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
@@ -229,15 +237,15 @@ const Navbar = () => {
 
             {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">
-              <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 hover:cursor-pointer">
+              <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F19645] hover:cursor-pointer">
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">Open user menu</span>
-                <UserCircleIcon className="size-7 text-orange-400" />
+                <UserCircleIcon className="size-7 text-[#F19645]" />
               </MenuButton>
 
               <MenuItems
                 transition
-                className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-black dark:bg-orange-400 py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in opacity-100"
+                className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-black dark:bg-[#F19645] py-1 outline -outline-offset-1 outline-white/10 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in opacity-100"
               >
                 {/* <MenuItem>
                   <a
@@ -264,7 +272,7 @@ const Navbar = () => {
                             callbackUrl: '/dashboard-login-portal',
                           })
                         }
-                        className="dark:text-white text-orange-400 bg-transparent font-semibold"
+                        className="dark:text-white text-[#F19645] bg-transparent font-semibold"
                       >
                         <ArrowRightEndOnRectangleIcon className="size-5 text-white" />
                         Sign Out
@@ -297,8 +305,8 @@ const Navbar = () => {
               }
               className={clsx(
                 item.mainLink.href === pathName
-                  ? 'bg-orange-400 text-white'
-                  : 'text-orange-400 hover:bg-white/5 hover:font-extrabold',
+                  ? 'bg-[#F19645] text-white'
+                  : 'text-[#F19645] hover:bg-white/5 hover:font-extrabold',
                 'block rounded-md px-3 py-2 text-base font-medium'
               )}
             >
@@ -308,8 +316,8 @@ const Navbar = () => {
                     <button
                       className={clsx(
                         item.mainLink.href === pathName
-                          ? 'bg-orange-400 text-white'
-                          : 'text-orange-400 hover:bg-white/5 hover:font-extrabold',
+                          ? 'bg-[#F19645] text-white'
+                          : 'text-[#F19645] hover:bg-white/5 hover:font-extrabold',
                         'block rounded-md py-2 text-base font-medium bg-none'
                       )}
                     >

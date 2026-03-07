@@ -163,7 +163,7 @@ const OperationsDashboard = () => {
                     variant={operationsTab === filter.value ? 'solid' : 'flat'}
                     className={
                       operationsTab === filter.value
-                        ? 'bg-orange-400 text-white font-semibold'
+                        ? 'bg-[#F19645] text-white font-semibold'
                         : ''
                     }
                     onPress={() => setOperationsTab(filter.value)}

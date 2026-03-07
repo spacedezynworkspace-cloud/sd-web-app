@@ -82,7 +82,7 @@ const ProjectFormModal = ({
                     ? 'update-project-form'
                     : 'create-expense-form'
                 } // 🔥 connects to form
-                className="bg-orange-400 text-white font-semibold"
+                className="bg-[#F19645] text-white font-semibold"
               >
                 {formSelected === 'update'
                   ? 'Update Project'

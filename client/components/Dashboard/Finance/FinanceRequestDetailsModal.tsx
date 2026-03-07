@@ -145,7 +145,7 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
 
                 {props.expense?.requestDetails.status === 'pending' && (
                   <Button
-                    className="bg-orange-400 text-white font-semibold"
+                    className="bg-[#F19645] text-white font-semibold"
                     onPress={() => {
                       // onApprove(request);
                       handleUpdateExpense('approved');
@@ -160,7 +160,7 @@ const FinanceRequestDetailsModal = (props: FinanceRequestDetailsModalProps) => {
                 )}
                 {props.expense?.requestDetails.status === 'approved' && (
                   <Button
-                    className="bg-orange-400 text-white font-semibold"
+                    className="bg-[#F19645] text-white font-semibold"
                     onPress={() => {
                       // onApprove(request);
                       handleUpdateExpense('declined');

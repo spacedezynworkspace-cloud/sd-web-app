@@ -45,25 +45,25 @@ const DashboardOverview = () => {
   const analyticsData = [
     {
       value: `${dashboardOverview?.data?.totalProjects || 0} total projects`,
-      icon: <FolderOpenIcon className="h-6 w-6 text-orange-400" />,
+      icon: <FolderOpenIcon className="h-6 w-6 text-[#F19645]" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '5% increase from last week',
     },
     {
       value: `${dashboardOverview?.data?.completedProjects || 0} completed projects`,
-      icon: <CheckCircleIcon className="h-6 w-6 text-orange-400" />,
+      icon: <CheckCircleIcon className="h-6 w-6 text-[#F19645]" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '12% increase from last month',
     },
     {
       value: `₦${(dashboardOverview?.data?.totalRevenue && dashboardOverview.data.totalRevenue / 1000000)?.toLocaleString('en-US', { maximumFractionDigits: 2 }) || 0}M revenue`,
-      icon: <ArrowTrendingUpIcon className="h-6 w-6 text-orange-400" />,
+      icon: <ArrowTrendingUpIcon className="h-6 w-6 text-[#F19645]" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: ' 8% increase from last quarter',
     },
     {
       value: `${dashboardOverview?.data?.totalClients || 0} clients`,
-      icon: <UsersIcon className="h-6 w-6 text-orange-400" />,
+      icon: <UsersIcon className="h-6 w-6 text-[#F19645]" />,
       descriptionIcon: <ArrowUpIcon className="h-3 w-3 text-green-400" />,
       descriptionText: '15% increase from last quarter',
     },

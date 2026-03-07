@@ -78,7 +78,7 @@ const CreateProjectForm = () => {
     <div className="sm:w-auto w-full flex justify-end">
       <Button
         onPress={onOpen}
-        className="bg-orange-400 text-white font-semibold"
+        className="bg-[#F19645] text-white font-semibold"
       >
         <PlusIcon className="size-5" />
         <span> New project</span>
@@ -283,7 +283,7 @@ const CreateProjectForm = () => {
                 <Button
                   type="submit"
                   form="new-project-form" // 🔥 connects to form
-                  className="bg-orange-400 text-white font-semibold"
+                  className="bg-[#F19645] text-white font-semibold"
                 >
                   Create Project
                   {isLoading && (

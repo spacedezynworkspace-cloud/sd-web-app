@@ -135,7 +135,7 @@ const LoginPortal = () => {
             }}
             label="Email"
             classNames={{
-              label: 'text-orange-400',
+              label: 'text-[#F19645]',
             }}
             labelPlacement="outside-top"
             name="email"
@@ -155,9 +155,9 @@ const LoginPortal = () => {
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
               >
                 {isPasswordVisible ? (
-                  <EyeSlashIcon className="size-4 text-orange-400" />
+                  <EyeSlashIcon className="size-4 text-[#F19645]" />
                 ) : (
-                  <EyeIcon className="size-4  text-orange-400" />
+                  <EyeIcon className="size-4  text-[#F19645]" />
                 )}
               </button>
             }
@@ -165,7 +165,7 @@ const LoginPortal = () => {
             //   isInvalid={getPasswordError(password) !== null}
             label="Password"
             classNames={{
-              label: 'text-orange-400',
+              label: 'text-[#F19645]',
             }}
             labelPlacement="outside-top"
             name="password"
@@ -177,7 +177,7 @@ const LoginPortal = () => {
 
           <div className="flex gap-4 justify-end">
             <Button
-              className="w-1/2 flex items-center bg-orange-400 text-white"
+              className="w-1/2 flex items-center bg-[#F19645] text-white"
               type="submit"
               disabled={isLoading}
             >

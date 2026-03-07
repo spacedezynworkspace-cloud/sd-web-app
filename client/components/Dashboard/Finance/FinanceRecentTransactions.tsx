@@ -31,7 +31,7 @@ const FinanceRecentTransactions = () => {
               {' '}
               <CardBody className="px-4">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-orange-200/50 text-orange-400 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-orange-200/50 text-[#F19645] flex items-center justify-center">
                     <HomeIcon className="size-5" />
                   </div>
                   <div>

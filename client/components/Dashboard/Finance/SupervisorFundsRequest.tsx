@@ -21,7 +21,7 @@ const SupervisorFundsRequest = (props: SupervisorFundsRequestProps) => {
         props.setSelectedRequest(props.expense);
         props.onOpen();
       }}
-      className={`rounded-lg p-4 bg-white shadow w-full dark:border-orange-400 flex items-center justify-between hover:bg-orange-200/70 transition-colors`}
+      className={`rounded-lg p-4 bg-white shadow w-full dark:border-[#F19645] flex items-center justify-between hover:bg-orange-200/70 transition-colors`}
     >
       {/* $
       {props.expense.requestDetails.status === 'declined'
