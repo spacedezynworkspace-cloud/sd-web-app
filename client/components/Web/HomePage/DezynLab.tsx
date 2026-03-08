@@ -8,7 +8,7 @@ import SectionHeader from '../SectionHeader';
 import Link from 'next/link';
 const DezynLab = () => {
   return (
-    <section className="w-full bg-white dark:bg-black flex items-center sm:h-screen h-auto py-10 justify-center">
+    <section className="w-full bg-white dark:bg-black flex items-center sm:pt-20 sm:pb-40 h-auto py-10 justify-center">
       {' '}
       <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto flex sm:flex-row flex-col-reverse items-center gap-10">
         {/* <div>
@@ -57,7 +57,7 @@ const DezynLab = () => {
                 What to watch
               </p>
               <h4 className="text-gray-500 font-medium text-large">
-                3D Visualiazation beginner class 1
+                3D Visualization beginner class 1
               </h4>
             </CardHeader>
             <Link

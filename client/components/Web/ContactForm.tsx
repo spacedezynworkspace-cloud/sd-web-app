@@ -83,7 +83,7 @@ const ContactForm = () => {
     }
   };
   return (
-    <section className="w-full bg-[#F8F8F8] relative sm:h-screen h-auto sm:py-0 py-14">
+    <section className="w-full bg-[#F8F8F8] relative h-auto sm:py-20 py-14">
       <Image
         src={'/mapBackground.png'}
         alt="Space dezyn contact map"
