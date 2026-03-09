@@ -12,17 +12,17 @@ const Hospitality = () => {
       img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469167/IMG_5094_qfvv2f.heic',
     },
     {
-      title: 'Apartment 2',
+      title: 'Space X',
       price: '₦215,000/day',
       img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469214/IMG_5172_fzftvg.heic',
     },
     {
-      title: 'Apartment 3',
+      title: 'A series',
       price: '₦120,000/day',
       img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469189/IMG_5165_getmbt.heic',
     },
     {
-      title: 'Apartment 4',
+      title: 'Rage 4',
       price: '₦95,000/day',
       img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469187/IMG_5126_rtursl.heic',
     },
@@ -32,8 +32,8 @@ const Hospitality = () => {
       <div className="max-w-7xl px-4 sm:px-6 items-center flex justify-start flex-col lg:px-8 mx-auto">
         <div className="text-black mb-10 sm:block hidden">
           <SectionHeader
-            introText=""
-            headerText="Airbnb & Apartment services"
+            introText="Quick Services"
+            headerText="Airbnb & Service apartments"
             paragraphText="Our Smart Airbnb and Apartment services are designed to elevate the living experience for both hosts and guests. We integrate cutting-edge technology to create a seamless, comfortable, and secure environment. From smart locks and automated lighting to energy-efficient climate control, our solutions enhance convenience and safety while maximizing the appeal of your property."
           />
         </div>
