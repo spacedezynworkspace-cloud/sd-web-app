@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const HeroSection = () => {
   return (
@@ -65,7 +66,7 @@ const HeroSection = () => {
               </Link>
             </div>
           </div>
-          <div className="relative flex items-center justify-center sm:w-[40%] ">
+          <div className="relative sm:flex hidden items-center justify-center sm:w-[40%] ">
             {/* <div className="relative w-full">
               <div className="h-14 w-14 flex items-center justify-center rounded-full bg-white p-2">
                 <FaSpotify color="#1DB954" className="size-10 " />
@@ -80,13 +81,13 @@ const HeroSection = () => {
                 Experience your Space Different
               </p>
             </div> */}
-            {/* <Image
-            src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1772907473/ChatGPT_Image_Mar_7_2026_07_14_39_PM_yzwlbl.png"
-            alt="Smart Home Panel"
-            width={1000}
-            height={500}
-            priority
-          /> */}
+            <Image
+              src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1773004918/ChatGPT_Image_Mar_8_2026_10_14_35_PM_mu9sch.png"
+              alt="Smart Home Panel"
+              width={1000}
+              height={500}
+              priority
+            />
             <p className="absolute bottom-0 w-full">
               Experience your Space Different
             </p>
