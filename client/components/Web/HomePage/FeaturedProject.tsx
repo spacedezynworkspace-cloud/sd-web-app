@@ -87,18 +87,16 @@ const FEATURED_PROJECT: FeaturedProjectProps[] = [
 ];
 
 const FeaturedProject = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [Autoplay()]);
+  const autoplay = Autoplay();
 
   const emblaOptions: EmblaOptionsType = {
     align: 'start',
     containScroll: 'trimSnaps',
   };
 
-  useEffect(() => {
-    if (!emblaApi) return;
+  const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions, [autoplay]);
+  console.log(emblaApi);
 
-    emblaApi.plugins().autoplay?.play();
-  }, [emblaApi]);
   return (
     <section className="bg-black py-40 ">
       <div className="max-w-7xl px-4 sm:px-6 items-center flex justify-center sm:flex-row flex-col gap-10 lg:px-8 mx-auto">
@@ -140,7 +138,7 @@ const FeaturedProject = () => {
               FEATURED_PROJECT.map((project, index) => (
                 <div key={index} className="min-w-[80%] sm:min-w-[45%]">
                   <button
-                    className={`group relative h-[380px] w-full overflow-hidden rounded-lg transition`}
+                    className={`group relative sm:h-[350px] h-[280px] w-full overflow-hidden rounded-lg transition`}
                   >
                     {/* Background Image */}
                     <div className="absolute inset-0 bg-cover bg-center " />
@@ -154,9 +152,9 @@ const FeaturedProject = () => {
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/80 transition-opacity duration-500 ease-in-out group-hover:from-black/60 group-hover:via-black/70 group-hover:to-black/90" />
 
                     {/* Content */}
-                    <div className="relative z-10 flex h-full flex-col items-start justify-between p-6 text-white transition-all duration-500 ease-in-out ">
+                    <div className="relative z-10 flex h-full flex-col items-start justify-between sm:p-6 pb-6 p-4 text-white transition-all duration-500 ease-in-out ">
                       {/* Title */}
-                      <h3 className="text-2xl leading-tight font-bold capitalize transition-transform duration-500 ease-in-out group-hover:translate-y-2">
+                      <h3 className="text-xl text-left leading-tight font-bold capitalize transition-transform duration-500 ease-in-out group-hover:translate-y-2">
                         {project.header}
                       </h3>
 

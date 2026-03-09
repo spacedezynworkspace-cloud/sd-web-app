@@ -146,7 +146,7 @@ const ContactForm = () => {
           </div>
           <div>
             <Form
-              className="w-full space-y-6 bg-white dark:bg-black p-4 rounded-lg shadow-lg"
+              className="w-full space-y-6 bg-white  p-4 rounded-lg shadow-lg"
               validationErrors={errors}
               onSubmit={onSubmit}
             >
