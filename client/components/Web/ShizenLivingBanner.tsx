@@ -33,7 +33,7 @@ const ShizenLivingBanner = () => {
             Visit our store
           </Link>
         </div>
-        <div>hhhh</div>
+      
       </div>
     </section>
   );
