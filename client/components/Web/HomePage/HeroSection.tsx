@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import TypewriterComponent from '@/components/Web'
+import TypewriterComponent from '@/components/Web/TypewriterComponent'
 const HeroSection = () => {
   return (
     <section className="relative w-full sm:min-h-screen overflow-hidden text-white">
