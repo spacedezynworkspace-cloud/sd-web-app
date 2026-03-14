@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 export const connectDB = async (): Promise<void> => {
   try {
-    const mongoURI = process.env['MONGODB_URI'];
+    const mongoURI = process.env['MONGODB_URI']!;
     if (!mongoURI)
-      throw new Error('MONGO_URL is not defined in the environment');
+      throw new Error('MONGODB_URI is not defined in the environment');
 
     await mongoose.connect(mongoURI);
     process.on('SIGINT', async () => {
