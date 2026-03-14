@@ -78,5 +78,3 @@ console.log('port: ', PORT);
     process.exit(1); // Exit if DB connection fails
   }
 })();
-
-export default app;
