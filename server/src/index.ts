@@ -13,6 +13,7 @@ import authRoutes from './routes/auth.routes';
 // User API routes
 
 // Supervisor API routes
+
 import supervisorRoutes from './routes/supervisor/supervisor.routes';
 
 // Admin API routes
@@ -28,10 +29,16 @@ const app = express();
 
 app.use(
   cors({
-    origin: [process.env['FRONTEND_URL']!],
+    // origin: [process.env['FRONTEND_URL']!],
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   })
 );
+
+console.log(process.env['MONGODB_URI']);
+
 app.use(express.json());
 app.use(morgan('dev'));
 
