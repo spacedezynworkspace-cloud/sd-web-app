@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "api",
+    "rootDir": "src",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "es2019",
@@ -22,8 +22,8 @@
     ]
   },
   "include": [
-    "api/**/*",
-    "api/types/**/*.d.ts"
+    "src/**/*",
+    "src/types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
