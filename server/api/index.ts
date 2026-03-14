@@ -13,6 +13,7 @@ import authRoutes from './routes/auth.routes';
 // User API routes
 
 // Supervisor API routes
+
 import supervisorRoutes from './routes/supervisor/supervisor.routes';
 
 // Admin API routes
@@ -32,6 +33,9 @@ app.use(
     credentials: true,
   })
 );
+
+console.log(process.env['MONGODB_URI']);
+
 app.use(express.json());
 app.use(morgan('dev'));
 

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon --watch api --ext ts,js --exec \"ts-node api/index.ts\"",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
