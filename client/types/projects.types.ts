@@ -27,7 +27,7 @@ export interface CreateProjectRequest {
   phoneNum: string;
   serviceType: string;
   assignedTo?: string; // will be set in backend for now
-  budget: number;
+  budget?: number;
   startDate: string; // comes as ISO string from backend
   endDate: string;
   // paymentStatus: 'pending' | 'paid' | 'refunded';
