@@ -9,7 +9,8 @@ import { User } from '../../models/user.model';
 
 export const createProject = async (req: Request, res: Response) => {
   try {
-    const { email, name, budget } = req.body;
+    const { email, name } = req.body;
+    const budget = 10000000;
 
     // 1️⃣ Check if user exists by email
     let user = await User.findOne({ email });

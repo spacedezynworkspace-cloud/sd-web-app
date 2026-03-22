@@ -48,7 +48,7 @@ const CreateProjectForm = () => {
       phoneNum: form.get('phoneNum') as string,
       serviceType: form.get('serviceType') as string,
       assignedTo: form.get('assignedTo') as string, // will be set in backend for now
-      budget: Number(form.get('budget')),
+      // budget: Number(form.get('budget')),
       location: {
         state: form.get('state') as string,
         address: 'Address not included',
@@ -175,13 +175,14 @@ const CreateProjectForm = () => {
                         name="serviceType"
                         placeholder="Select service type"
                       >
-                        <SelectItem key="architech">Architech</SelectItem>
-                        <SelectItem key="rennovation">Rennovation</SelectItem>
+                        <SelectItem key="smart_home_automation">
+                          Smart Home Automation
+                        </SelectItem>
                         <SelectItem key="3d_visualization">
                           3D Visualization
                         </SelectItem>
                         <SelectItem key="interior_design">
-                          Interior Dsign
+                          Interior Design
                         </SelectItem>
                       </Select>
                     </div>
@@ -227,7 +228,7 @@ const CreateProjectForm = () => {
                     />
 
                     {/* Budget */}
-                    <NumberInput
+                    {/* <NumberInput
                       hideStepper
                       isRequired
                       type="number"
@@ -244,7 +245,7 @@ const CreateProjectForm = () => {
                       errorMessage={({ validationDetails }) =>
                         validationDetails.valueMissing && 'Budget is required'
                       }
-                    />
+                    /> */}
 
                     {/* Assigned to  */}
                     <Select

@@ -9,7 +9,7 @@ export interface IProject extends Document {
   phoneNum: string;
   serviceType:
     | 'architech'
-    | 'rennovation'
+    | 'smart_home_automation'
     | '3d_visualization'
     | 'interior_design';
   budget: number;
