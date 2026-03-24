@@ -21,7 +21,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['https://sd-web-app-nine.vercel.app'],
+    origin: ['https://sd-web-app-nine.vercel.app', 'http://localhost:3000'],
     credentials: true,
   })
 );
@@ -45,15 +45,28 @@ app.use('/api/v1/admin/dashboard', adminDashboardRoutes);
 
 app.use('/api/v1/supervisors', supervisorRoutes);
 
-let isConnected = false;
+// let isConnected = false;
 
-async function connect() {
-  if (!isConnected) {
-    await connectDB();
-    isConnected = true;
+// async function connect() {
+//   if (!isConnected) {
+//     await connectDB();
+//     isConnected = true;
+//   }
+// }
+
+// connect();
+const PORT = 5000;
+// Start server ONLY after DB connects
+(async () => {
+  try {
+    await connectDB(); // 👈 wait for DB connection
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('❌ Failed to connect to DB', err);
+    process.exit(1); // Exit if DB connection fails
   }
-}
-
-connect();
+})();
 
 export default app;

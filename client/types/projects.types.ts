@@ -1,3 +1,7 @@
+export interface projectStages {
+  name: string;
+  completed: boolean;
+}
 export interface Project {
   _id: string;
   name: string;
@@ -16,6 +20,7 @@ export interface Project {
     state: string;
     address: string;
   };
+  stages: projectStages[];
   // createdAt: string;
   // updatedAt: string;
 }
@@ -35,6 +40,8 @@ export interface CreateProjectRequest {
     state: string;
     address: string;
   };
+  stages: projectStages[];
+  description: string;
   // createdAt: string;
   // updatedAt: string;
 }
@@ -44,6 +51,6 @@ export interface UpdateProjectRequest {
   data: {
     status?: number;
     phase?: string;
-    endDate?: string;
+    stages: projectStages[];
   };
 }

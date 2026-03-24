@@ -3,15 +3,9 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import {
   addToast,
-  Button,
-  DatePicker,
+  Checkbox,
+  CheckboxGroup,
   Form,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   NumberInput,
   Select,
   SelectItem,
@@ -19,7 +13,7 @@ import {
 } from '@heroui/react';
 import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import { useUpdateProjectMutation } from '@/lib/services/projects/projects.api';
-import { UpdateProjectRequest } from '@/types/projects.types';
+import { projectStages, UpdateProjectRequest } from '@/types/projects.types';
 
 const PHASES = [
   { key: 'planning', label: 'Planning' },
@@ -38,6 +32,7 @@ interface UpdateProjectFormProps {
     name: string;
     phase: string;
     endDate: string;
+    stages: projectStages[];
   };
 }
 
@@ -50,15 +45,14 @@ const UpdateProjectForm = ({
 
   const [phase, setPhase] = useState<string>(selectedProject.phase);
   const [status, setStatus] = useState<number>(selectedProject?.status);
-  // const [endDate, setEndDate] = useState<string>(
-  //   selectedProject?.endDate || ''
-  // );
+  const [stages, setStages] = useState<projectStages[]>(selectedProject.stages);
 
   console.log(selectedProject);
 
-  useEffect(() => {
-    setIsLoading(isLoading);
-  }, [isLoading]);
+  const selectedStageNames = stages
+    .filter((stage) => stage.completed)
+    .map((stage) => stage.name);
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
 
@@ -71,7 +65,7 @@ const UpdateProjectForm = ({
       data: {
         status: Number(form.get('status')),
         phase: form.get('phase') as string,
-        // endDate: form.get('endDate') as string,
+        stages: stages,
       },
     };
     console.log('payload: ', payload);
@@ -91,6 +85,11 @@ const UpdateProjectForm = ({
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading]);
+
   return (
     <Form
       className="w-full space-y-6"
@@ -98,17 +97,26 @@ const UpdateProjectForm = ({
       onSubmit={onSubmit}
       id="update-project-form"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-        <NumberInput
-          hideStepper
-          name="status"
-          type="number"
-          label="Status"
-          labelPlacement="outside"
-          value={status}
-          onValueChange={setStatus}
-          // description="100 represents the project is completed."
-        />
+      <div className="grid grid-cols-1  gap-6 w-full">
+        <CheckboxGroup
+          label="Stages"
+          color="warning"
+          value={selectedStageNames}
+          onValueChange={(selectedKeys) => {
+            const updatedStages = stages.map((stage) => ({
+              ...stage,
+              completed: selectedKeys.includes(stage.name),
+            }));
+
+            setStages(updatedStages);
+          }}
+        >
+          {stages.map((stage, i) => (
+            <Checkbox key={i} value={stage.name}>
+              {stage.name}
+            </Checkbox>
+          ))}
+        </CheckboxGroup>
         <Select
           className="sm:max-w-xs w-full"
           label="Phase"
@@ -122,19 +130,6 @@ const UpdateProjectForm = ({
             <SelectItem key={phase.key}>{phase.label}</SelectItem>
           ))}
         </Select>
-
-        {/* Date end */}
-        {/* <DatePicker
-                      color="warning"
-                      errorMessage="Please enter a valid date."
-                      className=""
-                      label="End date"
-                      labelPlacement="outside"
-                      defaultValue={endDate ? parseDate(endDate) : undefined}
-                      minValue={today(getLocalTimeZone())}
-                      name="endDate"
-                      onChange={handleEndDateChange}
-                    /> */}
       </div>
     </Form>
   );
