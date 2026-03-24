@@ -6,7 +6,7 @@ const calculateProgress = (stages: projectStages[]) => {
 
   if (total === 0) return 0;
 
-  return (completed / total) * 100;
+   return Math.round((completed / total) * 100);
 };
 export function updateProjectTemplate({
   project,
