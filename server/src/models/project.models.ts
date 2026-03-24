@@ -7,6 +7,7 @@ export interface IProject extends Document {
   client: string;
   email: string;
   phoneNum: string;
+  description: string;
   serviceType:
     | 'architech'
     | 'smart_home_automation'
@@ -26,6 +27,12 @@ export interface IProject extends Document {
     state: string;
     address: string;
   };
+  stages: [
+    {
+      name: String;
+      completed: { type: Boolean; default: false };
+    },
+  ];
 
   createdAt: Date;
   updatedAt: Date;
@@ -38,6 +45,7 @@ const projectSchema = new Schema<IProject>(
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true },
     client: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
     serviceType: { type: String, required: true, trim: true },
     phoneNum: { type: String, required: true, trim: true },
     startDate: { type: Date },
@@ -58,6 +66,12 @@ const projectSchema = new Schema<IProject>(
       enum: ['pending', 'partial', 'paid'],
       default: 'pending',
     },
+    stages: [
+      {
+        name: { type: String, required: true, trim: true },
+        completed: { type: Boolean, required: true },
+      },
+    ],
     // paymentReference: { type: String, trim: true },
     // cancelReason: { type: String, trim: true },
     // rescheduledFrom: { type: Schema.Types.ObjectId, ref: 'Project' },
