@@ -22,6 +22,11 @@ const Hospitality = () => {
       img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469189/IMG_5165_getmbt.heic',
     },
     {
+      title: 'A series',
+      price: '₦120,000/day',
+      img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469189/IMG_5165_getmbt.heic',
+    },
+    {
       title: 'Rage 4',
       price: '₦95,000/day',
       img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469187/IMG_5126_rtursl.heic',
@@ -45,7 +50,7 @@ const Hospitality = () => {
           />
         </div>
 
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 w-full">
+        <div className="gap-2 grid grid-cols-2 sm:grid-cols-5 w-full">
           {APARTMENTS.map((item, index) => (
             /* eslint-disable no-console */
             <Card
