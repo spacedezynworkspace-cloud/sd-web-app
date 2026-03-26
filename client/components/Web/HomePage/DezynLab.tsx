@@ -78,8 +78,8 @@ const DezynLab = () => {
             className="w-full h-[300px] col-span-12 sm:col-span-5"
           >
             <CardHeader className="absolute z-10 top-1 flex-col items-start">
-              <p className="text-tiny text-white/60 uppercase font-bold">New</p>
-              <h4 className="text-black font-medium text-2xl">Acme camera</h4>
+              <p className="text-tiny text-white/60 uppercase font-bold">New course</p>
+              <h4 className="text-black font-medium text-2xl">Principles of interior design</h4>
             </CardHeader>
             <Image
               removeWrapper
@@ -89,11 +89,11 @@ const DezynLab = () => {
             />
             <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
               <div>
-                <p className="text-black text-tiny">Available soon.</p>
-                <p className="text-black text-tiny">Get notified.</p>
+                <p className="text-black text-tiny">Available now.</p>
+                <p className="text-black text-tiny">Register online.</p>
               </div>
               <Button className="text-tiny bg-[#F19645]" radius="sm" size="sm">
-                Notify Me
+                Visit DezynLab
               </Button>
             </CardFooter>
           </Card>
@@ -103,7 +103,7 @@ const DezynLab = () => {
           >
             <CardHeader className="absolute z-10 top-1 flex-col items-start">
               <p className="text-tiny text-white/60 uppercase font-bold">
-                Your plan your way
+                Your plan, your way
               </p>
               <h4 className="text-white/90 font-medium text-xl">
                 Your checklist for better designs

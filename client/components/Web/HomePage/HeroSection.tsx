@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
+import TypewriterComponent from '@/components/Web/TypewriterComponent'
 const HeroSection = () => {
   return (
     <section className="relative w-full sm:min-h-screen overflow-hidden text-white">
@@ -46,7 +46,7 @@ const HeroSection = () => {
 
             <div className="mt-6 sm:mb-10 flex flex-col sm:flex-row items-center font-semibold  mx-auto">
               <div className="sm:w-[39rem] sm:h-auto h-[10rem] flex flex-col sm:flex-row sm:items-center   font-semibold">
-                {/* <TypewriterComponent /> */}
+                <TypewriterComponent />
               </div>
             </div>
 

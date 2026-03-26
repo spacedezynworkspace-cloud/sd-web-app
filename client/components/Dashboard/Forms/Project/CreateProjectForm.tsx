@@ -17,15 +17,19 @@ import {
   Select,
   SelectItem,
   Spinner,
+  Textarea,
   useDisclosure,
 } from '@heroui/react';
 import { getLocalTimeZone, today } from '@internationalized/date';
 import { useCreateProjectMutation } from '@/lib/services/projects/projects.api';
-import { CreateProjectRequest } from '@/types/projects.types';
+import { CreateProjectRequest, projectStages } from '@/types/projects.types';
 import { useGetAllSupervisorsQuery } from '@/lib/services/supervisor/supervisors.api';
+import { IoClose } from 'react-icons/io5';
+
 const CreateProjectForm = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [errors, setErrors] = React.useState({});
+
   const [searchSupervisor, setSearchSupervisor] = React.useState('');
 
   const [createProject, { isLoading }] = useCreateProjectMutation();
@@ -33,6 +37,21 @@ const CreateProjectForm = () => {
   const { data: supervisors } = useGetAllSupervisorsQuery({
     search: searchSupervisor,
   });
+
+  const [stageInput, setStageInput] = React.useState('');
+  const [stages, setStages] = React.useState<projectStages[]>([]);
+
+  const addStage = () => {
+    console.log('clicked');
+
+    if (!stageInput.trim()) return;
+    setStages([...stages, { name: stageInput, completed: false }]);
+    setStageInput('');
+  };
+
+  const removeStage = (index: number) => {
+    setStages(stages.filter((_, i) => i !== index));
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
@@ -48,13 +67,15 @@ const CreateProjectForm = () => {
       phoneNum: form.get('phoneNum') as string,
       serviceType: form.get('serviceType') as string,
       assignedTo: form.get('assignedTo') as string, // will be set in backend for now
-      budget: Number(form.get('budget')),
+      // budget: Number(form.get('budget')),
       location: {
         state: form.get('state') as string,
         address: 'Address not included',
       },
       startDate: form.get('startDate') as string,
       endDate: form.get('endDate') as string,
+      stages: stages,
+      description: form.get('description') as string,
     };
     console.log('payload: ', payload);
 
@@ -68,6 +89,7 @@ const CreateProjectForm = () => {
         color: 'success',
       });
 
+      setStages([]);
       setErrors({});
       onOpenChange();
     } catch (error) {
@@ -89,6 +111,7 @@ const CreateProjectForm = () => {
         onOpenChange={onOpenChange}
         placement="center"
         scrollBehavior="inside"
+        isDismissable={false}
       >
         <ModalContent>
           {(onClose) => (
@@ -175,13 +198,14 @@ const CreateProjectForm = () => {
                         name="serviceType"
                         placeholder="Select service type"
                       >
-                        <SelectItem key="architech">Architech</SelectItem>
-                        <SelectItem key="rennovation">Rennovation</SelectItem>
+                        <SelectItem key="smart_home_automation">
+                          Smart Home Automation
+                        </SelectItem>
                         <SelectItem key="3d_visualization">
                           3D Visualization
                         </SelectItem>
                         <SelectItem key="interior_design">
-                          Interior Dsign
+                          Interior Design
                         </SelectItem>
                       </Select>
                     </div>
@@ -227,7 +251,7 @@ const CreateProjectForm = () => {
                     />
 
                     {/* Budget */}
-                    <NumberInput
+                    {/* <NumberInput
                       hideStepper
                       isRequired
                       type="number"
@@ -244,10 +268,60 @@ const CreateProjectForm = () => {
                       errorMessage={({ validationDetails }) =>
                         validationDetails.valueMissing && 'Budget is required'
                       }
-                    />
+                    /> */}
+
+                    <div className="sm:col-span-2">
+                      <Input
+                        aria-label="Project stages"
+                        type="text"
+                        label="Project stages"
+                        labelPlacement="outside"
+                        name="stages"
+                        value={stageInput}
+                        placeholder="Enter projects stages"
+                        errorMessage="Please provide project stages"
+                        endContent={
+                          <button
+                            className="bg-[#F19645] px-2 py-1 text-white font-semibold text-sm rounded-md"
+                            type="button"
+                            onClick={addStage}
+                          >
+                            Add
+                          </button>
+                        }
+                        onValueChange={setStageInput}
+                      />
+                      <ul className="flex flex-wrap items-center gap-2 mt-3">
+                        {stages.map((stage, i) => (
+                          <li
+                            key={i}
+                            className="text-xs flex items-center gap-2 border-1 border-gray-500 rounded-md  justify-center p-1"
+                          >
+                            <span>{stage.name}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeStage(i)}
+                              className="bg-gray-400 rounded-full"
+                            >
+                              <IoClose className="size-3" />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="w-full sm:col-span-2">
+                      <Textarea
+                        isRequired
+                        name="description"
+                        labelPlacement="outside"
+                        label="Description"
+                        errorMessage="Please enter project description"
+                        className="w-full"
+                      />
+                    </div>
 
                     {/* Assigned to  */}
-                    <Select
+                    {/* <Select
                       isRequired
                       classNames={{
                         base: 'max-w-xs',
@@ -272,7 +346,7 @@ const CreateProjectForm = () => {
                           </div>
                         </SelectItem>
                       )}
-                    </Select>
+                    </Select> */}
                   </div>
                 </Form>
               </ModalBody>

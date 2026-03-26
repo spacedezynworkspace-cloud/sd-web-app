@@ -10,6 +10,7 @@ import {
 } from '@heroui/react';
 import CreateExpenseForm from './Expense/CreateExpenseForm';
 import UpdateProjectForm from './Project/UpdateProjectForm';
+import { projectStages } from '@/types/projects.types';
 
 interface ProjectFormModalProps {
   formSelected: 'update' | 'expense';
@@ -22,6 +23,7 @@ interface ProjectFormModalProps {
     phase: string;
     endDate: string;
     assignedTo: string;
+    stages: projectStages[];
   };
 }
 const ProjectFormModal = ({
@@ -37,6 +39,7 @@ const ProjectFormModal = ({
       onOpenChange={onOpenChange}
       placement="center"
       scrollBehavior="inside"
+      isDismissable={false}
     >
       <ModalContent>
         {(onClose) => (

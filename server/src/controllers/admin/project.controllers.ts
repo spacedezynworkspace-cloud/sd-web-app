@@ -9,7 +9,9 @@ import { User } from '../../models/user.model';
 
 export const createProject = async (req: Request, res: Response) => {
   try {
-    const { email, name, budget } = req.body;
+    const { email, name } = req.body;
+    const budget = 10000000;
+    const userId = req.userId;
 
     // 1️⃣ Check if user exists by email
     let user = await User.findOne({ email });
@@ -27,7 +29,8 @@ export const createProject = async (req: Request, res: Response) => {
     // 3️⃣ Create project linked to user
     const project = await Project.create({
       ...req.body,
-      user: user._id, // 🔥 link project to user
+      user: user._id,
+      assignedTo: [userId], // 🔥 link project to user
     });
 
     console.log('Created project: ', project);
@@ -152,8 +155,6 @@ export const updateProject = async (req: Request, res: Response) => {
     const { id } = req.params;
     const updates = req.body;
 
-    console.log(updates);
-
     // 1️⃣ Update project
     const updatedProject = await Project.findByIdAndUpdate(id, updates, {
       new: true,
@@ -176,14 +177,15 @@ export const updateProject = async (req: Request, res: Response) => {
       });
     }
 
-    const { status, phase } = req.body;
+    const { phase, stages } = req.body;
 
     // 3️⃣ Send progress email
     sendProjectProgressEmail(
       user.email,
       updatedProject.name,
       user?.name || '',
-      status,
+
+      stages,
       phase
     )
       .then(() => {

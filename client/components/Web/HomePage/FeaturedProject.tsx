@@ -105,7 +105,7 @@ const FeaturedProject = () => {
             introText="Projects gallery"
             headerText="Featured Projects"
           />
-          <h2 className=" text-white dark:text-gray-200 sm:block">
+          <h2 className=" text-white text-sm dark:text-gray-200 sm:block">
             Transforming Spaces, Elevating Experiences. At Space Deszyn, we
             believe in transforming spaces into reflections of our clients'
             personalities and lifestyles.

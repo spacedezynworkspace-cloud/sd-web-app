@@ -23,7 +23,7 @@ const YoutubeCTA = () => {
               <FaYoutube color="#FF0033" className="size-20" />
             </Link>
           </div>
-          <div>
+          <div className="w-full sm:justify-start justify-center">
             <Link
               href="/"
               className=" bg-[#F19645]  w-[14rem] text-black rounded-md px-2 py-3 text-sm flex gap-2 justify-center font-semibold items-center"

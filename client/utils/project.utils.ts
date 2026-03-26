@@ -1,3 +1,5 @@
+import { projectStages } from '@/types/projects.types';
+
 export const PHASE_LABELS: Record<0 | 1 | 2 | 3, string> = {
   0: 'Planning',
   1: 'Design',
@@ -17,3 +19,12 @@ export const STATUS_LABELS: Record<1 | 2 | 3 | 4 | 5, string> = {
 
 export const getStatusLabel = (status: 1 | 2 | 3 | 4 | 5) =>
   STATUS_LABELS[status];
+
+export const calculateProgress = (stages: projectStages[]) => {
+  const total = stages.length;
+  const completed = stages.filter((s) => s.completed).length;
+
+  if (total === 0) return 0;
+
+  return (completed / total) * 100;
+};

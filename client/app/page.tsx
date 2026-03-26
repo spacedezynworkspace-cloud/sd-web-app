@@ -9,6 +9,7 @@ import SectionHeader from '@/components/Web/SectionHeader';
 import Hospitality from '@/components/Web/Services/Hospitality';
 import ShizenLivingBanner from '@/components/Web/ShizenLivingBanner';
 import Statistics from '@/components/Web/Statistics';
+import BeforeAndAfter from '../components/Web/BeforeAndAfter';
 
 export default function Home() {
   return (
@@ -21,6 +22,9 @@ export default function Home() {
 
       {/* Hospitality  */}
       <Hospitality />
+
+      {/* Before and after  */}
+      <BeforeAndAfter />
 
       {/* VR Banner  */}
       <VRBanner />

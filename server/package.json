@@ -3,17 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "type": "commonjs",
+  "main": "index.ts",
   "scripts": {
     "dev": "nodemon --watch src --ext ts,js --exec \"ts-node src/index.ts\"",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "pre-commit": "npm run type-check && npm run lint && npm run format:check",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "seed:users": "ts-node src/scripts/seedUsers.ts"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",

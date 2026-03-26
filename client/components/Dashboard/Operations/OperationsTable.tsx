@@ -17,7 +17,7 @@ import {
   useDisclosure,
 } from '@heroui/react';
 import { Project } from '@/types/projects.types';
-import { getPhaseLabel } from '@/utils/project.utils';
+import { calculateProgress, getPhaseLabel } from '@/utils/project.utils';
 import { formatDate } from '@/utils/dateFormat.utils';
 import {
   BanknotesIcon,
@@ -95,7 +95,7 @@ const OperationsTable = ({
           </div>
         );
 
-      case 'status':
+      case 'progress':
         return (
           <Progress
             aria-label="Project progress"
@@ -107,7 +107,7 @@ const OperationsTable = ({
             }}
             showValueLabel={true}
             size="md"
-            value={project.status}
+            value={calculateProgress(project.stages)}
           />
         );
 
@@ -205,7 +205,7 @@ const OperationsTable = ({
           </TableColumn>
           <TableColumn key="endDate">End Date</TableColumn>
 
-          <TableColumn key="status">Status</TableColumn>
+          <TableColumn key="progress">Progress</TableColumn>
 
           <TableColumn key="phase">Phase</TableColumn>
           {operationsTab !== 'owner' ? (
@@ -260,6 +260,7 @@ const OperationsTable = ({
             name: selectedProject?.name,
             endDate: selectedProject?.endDate,
             assignedTo: selectedProject?.assignedTo[0].email,
+            stages: selectedProject?.stages,
           }}
         />
       )}
