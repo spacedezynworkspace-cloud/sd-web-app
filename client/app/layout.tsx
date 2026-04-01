@@ -38,12 +38,10 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning lang="en">
-      {/* <head />  */}
       <body
         className={clsx(
           'min-h-screen text-foreground bg-background antialiased',
           montserrat.className
-          // raleWay.className
         )}
       >
         <ReduxProvider session={session}>

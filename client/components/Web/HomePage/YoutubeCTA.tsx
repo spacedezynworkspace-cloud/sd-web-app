@@ -7,14 +7,14 @@ const YoutubeCTA = () => {
   return (
     <section className="bg-white dark:bg-black sm:py-20 py-10">
       <div className="max-w-7xl px-4 sm:px-6 items-center flex justify-center flex-col lg:px-8 mx-auto">
-        <div className="text-black mb-10">
+        <div className="text-black text-center mb-10">
           <SectionHeader
             introText="We Bring You to The Future"
             headerText="smart is the future"
             paragraphText="Our smart home design service focuses on blending sophisticated technology with elegant design. From automated lighting and climate control to advanced security systems, we ensure that your home is equipped with the latest innovations, enhancing both convenience and luxury."
           />
         </div>
-        <div className="flex items-start flex-col gap-10 w-full">
+        <div className="flex items-center flex-col gap-10 w-full">
           <div className="bg-white rounded-3xl w-full sm:h-[500px] h-[250px] shadow-2xl">
             <Link
               href={'https://www.youtube.com/@SpaceDezyn/shorts'}
@@ -23,7 +23,7 @@ const YoutubeCTA = () => {
               <FaYoutube color="#FF0033" className="size-20" />
             </Link>
           </div>
-          <div className="w-full sm:justify-start justify-center">
+          <div className="w-full flex justify-center">
             <Link
               href="/"
               className=" bg-[#F19645]  w-[14rem] text-black rounded-md px-2 py-3 text-sm flex gap-2 justify-center font-semibold items-center"

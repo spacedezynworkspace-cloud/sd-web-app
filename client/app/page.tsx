@@ -23,6 +23,9 @@ export default function Home() {
       {/* Hospitality  */}
       <Hospitality />
 
+      {/* Youtube CTA */}
+      <YoutubeCTA />
+
       {/* Before and after  */}
       <BeforeAndAfter />
 
@@ -38,13 +41,13 @@ export default function Home() {
       {/* Featured projects  */}
       <FeaturedProject />
 
-      {/* Youtube CTA */}
-      <YoutubeCTA />
+      {/* Contact Form  */}
+      <ContactForm />
 
       {/* Shizen Living Banner  */}
       <ShizenLivingBanner />
 
-      <div className="lg:h-[500px] bg-white dark:bg-black h-[650px] px-4 flex mb-20 sm:flex-row flex-col justify-center w-full lg:px-44 ">
+      <div className="lg:h-[500px] bg-white dark:bg-black h-[650px] px-4 flex sm:flex-row flex-col justify-center w-full lg:px-44 ">
         <div className="text-black mb-10 sm:mb-0 py-10">
           <SectionHeader
             introText="How to find us"
@@ -63,9 +66,6 @@ export default function Home() {
           ></iframe>
         </div>
       </div>
-
-      {/* Contact Form  */}
-      <ContactForm />
     </section>
   );
 }
