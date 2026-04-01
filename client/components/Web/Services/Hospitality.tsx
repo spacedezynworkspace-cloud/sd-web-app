@@ -37,15 +37,15 @@ const Hospitality = () => {
       <div className="max-w-7xl px-4 sm:px-6 items-center flex justify-start flex-col lg:px-8 mx-auto">
         <div className="text-black mb-10 sm:block hidden">
           <SectionHeader
-            introText="Quick Services"
-            headerText="Airbnb & Service apartments"
+            introText="Other services"
+            headerText="Smart Airbnb & Service apartments"
             paragraphText="Our Smart Airbnb and Apartment services are designed to elevate the living experience for both hosts and guests. We integrate cutting-edge technology to create a seamless, comfortable, and secure environment. From smart locks and automated lighting to energy-efficient climate control, our solutions enhance convenience and safety while maximizing the appeal of your property."
           />
         </div>
         <div className="text-black mb-10 sm:hidden block">
           <SectionHeader
-            introText=""
-            headerText="Airbnb & Apartment services"
+            introText="Other services"
+            headerText="Smart Airbnb & Apartment services"
             paragraphText="We integrate cutting-edge technology to create a seamless, comfortable, and secure environment."
           />
         </div>
