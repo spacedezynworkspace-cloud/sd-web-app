@@ -23,7 +23,7 @@ app.use(
   cors({
     origin: [
       'https://sd-web-app-nine.vercel.app',
-      'app.spacedezyn.com',
+      'https://app.spacedezyn.com',
       'http://localhost:3000',
     ],
     credentials: true,
