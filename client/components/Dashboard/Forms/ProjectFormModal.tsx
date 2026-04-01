@@ -39,6 +39,7 @@ const ProjectFormModal = ({
       onOpenChange={onOpenChange}
       placement="center"
       scrollBehavior="inside"
+      isDismissable={false}
     >
       <ModalContent>
         {(onClose) => (
