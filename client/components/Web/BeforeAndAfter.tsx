@@ -10,7 +10,7 @@ const BeforeAndAfter = () => {
     <section className="bg-white w-full dark:bg-black sm:py-20 py-10 sm:mb-0 mb-10">
       <div className="sm:max-w-7xl w-full px-4 items-center flex justify-center flex-col sm:px-0 mx-auto">
         <div className="flex sm:flex-row flex-col sm:gap-32 gap-10 w-full">
-          <div className="flex-col w-full flex items-start">
+          <div className="flex-col text-black w-full flex items-start">
             <SectionHeader
               introText="Before & After Interior Design"
               headerText="transform your space in just a swipe"
