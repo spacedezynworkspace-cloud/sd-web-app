@@ -21,7 +21,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['https://sd-web-app-nine.vercel.app', 'http://localhost:3000'],
+    origin: [
+      'https://sd-web-app-nine.vercel.app',
+      'app.spacedezyn.com',
+      'http://localhost:3000',
+    ],
     credentials: true,
   })
 );
