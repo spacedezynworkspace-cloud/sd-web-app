@@ -61,12 +61,14 @@ const BeforeAndAfter = () => {
                 borderRadius: '10px',
               }}
             />
-            <Link
-              href="#"
-              className="sm:w-auto sm:hidden  mt-8 px-4 py-3 sm:px-8 rounded-lg  bg-[#F19645]   text-white font-semibold text-center text-xs sm:text-sm flex justify-center"
-            >
-              Explore transformation
-            </Link>
+            <div className="sm:hidden  mt-8 flex justify-center">
+              <Link
+                href="#"
+                className="sm:w-auto px-4 py-3 rounded-lg  bg-[#F19645]   text-white font-semibold text-center text-xs sm:text-sm "
+              >
+                Explore transformation
+              </Link>
+            </div>
           </div>
         </div>
       </div>

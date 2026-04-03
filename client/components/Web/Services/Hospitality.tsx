@@ -34,8 +34,8 @@ const Hospitality = () => {
   ];
   return (
     <section className="w-full bg-white dark:bg-black sm:py-20 py-10">
-      <div className="max-w-7xl px-4 sm:px-6 items-center flex justify-start flex-col lg:px-8 mx-auto">
-        <div className="text-black mb-10 sm:block hidden">
+      <div className="sm:max-w-7xl w-full px-4 sm:px-6 sm:gap-20 items-center flex sm:flex-row flex-col justify-start lg:px-8 mx-auto">
+        <div className="text-black mb-10 sm:block hidden w-1/2">
           <SectionHeader
             introText="Other services"
             headerText="Smart Airbnb & Service apartments"
@@ -50,7 +50,7 @@ const Hospitality = () => {
           />
         </div>
 
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-5 w-full">
+        <div className="gap-2 grid grid-cols-2 sm:grid-cols-3 sm:w-1/2 w-full">
           {APARTMENTS.map((item, index) => (
             /* eslint-disable no-console */
             <Card
@@ -68,7 +68,7 @@ const Hospitality = () => {
                   height={300}
                 />
               </CardBody>
-              <CardFooter className="text-small sm:gap-10 flex sm:flex-row flex-col justify-between">
+              <CardFooter className="text-small flex flex-col justify-between">
                 <b>{item.title}</b>
                 <p className="text-default-500">{item.price}</p>
               </CardFooter>

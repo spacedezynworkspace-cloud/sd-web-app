@@ -13,7 +13,7 @@ const SectionHeader = ({
   return (
     <div className="flex flex-col gap-4 w-full">
       {' '}
-      <p className="text-[#F19645] font-semibold">{introText}</p>
+      <p className="text-[#F19645] font-semibold uppercase">{introText}</p>
       <h1 className="text-4xl w-full text-wrap dark:text-white md:text-6xl font-montserrat uppercase font-extrabold tracking-wide">
         {headerText}.
       </h1>

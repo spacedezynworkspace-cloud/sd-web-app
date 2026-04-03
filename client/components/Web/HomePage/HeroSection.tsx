@@ -2,7 +2,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import TypewriterComponent from '@/components/Web/TypewriterComponent'
+import TypewriterComponent from '@/components/Web/TypewriterComponent';
+import StartProjectCTAForm from '@/components/StartProjectCTAForm';
+import { Button } from '@heroui/react';
 const HeroSection = () => {
   return (
     <section className="relative w-full sm:min-h-screen overflow-hidden text-white">
@@ -31,8 +33,8 @@ const HeroSection = () => {
         <div className="max-w-7xl px-2 sm:px-6 lg:px-8 mx-auto flex sm:flex-row flex-col justify-between">
           {' '}
           <div className="sm:w-[55%] w-full">
-            <p className="text-[#F19645] font-semibold mb-4">
-              Welcome to Space Dezyn
+            <p className="text-[#F19645] uppercase font-semibold mb-4">
+              <span className="text-white">Welcome to</span> Space Dezyn
             </p>
             <h1 className="text-4xl md:text-6xl font-montserrat uppercase font-extrabold tracking-wide">
               The Future of Smart Interior Design in Nigeria
@@ -45,25 +47,20 @@ const HeroSection = () => {
             </h2>
 
             <div className="mt-6 sm:mb-10 flex flex-col sm:flex-row items-center font-semibold  mx-auto">
-              <div className="sm:w-[39rem] sm:h-auto h-[10rem] flex flex-col sm:flex-row sm:items-center   font-semibold">
+              <div className="sm:w-[39rem] sm:h-auto h-[7rem] flex flex-col sm:flex-row sm:items-center   font-semibold  w-full">
                 <TypewriterComponent />
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <Link
-                href="#"
-                className="w-1/2 sm:w-auto px-2 py-3 sm:px-8 rounded-lg bg-[#F19645] border border-[#F19645] text-black font-semibold text-center text-xs sm:text-sm justify-center"
-              >
-                Start project
-              </Link>
+            <div className="flex sm:items-center gap-6">
+              <StartProjectCTAForm bgBtn={true} />
 
-              <Link
-                href="#"
-                className="w-1/2 sm:w-auto px-4 py-3 sm:px-8 rounded-lg border border-white bg-transparent text-white font-semibold text-center text-xs sm:text-sm flex justify-center"
+              <Button
+                as={'a'}
+                className="w-1/2 sm:w-auto px-4 py-2 sm:px-8 rounded-xl border border-white bg-transparent text-white font-semibold text-center text-xs sm:text-sm flex justify-center"
               >
                 Visit Store
-              </Link>
+              </Button>
             </div>
           </div>
           <div className="relative sm:flex hidden items-center justify-center sm:w-[40%] ">
