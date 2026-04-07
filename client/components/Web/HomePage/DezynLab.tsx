@@ -10,7 +10,7 @@ const DezynLab = () => {
   return (
     <section className="w-full bg-white dark:bg-black flex items-center sm:pt-20 sm:pb-40 h-auto py-10 justify-center">
       {' '}
-      <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto flex sm:flex-row flex-col-reverse items-center gap-10">
+      <div className="sm:max-w-7xl w-full px-4 sm:px-6 lg:px-8 mx-auto flex sm:flex-row flex-col-reverse items-center gap-10">
         {/* <div>
           <div className="relative w-full">
             <div className="h-14 w-14 flex items-center justify-center rounded-lg bg-white p-2">
@@ -50,7 +50,7 @@ const DezynLab = () => {
           </Link>
         </div>
 
-        <div className="sm:w-1/2 gap-2 grid grid-cols-12 grid-rows-2">
+        <div className="sm:w-1/2 w-full gap-2 grid grid-cols-12 grid-rows-2">
           <Card className="col-span-12 h-[300px]">
             <CardHeader className="absolute z-10 top-1 flex-col items-start!">
               <p className="text-tiny text-black uppercase font-bold">
@@ -78,8 +78,12 @@ const DezynLab = () => {
             className="w-full h-[300px] col-span-12 sm:col-span-5"
           >
             <CardHeader className="absolute z-10 top-1 flex-col items-start">
-              <p className="text-tiny text-white/60 uppercase font-bold">New course</p>
-              <h4 className="text-black font-medium text-2xl">Principles of interior design</h4>
+              <p className="text-tiny text-white/60 uppercase font-bold">
+                New course
+              </p>
+              <h4 className="text-black font-medium text-2xl">
+                Principles of interior design
+              </h4>
             </CardHeader>
             <Image
               removeWrapper
