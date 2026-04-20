@@ -1,12 +1,13 @@
 import { sendEmail } from '../config/sendGrid.config';
-import { paymentSuccessTemplate } from '../templates/project/paymentSuccessful';
 import { otpEmailTemplate } from '../templates/auth/otpEmail.template';
 import { otpForgotPasswordTemplate } from '../templates/auth/otpForgotPassword.template';
 import { newsLetterTemplate } from '../templates/user/newsLetter.template';
 import { staffInivitationEmailTemplate } from '../templates/staff/staffInivitationEmail';
-import { newProjectConfirmedTemplate } from '../templates/project/newProjectConfirmed';
-import { updateProjectTemplate } from '../templates/project/updateProjectTemplate';
-import { projectStages } from '../types/project.types';
+import {
+  newProjectTemplate,
+  paymentProjectTemplate,
+  updateProjectTemplate,
+} from '../templates/projectEmailTemplates';
 export const sendOtpEmail = async (
   to: string,
   otp: string,
@@ -27,7 +28,7 @@ export const sendProjectPaymentEmail = async (
   await sendEmail({
     to,
     subject: `${project} Payment Confirmation`,
-    html: paymentSuccessTemplate({ amount, project }),
+    html: paymentProjectTemplate({ amount, project }),
   });
 };
 
@@ -63,29 +64,29 @@ export const sendStaffInivitationEmail = async (
   });
 };
 
-export const sendProjectConfirmationEmail = async (
+export const sendNewProjectEmail = async (
   to: string,
-  amount: number,
-  project: string,
-  clientName: string
+  clientName: string,
+  project: string
 ) => {
   await sendEmail({
     to,
     subject: `${project} Confirmation`,
-    html: newProjectConfirmedTemplate({ amount, project, clientName }),
+    html: newProjectTemplate({ project, clientName }),
   });
 };
 
-export const sendProjectProgressEmail = async (
+export const sendUpdateProjectEmail = async (
   to: string,
   project: string,
   clientName: string,
-  stages: projectStages[],
-  phase: string
+  stage: string,
+  phase: string,
+  status: string
 ) => {
   await sendEmail({
     to,
-    subject: `${project} Confirmation`,
-    html: updateProjectTemplate({ project, clientName, stages, phase }),
+    subject: `${project} Updates`,
+    html: updateProjectTemplate({ project, clientName, stage, phase, status }),
   });
 };

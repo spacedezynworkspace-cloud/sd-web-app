@@ -16,7 +16,9 @@ const OperationsDashboard = () => {
   const { data: session } = useSession();
   const statuses = [
     { key: '', label: 'All' },
-    { key: '100', label: 'Completed' },
+    { key: 'completed', label: 'Completed' },
+    { key: 'paused', label: 'Paused' },
+    { key: 'in_progress', label: 'In Progress' },
   ];
   const phases = [
     { key: '', label: 'All' },

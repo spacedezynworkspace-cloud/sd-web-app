@@ -57,7 +57,7 @@ export const projectsApi = api.injectEndpoints({
       ApiResponse<null>,
       {
         id: string;
-        data: { status?: number; phase?: string; endDate?: string };
+        data: { status?: string; phase?: string; endDate?: string };
       }
     >({
       query: ({ id, data }) => ({

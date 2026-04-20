@@ -18,7 +18,8 @@ interface ProjectFormModalProps {
   onOpenChange: () => void;
   selectedProject: {
     id: string;
-    status: number;
+    status: 'on_hold' | 'in_progress' | 'completed';
+
     name: string;
     phase: string;
     endDate: string;

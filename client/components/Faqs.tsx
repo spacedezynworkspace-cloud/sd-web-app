@@ -58,14 +58,14 @@ const Faqs = () => {
         <div className="flex text-sm flex-col gap-4">
           <p>
             To ensure we deliver the best quality and results, most of our
-            projects start from ₦30,000,000. If you’re unsure, feel free to
-            reach out—we can guide you on the best approach based on your budget
-            and goals.
+            projects build require . If you’re unsure, feel free to reach out—
+            we can guide you on the best approach based on your budget and
+            goals.
           </p>
-          <a href="/" className="text-[#F19645] flex items-center gap-1">
+          {/* <a href="/" className="text-[#F19645] flex items-center gap-1">
             <span> See packages</span>
             <ArrowRightIcon className="size-4" />
-          </a>{' '}
+          </a> */}
         </div>
       ),
     },

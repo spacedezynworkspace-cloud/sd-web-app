@@ -24,3 +24,14 @@ export const formatDateAndTime = (isoString: string) => {
     hour12: true,
   });
 };
+
+export const isPastDate = (dateString: string) => {
+  const inputDate = new Date(dateString);
+  const today = new Date();
+
+  // normalize both to start of day (important for accurate comparison)
+  inputDate.setUTCHours(0, 0, 0, 0);
+  today.setUTCHours(0, 0, 0, 0);
+
+  return inputDate < today;
+};

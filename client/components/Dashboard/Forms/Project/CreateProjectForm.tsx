@@ -76,6 +76,7 @@ const CreateProjectForm = () => {
       endDate: form.get('endDate') as string,
       stages: stages,
       description: form.get('description') as string,
+      projectType: form.get('projectType') as string,
     };
     console.log('payload: ', payload);
 
@@ -206,6 +207,24 @@ const CreateProjectForm = () => {
                         </SelectItem>
                         <SelectItem key="interior_design">
                           Interior Design
+                        </SelectItem>
+                      </Select>
+                    </div>
+
+                    {/* project type */}
+                    <div className="w-full">
+                      <Select
+                        isRequired
+                        label="Project type"
+                        labelPlacement="outside"
+                        name="projectType"
+                        placeholder="Select project type"
+                      >
+                        <SelectItem key="commercial_design">
+                          Commercial Design
+                        </SelectItem>
+                        <SelectItem key="residential_design">
+                          Residential Design
                         </SelectItem>
                       </Select>
                     </div>

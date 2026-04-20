@@ -12,7 +12,8 @@ export interface Project {
   budget: number;
   assignedTo: { _id: string; email: string }[];
   phase: string;
-  status: number;
+  status: 'on_hold' | 'in_progress' | 'completed';
+
   startDate: string; // comes as ISO string from backend
   endDate: string;
   // paymentStatus: 'pending' | 'paid' | 'refunded';
@@ -42,6 +43,7 @@ export interface CreateProjectRequest {
   };
   stages: projectStages[];
   description: string;
+  projectType: string;
   // createdAt: string;
   // updatedAt: string;
 }
@@ -49,7 +51,7 @@ export interface CreateProjectRequest {
 export interface UpdateProjectRequest {
   id: string;
   data: {
-    status?: number;
+    status?: string;
     phase?: string;
     stages: projectStages[];
   };

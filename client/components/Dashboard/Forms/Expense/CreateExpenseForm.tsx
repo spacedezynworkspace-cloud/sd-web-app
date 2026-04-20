@@ -87,22 +87,6 @@ const CreateExpenseForm = ({
   };
 
   return (
-    //   <Modal
-    //     isOpen={isOpen}
-    //     onOpenChange={onOpenChange}
-    //     placement="center"
-    //     scrollBehavior="inside"
-    //   >
-    //     <ModalContent>
-    //       {(onClose) => (
-    //         <>
-    //           <ModalHeader className="flex flex-col gap-1">
-    //             <h3 className="text-lg font-semibold">New Expense Request</h3>
-    //             <p className="text-sm text-default-500">
-    //               Site supervisor fund requisition form.
-    //             </p>
-    //           </ModalHeader>
-    //           <ModalBody>
     <Form
       className="w-full space-y-6"
       validationErrors={errors}
@@ -176,21 +160,6 @@ const CreateExpenseForm = ({
           minValue={today(getLocalTimeZone())}
           name="requestedDate"
         />
-
-        {/* code  */}
-        <Input
-          isRequired
-          type="text"
-          label="Code"
-          labelPlacement="outside"
-          name="code"
-          placeholder="Enter code"
-          min={0}
-          // startContent={<span className="text-default-400">₦</span>}
-          errorMessage={({ validationDetails }) =>
-            validationDetails.valueMissing && 'Code is required'
-          }
-        />
       </div>
       {/* Urgency */}
       <div className="w-full">
@@ -228,26 +197,6 @@ const CreateExpenseForm = ({
         />
       </div>
     </Form>
-    /* </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  form="expense-request-form" // 🔥 connects to form
-                  className="bg-[#F19645] text-white font-semibold"
-                >
-                  Submit Funds Request
-                  {isLoading && (
-                    <Spinner size="sm" variant="spinner" color="white" />
-                  )}
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal> */
   );
 };
 

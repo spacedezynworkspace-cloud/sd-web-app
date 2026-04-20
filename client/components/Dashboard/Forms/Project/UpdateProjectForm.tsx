@@ -28,7 +28,8 @@ interface UpdateProjectFormProps {
   setIsLoading: (value: boolean) => void;
   selectedProject: {
     id: string;
-    status: number;
+    status: 'on_hold' | 'in_progress' | 'completed';
+
     name: string;
     phase: string;
     endDate: string;
@@ -44,10 +45,8 @@ const UpdateProjectForm = ({
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
 
   const [phase, setPhase] = useState<string>(selectedProject.phase);
-  const [status, setStatus] = useState<number>(selectedProject?.status);
+  const [status, setStatus] = useState<string>(selectedProject?.status);
   const [stages, setStages] = useState<projectStages[]>(selectedProject.stages);
-
-  console.log(selectedProject);
 
   const selectedStageNames = stages
     .filter((stage) => stage.completed)
@@ -63,7 +62,7 @@ const UpdateProjectForm = ({
     const payload: UpdateProjectRequest = {
       id: selectedProject?.id || '',
       data: {
-        status: Number(form.get('status')),
+        status: status,
         phase: form.get('phase') as string,
         stages: stages,
       },
@@ -118,7 +117,7 @@ const UpdateProjectForm = ({
           ))}
         </CheckboxGroup>
         <Select
-          className="sm:max-w-xs w-full"
+          className=" w-full"
           label="Phase"
           name="phase"
           labelPlacement="outside"
@@ -129,6 +128,17 @@ const UpdateProjectForm = ({
           {PHASES.map((phase) => (
             <SelectItem key={phase.key}>{phase.label}</SelectItem>
           ))}
+        </Select>
+        <Select
+          label="Status"
+          labelPlacement="outside"
+          name="status"
+          placeholder="Select project status"
+          selectedKeys={[status]}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <SelectItem key="on_hold">On Hold</SelectItem>
+          <SelectItem key="in_progress">In progress</SelectItem>
         </Select>
       </div>
     </Form>

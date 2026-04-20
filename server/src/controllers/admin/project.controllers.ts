@@ -2,15 +2,14 @@ import { Request, Response } from 'express';
 import Project from '../../models/project.models';
 import { SortOrder } from 'mongoose';
 import {
-  sendProjectConfirmationEmail,
-  sendProjectProgressEmail,
+  sendNewProjectEmail,
+  sendUpdateProjectEmail,
 } from '../../utils/sendEmail';
 import { User } from '../../models/user.model';
 
 export const createProject = async (req: Request, res: Response) => {
   try {
     const { email, name } = req.body;
-    const budget = 10000000;
     const userId = req.userId;
 
     // 1️⃣ Check if user exists by email
@@ -36,7 +35,7 @@ export const createProject = async (req: Request, res: Response) => {
     console.log('Created project: ', project);
 
     // 4️⃣ Send email (non-blocking)
-    sendProjectConfirmationEmail(user.email, budget, project.name, name)
+    sendNewProjectEmail(user.email, project.client, project.name)
       .then(() => {
         console.log('Project confirmation email sent to:', user.email);
       })
@@ -86,7 +85,7 @@ export const getAllProjects = async (req: Request, res: Response) => {
       ];
     }
 
-    if (status) query.status = Number(status);
+    if (status) query.status = status;
     if (phase) query.phase = phase;
     if (state) query['location.state'] = state;
 
@@ -177,16 +176,21 @@ export const updateProject = async (req: Request, res: Response) => {
       });
     }
 
-    const { phase, stages } = req.body;
+    const { phase, stages, status } = req.body;
+
+    const completedStages = stages.filter((stage: any) => stage.completed);
+
+    const recentStage = completedStages[completedStages.length - 1];
+    console.log(status);
 
     // 3️⃣ Send progress email
-    sendProjectProgressEmail(
+    sendUpdateProjectEmail(
       user.email,
       updatedProject.name,
-      user?.name || '',
-
-      stages,
-      phase
+      updatedProject.client,
+      recentStage.name,
+      phase,
+      status
     )
       .then(() => {
         console.log('Project progress email sent to:', user.email);
