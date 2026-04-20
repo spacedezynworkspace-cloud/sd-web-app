@@ -18,12 +18,12 @@ import {
 } from '@heroui/react';
 import { Project } from '@/types/projects.types';
 import { calculateProgress, getPhaseLabel } from '@/utils/project.utils';
-import { formatDate } from '@/utils/dateFormat.utils';
+import { formatDate, isPastDate } from '@/utils/dateFormat.utils';
 import {
-  BanknotesIcon,
-  EyeIcon,
+  CheckBadgeIcon,
+  PauseIcon,
   PencilIcon,
-  TrashIcon,
+  WalletIcon,
 } from '@heroicons/react/24/outline';
 import ProjectFormModal from '../Forms/ProjectFormModal';
 
@@ -72,28 +72,40 @@ const OperationsTable = ({
 
     switch (columnKey) {
       case 'name':
-        return <User name={project.name} description={project.email} />;
+        return (
+          <div className="sm:w-[200px] w-[150px] relative  truncate">
+            <div
+              className={`${project.status === 'completed' ? 'bg-white' : project.status === 'on_hold' ? 'bg-[#F19645] ' : ''} absolute w-5 h-5 rounded-full flex items-center justify-center left-7 z-10 top-0`}
+            >
+              {project.status === 'on_hold' ? (
+                <PauseIcon className="size-4 text-[#ffffff]" />
+              ) : project.status === 'completed' ? (
+                <CheckBadgeIcon className="size-4 text-[#358f3c]" />
+              ) : (
+                ''
+              )}
+            </div>
 
-      // case 'client':
-      //   return <div className="text-sm">{project.client}</div>;
-
-      // case 'budget':
-      //   return `₦${project.budget.toLocaleString()}`;
+            <User name={project.name} description={project.email} />
+          </div>
+        );
 
       case 'startDate':
-        return formatDate(project.startDate);
+        return (
+          <div className="text-sm w-[100px]">{`${formatDate(project.startDate)}`}</div>
+        );
       case 'endDate':
-        return formatDate(project.endDate);
+        return (
+          <div
+            className={`${isPastDate(project.endDate) && 'text-red-500'} text-sm w-[100px]`}
+          >{`${formatDate(project.endDate)}`}</div>
+        );
 
       case 'phase':
         return <div className="capitalize">{project.phase}</div>;
 
       case 'assignedTo':
-        return (
-          <div className="capitalize truncate w-1/2">
-            {project.assignedTo[0].email}
-          </div>
-        );
+        return <div className="truncate">{project.assignedTo[0].email}</div>;
 
       case 'progress':
         return (
@@ -101,7 +113,7 @@ const OperationsTable = ({
             aria-label="Project progress"
             classNames={{
               base: 'w-[220px]',
-              indicator: `${project.status === 100 ? 'bg-green-400' : 'bg-[#F19645]'}`,
+              indicator: `${project.status === 'completed' ? 'bg-green-400' : 'bg-[#F19645]'}`,
               label: 'tracking-wider font-medium text-default-600',
               value: 'text-sm',
             }}
@@ -119,7 +131,7 @@ const OperationsTable = ({
       case 'actions':
         return (
           <div className="flex gap-2">
-            {project.status === 100 ? (
+            {project.status === 'completed' ? (
               <div>Closed</div>
             ) : !isLoading ? (
               <div className="flex items-center gap-2">
@@ -131,7 +143,7 @@ const OperationsTable = ({
                         project,
                       });
                     }}
-                    className="bg-[#F19645] p-2 rounded-lg text-white font-semibold"
+                    className=" p-2 rounded-lg text-[#F19645] font-semibold"
                   >
                     <PencilIcon className="w-5 h-5 cursor-pointer" />
                   </button>
@@ -144,9 +156,9 @@ const OperationsTable = ({
                         project,
                       });
                     }}
-                    className="bg-[#F19645] p-2 rounded-lg text-white font-semibold"
+                    className="p-2 rounded-lg text-[#F19645] font-semibold"
                   >
-                    <BanknotesIcon className="w-5 h-5 cursor-pointer" />
+                    <WalletIcon className="w-5 h-5 cursor-pointer" />
                   </button>
                 </Tooltip>
                 {/* <ExpenseRequestFormModal />  */}
@@ -187,14 +199,6 @@ const OperationsTable = ({
           >
             Project Name
           </TableColumn>
-
-          {/* <TableColumn
-            key="client"
-            onClick={() => handleSort('client')}
-            allowsSorting
-          >
-            Client
-          </TableColumn> */}
 
           <TableColumn
             key="startDate"

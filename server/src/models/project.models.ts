@@ -16,10 +16,13 @@ export interface IProject extends Document {
   budget: number;
 
   phase: 'planning' | 'design' | 'inspection' | 'execution' | 'closure';
-  status: number;
+  status: 'paused' | 'in_progress' | 'completed';
+
+  projectType: string;
 
   startDate: Date;
   endDate: Date;
+  actualEndDate?: Date;
 
   paymentStatus: 'pending' | 'partial' | 'paid';
 
@@ -46,19 +49,22 @@ const projectSchema = new Schema<IProject>(
     email: { type: String, required: true, trim: true },
     client: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
+    projectType: { type: String, required: true, trim: true },
     serviceType: { type: String, required: true, trim: true },
     phoneNum: { type: String, required: true, trim: true },
     startDate: { type: Date },
 
     endDate: { type: Date },
+    actualEndDate: { type: Date },
     phase: {
       type: String,
       enum: ['planning', 'design', 'execution', 'inspection', 'closure'],
       default: 'planning',
     },
     status: {
-      type: Number,
-      default: 5,
+      type: String,
+      enum: ['on_hold', 'in_progress', 'completed'],
+      default: 'in_progress',
     },
     budget: { type: Number },
     paymentStatus: {
