@@ -68,7 +68,7 @@ export function newProjectTemplate({
 
     <p>
       If you have any additional details or adjustments you’d like us to consider, 
-      simply reply to this email—we’re here to refine everything to perfection.
+      simply reply to this email—we are here to refine everything to perfection.
     </p>
 
     <p style="margin-top:25px;">
@@ -148,7 +148,7 @@ export function updateProjectTemplate({
       <td align="center" style="padding:10px 30px;">
         <h2 style="margin:0; color:#222;">Project Progress Update</h2>
         <p style="margin:8px 0 0; color:#666; font-size:14px;">
-          We’re actively working on your project
+          We are actively working on your project
         </p>
       </td>
     </tr>
@@ -160,7 +160,7 @@ export function updateProjectTemplate({
         <p>Dear <strong>${clientName}</strong>,</p>
 
         <p>
-          We’re writing to keep you updated on the progress of your project:
+          We are writing to keep you updated on the progress of your project:
           <strong style="color:#F19645;">${project}</strong>.
         </p>
 
@@ -214,7 +214,7 @@ export function updateProjectTemplate({
         </p>
 
         <p style="margin-top:25px;">
-          Thank you for trusting <strong>Space Dezyn</strong>. We’re committed to delivering excellence at every step.
+          Thank you for trusting <strong>Space Dezyn</strong>. We are committed to delivering excellence at every step.
         </p>
 
         <p style="margin-top:20px;">
