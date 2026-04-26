@@ -54,7 +54,7 @@ export default async function RootLayout({
               <footer className="w-full flex items-center justify-center py-3">
                 <Link
                   className="flex text-sm  items-center gap-1 text-current"
-                  href="https://www.advantage.com.ng"
+                  href="https://www.advantageng.com"
                   title="Advantage homepage"
                 >
                   <span className="text-default-600">Powered by</span>
