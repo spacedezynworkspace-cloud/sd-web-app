@@ -9,7 +9,7 @@ import { User } from '../../models/user.model';
 
 export const createProject = async (req: Request, res: Response) => {
   try {
-    const { email, name } = req.body;
+    const { email, name, client } = req.body;
     const userId = req.userId;
 
     // 1️⃣ Check if user exists by email
@@ -18,7 +18,7 @@ export const createProject = async (req: Request, res: Response) => {
     // 2️⃣ If user does not exist → create one
     if (!user) {
       user = await User.create({
-        name: name || 'Client User',
+        name: client ? client : name,
         email,
         password: `${email}Default123!`, // ⚠️ Improve later
         role: 'user',
