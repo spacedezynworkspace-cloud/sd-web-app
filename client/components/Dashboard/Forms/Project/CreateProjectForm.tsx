@@ -253,7 +253,7 @@ const CreateProjectForm = () => {
                       label="Start date"
                       labelPlacement="outside"
                       defaultValue={today(getLocalTimeZone())}
-                      minValue={today(getLocalTimeZone())}
+                      // minValue={today(getLocalTimeZone())}
                       name="startDate"
                     />
                     {/* Date Started */}
