@@ -1,17 +1,14 @@
 'use client';
 
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   addToast,
   Checkbox,
   CheckboxGroup,
   Form,
-  NumberInput,
   Select,
   SelectItem,
-  Spinner,
 } from '@heroui/react';
-import { getLocalTimeZone, today, parseDate } from '@internationalized/date';
 import { useUpdateProjectMutation } from '@/lib/services/projects/projects.api';
 import { projectStages, UpdateProjectRequest } from '@/types/projects.types';
 
@@ -47,10 +44,23 @@ const UpdateProjectForm = ({
   const [phase, setPhase] = useState<string>(selectedProject.phase);
   const [status, setStatus] = useState<string>(selectedProject?.status);
   const [stages, setStages] = useState<projectStages[]>(selectedProject.stages);
+  const [stageInput, setStageInput] = React.useState('');
 
   const selectedStageNames = stages
     .filter((stage) => stage.completed)
     .map((stage) => stage.name);
+
+  const addStage = () => {
+    console.log('clicked');
+
+    if (!stageInput.trim()) return;
+    setStages([...stages, { name: stageInput, completed: false }]);
+    setStageInput('');
+  };
+
+  const removeStage = (index: number) => {
+    setStages(stages.filter((_, i) => i !== index));
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
@@ -91,7 +101,7 @@ const UpdateProjectForm = ({
 
   return (
     <Form
-      className="w-full space-y-6"
+      className="w-full space-y-6 flex flex-col"
       // validationErrors={errors}
       onSubmit={onSubmit}
       id="update-project-form"
@@ -116,6 +126,7 @@ const UpdateProjectForm = ({
             </Checkbox>
           ))}
         </CheckboxGroup>
+        {/* Phase  */}
         <Select
           className=" w-full"
           label="Phase"
@@ -129,6 +140,7 @@ const UpdateProjectForm = ({
             <SelectItem key={phase.key}>{phase.label}</SelectItem>
           ))}
         </Select>
+        {/* Status  */}{' '}
         <Select
           label="Status"
           labelPlacement="outside"

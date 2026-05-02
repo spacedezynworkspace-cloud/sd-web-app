@@ -7,6 +7,7 @@ import {
 } from '../../utils/sendEmail';
 import { User } from '../../models/user.model';
 
+// Create project
 export const createProject = async (req: Request, res: Response) => {
   try {
     const { email, name, client } = req.body;
@@ -149,6 +150,25 @@ export const getAllProjects = async (req: Request, res: Response) => {
   }
 };
 
+export const getProject = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findById(id);
+
+    return res.status(200).json({
+      data: project,
+      success: true,
+      message: '',
+    });
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: 'Project not found',
+    });
+  }
+};
+
+// Update project
 export const updateProject = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

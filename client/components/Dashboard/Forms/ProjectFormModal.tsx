@@ -52,7 +52,7 @@ const ProjectFormModal = ({
               </h3>
               <p className="text-sm text-default-500">
                 {formSelected === 'update'
-                  ? 'Update the project details below.'
+                  ? 'Update project details below.'
                   : 'Create Expense for this project.'}
               </p>
             </ModalHeader>

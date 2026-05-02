@@ -13,19 +13,21 @@ import {
   User,
   Spinner,
   Tooltip,
-  Button,
   useDisclosure,
 } from '@heroui/react';
 import { Project } from '@/types/projects.types';
-import { calculateProgress, getPhaseLabel } from '@/utils/project.utils';
+import { calculateProgress } from '@/utils/project.utils';
 import { formatDate, isPastDate } from '@/utils/dateFormat.utils';
 import {
   CheckBadgeIcon,
+  EyeIcon,
   PauseIcon,
   PencilIcon,
   WalletIcon,
 } from '@heroicons/react/24/outline';
 import ProjectFormModal from '../Forms/ProjectFormModal';
+import Link from 'next/link';
+import { slugify } from '@/utils/slugify';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -161,7 +163,13 @@ const OperationsTable = ({
                     <WalletIcon className="w-5 h-5 cursor-pointer" />
                   </button>
                 </Tooltip>
-                {/* <ExpenseRequestFormModal />  */}
+                <Tooltip content="Project overview">
+                  <Link
+                    href={`/dashboard/operations/${slugify(project.client)}-${project._id}`}
+                  >
+                    <EyeIcon className="w-5 h-5 cursor-pointer" />
+                  </Link>
+                </Tooltip>
               </div>
             ) : (
               <></>
