@@ -8,6 +8,7 @@ export interface Project {
   client: string;
   email: string;
   phoneNum: string;
+  description?: string;
   serviceType: string;
   budget: number;
   assignedTo: { _id: string; email: string }[];

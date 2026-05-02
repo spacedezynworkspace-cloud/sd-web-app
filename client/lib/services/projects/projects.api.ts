@@ -53,6 +53,18 @@ export const projectsApi = api.injectEndpoints({
             ]
           : [{ type: 'Projects', id: 'LIST' }],
     }),
+    getProjectById: builder.query<
+      ApiResponse<Project>,
+      {
+        id: string;
+      }
+    >({
+      query: ({ id }) => ({
+        url: `/supervisors/projects/${id}`,
+        method: 'GET',
+      }),
+      providesTags: [{ type: 'Projects', id: 'LIST' }],
+    }),
     updateProject: builder.mutation<
       ApiResponse<null>,
       {
@@ -78,4 +90,5 @@ export const {
   useCreateProjectMutation,
   useGetAllProjectsQuery,
   useUpdateProjectMutation,
+  useGetProjectByIdQuery,
 } = projectsApi;
