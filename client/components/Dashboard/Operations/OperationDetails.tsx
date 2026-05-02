@@ -83,7 +83,7 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
       )}
       <div className="bg-white dark:bg-transparent dark:p-0 shadow rounded-lg p-4">
         <DashboardHeader
-          title={`${data?.data.name}`}
+          title={`${isLoading ? "Loading..." : data?.data.name}`}
           description={`Here you can see and manage ${data?.data.name}`}
         />
       </div>
