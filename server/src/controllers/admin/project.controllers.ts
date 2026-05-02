@@ -204,6 +204,7 @@ export const updateProject = async (req: Request, res: Response) => {
     console.log(status);
 
     // 3️⃣ Send progress email
+    if (status && phase && stages){
     sendUpdateProjectEmail(
       user.email,
       updatedProject.name,
@@ -217,7 +218,7 @@ export const updateProject = async (req: Request, res: Response) => {
       })
       .catch((emailError) => {
         console.error('Email failed but project updated:', emailError);
-      });
+      })}
 
     return res.status(200).json({
       success: true,
