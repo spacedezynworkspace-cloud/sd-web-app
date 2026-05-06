@@ -18,7 +18,6 @@
     "seed:users": "ts-node src/scripts/users.ts"
   },
   "dependencies": {
-    "@sendgrid/mail": "^8.1.6",
     "axios": "^1.13.5",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
