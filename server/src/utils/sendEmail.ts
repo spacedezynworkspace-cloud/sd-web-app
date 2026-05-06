@@ -1,4 +1,3 @@
-import { sendEmail } from '../config/sendGrid.config';
 import { otpEmailTemplate } from '../templates/auth/otpEmail.template';
 import { otpForgotPasswordTemplate } from '../templates/auth/otpForgotPassword.template';
 import { newsLetterTemplate } from '../templates/user/newsLetter.template';
@@ -8,6 +7,7 @@ import {
   paymentProjectTemplate,
   updateProjectTemplate,
 } from '../templates/projectEmailTemplates';
+import { sendEmail } from '../config/resend.config';
 export const sendOtpEmail = async (
   to: string,
   otp: string,
