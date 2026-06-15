@@ -5,15 +5,12 @@ import { generateAuthTokens } from '../../utils/generateAuthToken';
 // import bcrypt from 'bcrypt';
 
 export const login = async (req: Request, res: Response) => {
-  //   const hash = await bcrypt.hash('Admin123!', 10);
-  //   console.log(hash);
   try {
     const { email, password } = req.body;
 
     // 1️⃣ Check if user exists
     const user = await User.findOne({ email }).select('+password');
 
-    console.log('user: ', user?.role);
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -21,11 +18,9 @@ export const login = async (req: Request, res: Response) => {
       });
     }
 
-    console.log('password: ', password);
-
     // 2️⃣ Compare password
     const isMatch = await user.comparePassword(password);
-    console.log('isMatch: ', isMatch);
+
     if (!isMatch) {
       return res.status(401).json({
         success: false,
