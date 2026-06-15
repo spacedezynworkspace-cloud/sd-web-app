@@ -1,4 +1,5 @@
 export interface projectStages {
+  _id?: string;
   name: string;
   completed: boolean;
 }

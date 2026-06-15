@@ -19,9 +19,9 @@ import { Project } from '@/types/projects.types';
 import { calculateProgress } from '@/utils/project.utils';
 import { formatDate, isPastDate } from '@/utils/dateFormat.utils';
 import {
-  CheckBadgeIcon,
+  CheckCircleIcon,
   EyeIcon,
-  PauseIcon,
+  PauseCircleIcon,
   PencilIcon,
   WalletIcon,
 } from '@heroicons/react/24/outline';
@@ -79,12 +79,12 @@ const OperationsTable = ({
         return (
           <div className="sm:w-[200px] w-[150px] relative  truncate">
             <div
-              className={`${project.status === 'completed' ? 'bg-white' : project.status === 'on_hold' ? 'bg-[#F19645] ' : ''} absolute w-5 h-5 rounded-full flex items-center justify-center left-7 z-10 top-0`}
+              className={`${project.status === 'in_progress' ? '' : 'bg-white'} absolute w-5 h-5 rounded-full flex items-center justify-center left-7 z-10 top-0`}
             >
               {project.status === 'on_hold' ? (
-                <PauseIcon className="size-4 text-[#ffffff]" />
+                <PauseCircleIcon className="size-4 text-[#F19645]" />
               ) : project.status === 'completed' ? (
-                <CheckBadgeIcon className="size-4 text-[#358f3c]" />
+                <CheckCircleIcon className="size-4 text-[#358f3c]" />
               ) : (
                 ''
               )}
@@ -119,7 +119,11 @@ const OperationsTable = ({
                   : 'text-blue-500'
             }`}
           >
-            {project.status === 'on_hold' ? 'On Hold' : 'In Progress'}
+            {project.status === 'on_hold'
+              ? 'On Hold'
+              : project.status === 'completed'
+                ? 'Completed'
+                : 'In Progress'}
           </div>
         );
 
@@ -136,7 +140,7 @@ const OperationsTable = ({
             aria-label="Project progress"
             classNames={{
               base: 'w-[220px]',
-              indicator: `${project.status === 'completed' ? 'bg-green-400' : 'bg-[#F19645]'}`,
+              indicator: `${project.status === 'completed' ? 'bg-[#358f3c]' : 'bg-[#F19645]'}`,
               label: 'tracking-wider font-medium text-default-600',
               value: 'text-sm',
             }}
@@ -155,7 +159,7 @@ const OperationsTable = ({
         return (
           <div className="flex gap-2">
             {project.status === 'completed' ? (
-              <div>Closed</div>
+              <div className="font-semibold">Closed</div>
             ) : !isLoading ? (
               <div className="flex items-center gap-2">
                 <Tooltip content="Edit">
