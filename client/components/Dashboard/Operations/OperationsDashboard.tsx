@@ -177,7 +177,7 @@ const OperationsDashboard = () => {
             </div>
           )}
         </div>
-        {session?.user.role === 'supervisor' && <CreateProjectForm />}
+        <CreateProjectForm />
       </div>
 
       {/* Operations table  */}

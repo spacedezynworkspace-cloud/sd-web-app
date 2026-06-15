@@ -28,6 +28,7 @@ import {
 import ProjectFormModal from '../Forms/ProjectFormModal';
 import Link from 'next/link';
 import { slugify } from '@/utils/slugify';
+import { useSession } from 'next-auth/react';
 
 interface OperationsTabledProps {
   projects: Project[];
@@ -49,6 +50,7 @@ const OperationsTable = ({
   setPage,
   operationsTab,
 }: OperationsTabledProps) => {
+  const { data: session } = useSession();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [selectedProject, setSelectedProject] = React.useState<Project | null>(
@@ -88,7 +90,10 @@ const OperationsTable = ({
               )}
             </div>
 
-            <User name={project.name} description={project.email} />
+            <User
+              name={project.name}
+              description={project.email.toLocaleLowerCase()}
+            />
           </div>
         );
 
@@ -103,11 +108,27 @@ const OperationsTable = ({
           >{`${formatDate(project.endDate)}`}</div>
         );
 
-      case 'phase':
-        return <div className="capitalize">{project.phase}</div>;
+      case 'status':
+        return (
+          <div
+            className={`text-sm w-[100px] capitalize ${
+              project.status === 'completed'
+                ? 'text-green-500'
+                : project.status === 'on_hold'
+                  ? 'text-yellow-500'
+                  : 'text-blue-500'
+            }`}
+          >
+            {project.status === 'on_hold' ? 'On Hold' : 'In Progress'}
+          </div>
+        );
 
       case 'assignedTo':
-        return <div className="truncate">{project.assignedTo[0].email}</div>;
+        return (
+          <div className="truncate w-[100px]">
+            {project.assignedTo[0].email}
+          </div>
+        );
 
       case 'progress':
         return (
@@ -219,7 +240,7 @@ const OperationsTable = ({
 
           <TableColumn key="progress">Progress</TableColumn>
 
-          <TableColumn key="phase">Phase</TableColumn>
+          <TableColumn key="status">Status</TableColumn>
           {operationsTab !== 'owner' ? (
             <TableColumn key="assignedTo">Supervisor</TableColumn>
           ) : (
@@ -228,7 +249,8 @@ const OperationsTable = ({
 
           <TableColumn key="location">Location</TableColumn>
 
-          {operationsTab === 'owner' && !isLoading ? (
+          {operationsTab === 'owner' ||
+          (session?.user.role === 'admin' && !isLoading) ? (
             <TableColumn key="actions">Action</TableColumn>
           ) : (
             <></>
