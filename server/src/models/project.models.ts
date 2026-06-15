@@ -32,7 +32,15 @@ export interface IProject extends Document {
   };
   stages: [
     {
-      name: String;
+      _id: {
+        type: Schema.Types.ObjectId;
+        auto: true;
+      };
+      name: {
+        type: String;
+        required: true;
+        trim: true;
+      };
       completed: { type: Boolean; default: false };
     },
   ];

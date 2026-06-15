@@ -1,6 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { DndContext, DragEndEvent, closestCenter } from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
 import {
   addToast,
   Checkbox,
@@ -11,6 +17,7 @@ import {
 } from '@heroui/react';
 import { useUpdateProjectMutation } from '@/lib/services/projects/projects.api';
 import { projectStages, UpdateProjectRequest } from '@/types/projects.types';
+import SortableStage from './SortableStage';
 
 const PHASES = [
   { key: 'planning', label: 'Planning' },
@@ -50,18 +57,6 @@ const UpdateProjectForm = ({
     .filter((stage) => stage.completed)
     .map((stage) => stage.name);
 
-  const addStage = () => {
-    console.log('clicked');
-
-    if (!stageInput.trim()) return;
-    setStages([...stages, { name: stageInput, completed: false }]);
-    setStageInput('');
-  };
-
-  const removeStage = (index: number) => {
-    setStages(stages.filter((_, i) => i !== index));
-  };
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
 
@@ -95,6 +90,19 @@ const UpdateProjectForm = ({
     }
   };
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    const oldIndex = stages.findIndex((stage) => stage.name === active.id);
+
+    const newIndex = stages.findIndex((stage) => stage.name === over.id);
+
+    setStages((items) => arrayMove(items, oldIndex, newIndex));
+  };
   useEffect(() => {
     setIsLoading(isLoading);
   }, [isLoading]);
@@ -107,25 +115,36 @@ const UpdateProjectForm = ({
       id="update-project-form"
     >
       <div className="grid grid-cols-1  gap-6 w-full">
-        <CheckboxGroup
-          label="Stages"
-          color="warning"
-          value={selectedStageNames}
-          onValueChange={(selectedKeys) => {
-            const updatedStages = stages.map((stage) => ({
-              ...stage,
-              completed: selectedKeys.includes(stage.name),
-            }));
-
-            setStages(updatedStages);
-          }}
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
         >
-          {stages.map((stage, i) => (
-            <Checkbox key={i} value={stage.name}>
-              {stage.name}
-            </Checkbox>
-          ))}
-        </CheckboxGroup>
+          <SortableContext
+            items={stages.map((stage) => stage.name)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-2">
+              {stages.map((stage) => (
+                <SortableStage
+                  key={stage.name}
+                  stage={stage}
+                  onToggle={(stageName, checked) => {
+                    setStages((prev) =>
+                      prev.map((s) =>
+                        s.name === stageName
+                          ? {
+                              ...s,
+                              completed: checked,
+                            }
+                          : s
+                      )
+                    );
+                  }}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
         {/* Phase  */}
         <Select
           className=" w-full"
@@ -151,6 +170,7 @@ const UpdateProjectForm = ({
         >
           <SelectItem key="on_hold">On Hold</SelectItem>
           <SelectItem key="in_progress">In progress</SelectItem>
+          <SelectItem key="completed">Completed</SelectItem>
         </Select>
       </div>
     </Form>
