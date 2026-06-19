@@ -26,24 +26,26 @@ const BeforeAndAfter = () => {
           <div className="w-full rounded-lg">
             <ReactCompareSlider
               itemOne={
-                <div className="w-full h-full ">
+                <div className="relative w-full h-full">
                   <Image
                     src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1781873408/after_uanhqw.png"
-                    width={100}
-                    height={100}
                     alt="Image one"
-                    className="w-full h-full rounded-lg object-cover"
+                    fill
+                    sizes="100vw"
+                    className="rounded-lg object-cover"
+                    quality={100}
                   />
                 </div>
               }
               itemTwo={
-                <div className="w-full h-full ">
+                <div className="relative w-full h-full">
                   <Image
                     src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1781873408/before_zqbb7m.png"
-                    width={100}
-                    height={100}
                     alt="Image two"
-                    className="w-full h-full rounded-lg object-cover"
+                    fill
+                    sizes="100vw"
+                    className="rounded-lg object-cover"
+                    quality={100}
                   />
                 </div>
               }
