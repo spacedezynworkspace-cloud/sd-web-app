@@ -134,13 +134,22 @@ const Faqs = () => {
   ];
 
   return (
-    <div className="sm:max-w-7xl w-full px-4 sm:px-6 sm:gap-20 items-start flex sm:flex-row flex-col justify-start lg:px-8 mx-auto">
-      <div className="text-black  sm:mb-0 py-10">
-        <SectionHeader
-          introText="got questions?"
-          headerText="FAQS"
-          paragraphText="Our community is dedicated to listening to your questions and providing tailored solutions to new community members and clients that become part of our great interior design journey."
-        />
+    <div className="sm:max-w-7xl w-full px-4 dark:bg-white sm:px-6 sm:gap-20 items-start flex sm:flex-row flex-col justify-start lg:px-8 mx-auto">
+      <div className="text-black sm:mb-0 py-10">
+        <div className="flex flex-col gap-4 w-full">
+          {' '}
+          <p className="text-[#F19645] font-semibold uppercase">
+            got questions?
+          </p>
+          <h1 className="text-4xl w-full text-wrap  md:text-6xl font-montserrat uppercase font-extrabold tracking-wide">
+            FAQS.
+          </h1>
+          <h2 className=" text-gray-950 text-sm  sm:block">
+            Our community is dedicated to listening to your questions and
+            providing tailored solutions to new community members and clients
+            that become part of our great interior design journey.
+          </h2>
+        </div>
       </div>
       <Accordion defaultExpandedKeys={['0']}>
         {FAQS.map((faq, key) => {

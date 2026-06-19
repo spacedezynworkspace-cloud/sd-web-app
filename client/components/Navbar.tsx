@@ -55,21 +55,21 @@ const Navbar = () => {
     {
       mainLink: {
         name: 'DezynLab',
-        href: 'dezynlab.spacedezyn.com',
+        href: 'dezynlab',
         current: false,
       },
       subLinks: [
         {
           name: '3D Visualization',
-          href: 'dezynlab.spacedezyn.com/3d-visualization',
+          href: 'dezynlab/3d-visualization',
         },
         {
           name: 'Interior Design',
-          href: 'dezynlab.spacedezyn.com/interior-dezyn',
+          href: 'dezynlab/interior-dezyn',
         },
         {
           name: 'Supervisor Training',
-          href: 'dezynlab.spacedezyn.com/supervisor-training',
+          href: 'dezynlab/supervisor-training',
         },
       ],
     },
@@ -294,50 +294,49 @@ const Navbar = () => {
       </div>
 
       <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 top-0 -z-10">
-        <div className="space-y-1 px-2 pt-32 pb-3 dark:bg-black bg-white w-full h-screen left-0">
-          {NAVBARITEMS.map((item) => (
-            <DisclosureButton
-              key={item.mainLink.name}
-              as="a"
-              href={item.mainLink.href}
-              aria-current={
-                item.mainLink.href === pathName ? 'page' : undefined
-              }
-              className={clsx(
-                item.mainLink.href === pathName
-                  ? 'bg-[#F19645] text-white'
-                  : 'text-[#F19645] hover:bg-white/5 hover:font-extrabold',
-                'block rounded-md px-3 py-2 text-base font-medium'
-              )}
-            >
-              {item.subLinks ? (
-                <Dropdown>
-                  <DropdownTrigger>
-                    <button
-                      className={clsx(
-                        item.mainLink.href === pathName
-                          ? 'bg-[#F19645] text-white'
-                          : 'text-[#F19645] hover:bg-white/5 hover:font-extrabold',
-                        'block rounded-md py-2 text-base font-medium bg-none'
-                      )}
-                    >
-                      {item.mainLink.name}
-                    </button>
-                  </DropdownTrigger>
+        <div className="space-y-1 px-2 pt-32 flex flex-col pb-3 dark:bg-black bg-white w-full h-screen left-0">
+          {NAVBARITEMS.map((item) => {
+            return item.subLinks ? (
+              <Dropdown key={item.mainLink.name}>
+                <DropdownTrigger>
+                  <button
+                    className={clsx(
+                      item.mainLink.href === pathName
+                        ? ' text-white'
+                        : 'text-[#F19645] hover:bg-orange-200/50 hover:font-extrabold',
+                      'rounded-md px-3 py-2 text-sm font-medium w-max'
+                    )}
+                  >
+                    {item.mainLink.name}
+                  </button>
+                </DropdownTrigger>
 
-                  <DropdownMenu aria-label="Link Actions">
-                    {item.subLinks.map((subItem) => (
-                      <DropdownItem key={subItem.name} href={subItem.href}>
-                        {subItem.name}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-              ) : (
-                item.mainLink.name
-              )}
-            </DisclosureButton>
-          ))}
+                <DropdownMenu aria-label="Link Actions">
+                  {item.subLinks.map((subItem) => (
+                    <DropdownItem key={subItem.name} href={subItem.href}>
+                      {subItem.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+            ) : (
+              <Link
+                key={item.mainLink.name}
+                href={item.mainLink.href}
+                aria-current={
+                  item.mainLink.href === pathName ? 'page' : undefined
+                }
+                className={clsx(
+                  item.mainLink.href === pathName
+                    ? ' bg-orange-200/50'
+                    : ' hover:bg-orange-200/50 hover:font-extrabold',
+                  'rounded-md px-3 py-2 text-sm font-medium text-[#F19645] w-max'
+                )}
+              >
+                {item.mainLink.name}
+              </Link>
+            );
+          })}
         </div>
       </DisclosurePanel>
     </Disclosure>

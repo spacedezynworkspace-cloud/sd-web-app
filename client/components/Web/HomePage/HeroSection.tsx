@@ -33,10 +33,10 @@ const HeroSection = () => {
         <div className="max-w-7xl px-2 sm:px-6 lg:px-8 mx-auto flex sm:flex-row flex-col justify-between">
           {' '}
           <div className="sm:w-[55%] w-full">
-            <p className="text-[#F19645] uppercase font-semibold mb-4">
-              <span className="text-white">Welcome to</span> Space Dezyn
+            <p className="uppercase text-[10px] font-semibold bg-[#F19645]/50 rounded-full px-2 py-1 w-max mb-4">
+              Smart Living
             </p>
-            <h1 className="text-4xl md:text-6xl font-montserrat uppercase font-extrabold tracking-wide">
+            <h1 className="text-4xl  md:text-6xl font-montserrat uppercase font-extrabold tracking-wide">
               The Future of Smart Interior Design in Nigeria
             </h1>
 

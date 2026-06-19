@@ -33,7 +33,14 @@ const OurExperience = () => {
   return (
     <section className="flex items-center bg-white dark:bg-black text-black sm:py-40 py-14 justify-center">
       <div className=" max-w-7xl px-4 sm:px-6 items-center flex justify-center flex-col lg:px-8 mx-auto">
-        <div className="max-w-5xl text-center  mb-10 flex justify-center">
+        <div className="max-w-5xl text-center  mb-10 flex sm:hidden justify-center">
+          <SectionHeader
+            introText="Our Experience"
+            headerText="WHAT ARE WE ABOUT?"
+            paragraphText="At Space Dezyn, we believe design goes beyond aesthetics, We create spaces that feel alive, functional, and uniquely yours. Our expertise spans residential, commercial, hospitality, and retail design, as well as renovations and consultations."
+          />
+        </div>
+        <div className="max-w-5xl text-center  mb-10 sm:flex hidden justify-center">
           <SectionHeader
             introText="Our Experience"
             headerText="WHAT ARE WE ABOUT?"

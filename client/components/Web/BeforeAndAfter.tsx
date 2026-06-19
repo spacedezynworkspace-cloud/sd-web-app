@@ -12,7 +12,7 @@ const BeforeAndAfter = () => {
         <div className="flex sm:flex-row flex-col sm:gap-32 gap-10 w-full">
           <div className="flex-col text-black w-full flex items-start">
             <SectionHeader
-              introText="Before & After Interior Design"
+              introText=""
               headerText="transform your space in just a swipe"
               paragraphText="We transform your space seamlessly with ease. Luxury and simplicity balances quality and ease"
             />
@@ -28,7 +28,7 @@ const BeforeAndAfter = () => {
               itemOne={
                 <div className="w-full h-full ">
                   <Image
-                    src="/before.jpg"
+                    src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1781873408/after_uanhqw.png"
                     width={100}
                     height={100}
                     alt="Image one"
@@ -39,7 +39,7 @@ const BeforeAndAfter = () => {
               itemTwo={
                 <div className="w-full h-full ">
                   <Image
-                    src="/after.jpg"
+                    src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1781873408/before_zqbb7m.png"
                     width={100}
                     height={100}
                     alt="Image two"

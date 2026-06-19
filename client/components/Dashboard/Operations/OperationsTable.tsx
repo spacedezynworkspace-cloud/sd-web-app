@@ -111,12 +111,12 @@ const OperationsTable = ({
       case 'status':
         return (
           <div
-            className={`text-sm w-[100px] capitalize ${
+            className={`text-xs w-[100px] capitalize rounded-2xl text-center font-semibold ${
               project.status === 'completed'
-                ? 'text-green-500'
+                ? 'text-green-500 bg-green-200'
                 : project.status === 'on_hold'
-                  ? 'text-yellow-500'
-                  : 'text-blue-500'
+                  ? 'text-yellow-500 bg-yellow-100'
+                  : 'text-blue-500 bg-blue-100'
             }`}
           >
             {project.status === 'on_hold'

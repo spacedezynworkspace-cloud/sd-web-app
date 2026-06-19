@@ -3,6 +3,7 @@ import { otpForgotPasswordTemplate } from '../templates/auth/otpForgotPassword.t
 import { newsLetterTemplate } from '../templates/user/newsLetter.template';
 import { staffInivitationEmailTemplate } from '../templates/staff/staffInivitationEmail';
 import {
+  contactFormResponseTemplate,
   newProjectTemplate,
   paymentProjectTemplate,
   updateProjectTemplate,
@@ -88,5 +89,21 @@ export const sendUpdateProjectEmail = async (
     to,
     subject: `${project} Updates`,
     html: updateProjectTemplate({ project, clientName, stage, phase, status }),
+  });
+};
+
+export const sendContactFormEmail = async (
+  email: string,
+  subject: string,
+  message: string
+) => {
+  await sendEmail({
+    to: email,
+    subject,
+    html: contactFormResponseTemplate({
+      email,
+      subject,
+      message,
+    }),
   });
 };

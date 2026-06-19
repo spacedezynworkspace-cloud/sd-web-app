@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import {
   addToast,
@@ -12,6 +12,7 @@ import {
 } from '@heroui/react';
 
 import { BrandIcons, iconTypes } from '@/assets/icons';
+import Link from 'next/link';
 
 const ContactForm = () => {
   const [errors, setErrors] = React.useState({});
@@ -32,9 +33,10 @@ const ContactForm = () => {
     },
   ];
 
-  //   const [createExpense, { isLoading }] = useCreateExpenseMutation();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     console.log('Submit...');
 
     e.preventDefault();
@@ -42,6 +44,9 @@ const ContactForm = () => {
     const form = new FormData(e.currentTarget);
 
     const payload = {
+      email: form.get('email') as string,
+      subject: form.get('subject') as string,
+      message: form.get('message') as string,
       //   project: projectDetails.id,
       //   amount: Number(form.get('amount')),
       //   type: form.get('type') as
@@ -59,31 +64,41 @@ const ContactForm = () => {
     console.log('payload: ', payload);
 
     try {
-      //   const res = await sendContactFormData(payload).unwrap();
-      const res = {
-        message: 'Message sent!',
-      };
-      console.log(res);
+      const res = await fetch(
+        `${process.env['NEXT_PUBLIC_API_BASE_URL']}/api/v1/forms/contact-form`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }
+      );
 
-      addToast({
-        title: 'Form submitted',
-        description: res.message,
-        color: 'success',
-      });
+      const data = await res.json();
+
+      if (data.success) {
+        addToast({
+          title: 'Form submitted',
+          description: data.message,
+          color: 'success',
+        });
+      } else {
+        // show error toast
+      }
 
       setErrors({});
     } catch (error) {
       console.log(error);
 
       addToast({
-        title: 'Expense failed',
+        title: 'Submission failed',
         description: 'Please try again.',
         color: 'danger',
       });
     }
+    setIsLoading(false);
   };
   return (
-    <section className="w-full bg-[#F8F8F8] relative h-auto sm:py-20 py-14">
+    <section className="w-full bg-[#F8F8F8]  relative h-auto sm:py-20 py-14">
       <Image
         src={'/mapBackground.png'}
         alt="Space dezyn contact map"
@@ -146,7 +161,7 @@ const ContactForm = () => {
           </div>
           <div>
             <Form
-              className="w-full space-y-6 bg-white  p-4 rounded-lg shadow-lg"
+              className="w-full space-y-6 bg-white dark:bg-black  p-4 rounded-lg shadow-lg"
               validationErrors={errors}
               onSubmit={onSubmit}
             >
@@ -214,15 +229,25 @@ const ContactForm = () => {
                   Accept terms & conditions
                 </Checkbox>
                 <Button
-                  className="flex items-center bg-[#F19645] text-white"
+                  className="flex sm:justify-center w-max justify-start items-center bg-[#F19645] text-white"
                   type="submit"
-                  disabled={true && !acceptTermsIsSelected}
+                  disabled={isLoading && !acceptTermsIsSelected}
                 >
                   <p>Send message</p>
-                  {true && (
+                  {isLoading && (
                     <Spinner size="sm" variant="spinner" color="white" />
                   )}
                 </Button>
+              </div>
+              <div className="dark:text-white text-xs text-black">
+                Read{' '}
+                <Link className="text-[#f19645]" href={'/terms-and-conditions'}>
+                  Terms & Condition
+                </Link>{' '}
+                and{' '}
+                <Link className="text-[#f19645]" href={'/privacy-policy'}>
+                  Privacy Policy
+                </Link>
               </div>
             </Form>
           </div>

@@ -15,6 +15,8 @@ import adminExpenseRoutes from './routes/admin/expense.routes';
 import adminPaymentRoutes from './routes/admin/payment.routes';
 import adminDashboardRoutes from './routes/admin/dashboard.routes';
 
+import contactFormRoutes from './routes/form.routes';
+
 dotenv.config();
 
 const app = express();
@@ -49,6 +51,7 @@ app.use('/api/v1/admin/dashboard', adminDashboardRoutes);
 
 app.use('/api/v1/supervisors', supervisorRoutes);
 
+app.use('/api/v1/forms', contactFormRoutes);
 // let isConnected = false;
 
 // async function connect() {

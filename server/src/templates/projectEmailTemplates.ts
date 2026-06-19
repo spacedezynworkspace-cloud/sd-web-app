@@ -257,3 +257,107 @@ export function paymentProjectTemplate({
     </div>
   `;
 }
+
+export function contactFormResponseTemplate({
+  email,
+  subject,
+  message,
+}: {
+  email: string;
+  subject: string;
+  message: string;
+}) {
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Form Response</title>
+</head>
+
+<body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f4f6f8;">
+
+  <table align="center" width="600" cellpadding="0" cellspacing="0" 
+         style="background:#ffffff; margin-top:30px; border-radius:10px; overflow:hidden;">
+
+    <!-- Top Accent Bar -->
+    <tr>
+      <td style="background:#F19645; height:6px;"></td>
+    </tr>
+
+    <!-- Logo -->
+    <tr>
+      <td align="center" style="padding:30px 20px 10px;">
+        <img src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1776681711/sd-web-app-logo_xhz7zr.png" 
+             alt="Space Dezyn Logo" 
+             width="100" 
+             style="display:block;" />
+      </td>
+    </tr>
+
+    <!-- Header -->
+    <tr>
+      <td align="center" style="padding:10px 30px;">
+        <h2 style="margin:0; color:#222;">We’ve Received Your Message</h2>
+        <p style="margin:8px 0 0; color:#666; font-size:14px;">
+          Thank you for reaching out to us
+        </p>
+      </td>
+    </tr>
+
+    <!-- Body -->
+    <tr>
+      <td style="padding:20px 35px; color:#333; font-size:15px; line-height:1.7;">
+
+        <p>Hello,</p>
+
+        <p>
+          Thank you for contacting <strong>Space Dezyn</strong>. We’ve received your message and our team will review it shortly.
+        </p>
+
+        <!-- MESSAGE SUMMARY -->
+        <div style="margin:20px 0; padding:15px; border:1px solid #eee; border-radius:8px; background:#fafafa;">
+
+          <p style="margin:0 0 10px; font-weight:bold; color:#222;">
+            Your Message Details
+          </p>
+
+          <ul style="margin:0; padding-left:18px; color:#333; line-height:1.8;">
+            <li><strong>Email:</strong> ${email}</li>
+            <li><strong>Subject:</strong> ${subject}</li>
+            <li><strong>Message:</strong> ${message}</li>
+          </ul>
+
+        </div>
+
+        <p>
+          Our team will get back to you as soon as possible. If your request is urgent, feel free to reply directly to this email.
+        </p>
+
+        <p>
+          We appreciate your interest in working with us and look forward to assisting you.
+        </p>
+
+        <p style="margin-top:25px;">
+          Warm regards,<br/>
+          <strong>Space Dezyn</strong>
+          <p>Customer service Team</p>
+        </p>
+
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td align="center" style="padding:18px; background:#f9f9f9; font-size:12px; color:#888;">
+        © 2026 Space Dezyn. All rights reserved.<br/>
+        <a href="https://www.spacedezyn.com" style="color:#F19645; text-decoration:none;">
+          www.spacedezyn.com
+        </a>
+      </td>
+    </tr>
+
+  </table>
+
+</body>
+</html> `;
+}

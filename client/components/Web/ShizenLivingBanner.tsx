@@ -4,7 +4,7 @@ import React from 'react';
 
 const ShizenLivingBanner = () => {
   return (
-    <section className="w-full sm:py-20 py-10 bg-white  dark:bg-black p-4">
+    <section className="w-full sm:py-20 py-10 bg-white p-4">
       <div className="max-w-7xl relative px-4 sm:px-6 items-center sm:h-[35rem] h-[25rem] flex justify-center flex-col lg:px-8 mx-auto bg-[#A9BA9D] rounded-3xl">
         <Image
           src={
@@ -33,7 +33,6 @@ const ShizenLivingBanner = () => {
             Visit our store
           </Link>
         </div>
-      
       </div>
     </section>
   );
