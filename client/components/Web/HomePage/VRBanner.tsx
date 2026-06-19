@@ -12,13 +12,26 @@ const VRBanner = () => {
             src={
               'https://res.cloudinary.com/dcd8gvgup/image/upload/v1772928601/ChatGPT_Image_Mar_8_2026_01_07_59_AM_s6cykm.png'
             }
-            alt="Image of a young ma using a virtual reality headgear to view his interior design plan"
+            alt="Image of a young man using a virtual reality headgear to view his interior design plan"
             width={800}
             height={700}
             className=""
           />
         </div>
-        <div className="sm:w-[45%] w-full sm:pr-16 sm:mb-10">
+        <div className="sm:w-[45%] w-full flex flex-col sm:hidden sm:pr-16 sm:mb-10">
+          <SectionHeader
+            introText="WHAT’S NEW"
+            headerText="3D Virtual Reality Experience"
+            paragraphText="We provide an immersive and interactive experience that enables you to visualize and understand complex concepts, simulate human experiences, and explore virtual worlds."
+          />
+          <Link
+            href="#"
+            className="sm:w-1/2 w-[200px] mt-4 px-4 py-3 sm:px-8 rounded-lg  bg-black  text-white font-semibold text-center text-xs sm:text-sm flex justify-center"
+          >
+            Book consultation
+          </Link>
+        </div>
+        <div className="sm:w-[45%] w-full sm:flex flex-col hidden sm:pr-16 sm:mb-10">
           <SectionHeader
             introText="WHAT’S NEW"
             headerText="3D Virtual Reality Experience"

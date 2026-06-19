@@ -96,9 +96,12 @@ const DezynLab = () => {
                 <p className="text-black text-tiny">Available now.</p>
                 <p className="text-black text-tiny">Register online.</p>
               </div>
-              <Button className="text-tiny bg-[#F19645]" radius="sm" size="sm">
+              <Link
+                className="text-tiny bg-[#F19645] rounded-lg p-2"
+                href={'/dezynlab'}
+              >
                 Visit DezynLab
-              </Button>
+              </Link>
             </CardFooter>
           </Card>
           <Card
@@ -145,7 +148,7 @@ const DezynLab = () => {
 
           <div className="sm:flex hidden sm:flex-row flex-col gap-4 items-center">
             <Link
-              href="/"
+              href="/dezynlab"
               className=" bg-[#F19645]  w-[14rem] text-white rounded-md px-2 py-3 text-sm flex gap-2 justify-center font-semibold items-center"
               aria-label="Chat on WhatsApp"
             >

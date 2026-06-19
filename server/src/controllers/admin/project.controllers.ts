@@ -204,21 +204,22 @@ export const updateProject = async (req: Request, res: Response) => {
     console.log(status);
 
     // 3️⃣ Send progress email
-    if (status && phase && stages){
-    sendUpdateProjectEmail(
-      user.email,
-      updatedProject.name,
-      updatedProject.client,
-      recentStage.name,
-      phase,
-      status
-    )
-      .then(() => {
-        console.log('Project progress email sent to:', user.email);
-      })
-      .catch((emailError) => {
-        console.error('Email failed but project updated:', emailError);
-      })}
+    if (status && phase && stages) {
+      sendUpdateProjectEmail(
+        user.email,
+        updatedProject.name,
+        updatedProject.client,
+        recentStage.name,
+        phase,
+        status
+      )
+        .then(() => {
+          console.log('Project progress email sent to:', user.email);
+        })
+        .catch((emailError) => {
+          console.error('Email failed but project updated:', emailError);
+        });
+    }
 
     return res.status(200).json({
       success: true,

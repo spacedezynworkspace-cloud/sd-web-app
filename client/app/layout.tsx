@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/config/nextAuthOptions';
 import '@/styles/globals.css';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: {
@@ -51,19 +52,27 @@ export default async function RootLayout({
             <div className="relative flex flex-col h-full bg-gray-200 dark:bg-black">
               <Navbar />
               <main className="-mt-28">{children}</main>
-              <footer className="w-full flex items-center justify-center py-3">
-                <Link
-                  className="flex text-sm  items-center gap-1 text-current"
-                  href="https://www.advantageng.com"
-                  title="Advantage homepage"
-                >
-                  <span className="text-default-600">Powered by</span>
-                  <p className="text-orange-400">Advantage</p>
-                </Link>
-              </footer>
+              <Footer />
             </div>
           </HeroUIProvider>
         </ReduxProvider>
+        {/* Start of HubSpot Embed Code  */}
+
+        {/* Forms  */}
+        <script
+          src="https://js-eu1.hsforms.net/forms/embed/148723280.js"
+          defer
+        ></script>
+
+        {/* Chat bot  */}
+        <script
+          type="text/javascript"
+          id="hs-script-loader"
+          async
+          defer
+          src="//js-eu1.hs-scripts.com/148723280.js"
+        ></script>
+        {/* End of HubSpot Embed Code  */}
       </body>
     </html>
   );
