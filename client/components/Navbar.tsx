@@ -61,15 +61,15 @@ const Navbar = () => {
       subLinks: [
         {
           name: '3D Visualization',
-          href: 'dezynlab/#regitration',
+          href: 'dezynlab',
         },
         {
           name: 'Interior Design',
-          href: 'dezynlab/#regitration',
+          href: 'dezynlab',
         },
         {
           name: 'Supervisor Training',
-          href: 'dezynlab/#regitration',
+          href: 'dezynlab',
         },
       ],
     },
