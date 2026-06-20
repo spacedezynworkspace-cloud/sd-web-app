@@ -18,6 +18,7 @@ import {
 import { useUpdateProjectMutation } from '@/lib/services/projects/projects.api';
 import { projectStages, UpdateProjectRequest } from '@/types/projects.types';
 import SortableStage from './SortableStage';
+import { calculateProgress } from '@/utils/project.utils';
 
 const PHASES = [
   { key: 'planning', label: 'Planning' },
@@ -51,11 +52,6 @@ const UpdateProjectForm = ({
   const [phase, setPhase] = useState<string>(selectedProject.phase);
   const [status, setStatus] = useState<string>(selectedProject?.status);
   const [stages, setStages] = useState<projectStages[]>(selectedProject.stages);
-  const [stageInput, setStageInput] = React.useState('');
-
-  const selectedStageNames = stages
-    .filter((stage) => stage.completed)
-    .map((stage) => stage.name);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('Submit...');
@@ -72,7 +68,6 @@ const UpdateProjectForm = ({
         stages: stages,
       },
     };
-    console.log('payload: ', payload);
 
     try {
       const res = await updateProject(payload).unwrap();
@@ -85,8 +80,12 @@ const UpdateProjectForm = ({
       });
 
       onOpenChange();
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      addToast({
+        title: 'Project update failed',
+        description: `${error?.data?.message}`,
+        color: 'danger',
+      });
     }
   };
 

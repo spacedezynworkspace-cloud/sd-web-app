@@ -1,20 +1,29 @@
 import Link from 'next/link';
 import React from 'react';
-import { IoLogoInstagram, IoLogoTiktok, IoLogoYoutube } from 'react-icons/io5';
+import {
+  IoLogoInstagram,
+  IoLogoLinkedin,
+  IoLogoTiktok,
+  IoLogoYoutube,
+} from 'react-icons/io5';
 
 const Footer = () => {
   const SOCIAL_ICONS = [
     {
       icon: <IoLogoInstagram className="size-4" />,
-      link: '',
+      link: 'https://www.instagram.com/spacedezyn.ng/',
     },
     {
       icon: <IoLogoTiktok className="size-4" />,
-      link: '',
+      link: 'https://www.tiktok.com/@space.dezyn',
+    },
+    {
+      icon: <IoLogoLinkedin className="size-4" />,
+      link: 'https://www.linkedin.com/in/space-dezyn-6726192b3/',
     },
     {
       icon: <IoLogoYoutube className="size-4" />,
-      link: '',
+      link: 'https://www.youtube.com/@SpaceDezyn',
     },
   ];
   return (

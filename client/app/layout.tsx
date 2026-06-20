@@ -49,7 +49,7 @@ export default async function RootLayout({
           <HeroUIProvider
             themeProps={{ attribute: 'class', defaultTheme: 'light' }}
           >
-            <div className="relative flex flex-col h-full bg-gray-200 dark:bg-black">
+            <div className="relative flex flex-col h-full bg-gray-50 dark:bg-black">
               <Navbar />
               <main className="-mt-28">{children}</main>
               <Footer />
