@@ -32,7 +32,7 @@ const DezynLab = () => {
         </div> */}
         <div className="flex sm:hidden sm:flex-row flex-col gap-4 items-center">
           <Link
-            href="/"
+            href="/dezynlab"
             className=" bg-[#F19645]  w-[14rem] text-white rounded-md px-2 py-3 text-sm flex gap-2 justify-center font-semibold items-center"
             aria-label="Chat on WhatsApp"
           >
