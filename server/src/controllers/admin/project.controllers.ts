@@ -6,6 +6,7 @@ import {
   sendUpdateProjectEmail,
 } from '../../utils/sendEmail';
 import { User } from '../../models/user.model';
+import { calculateProgress } from '../../utils/project';
 
 // Create project
 export const createProject = async (req: Request, res: Response) => {
@@ -186,6 +187,21 @@ export const updateProject = async (req: Request, res: Response) => {
       });
     }
 
+    const { phase, stages, status } = req.body;
+
+    const checkProjectProgress = calculateProgress(
+      (updatedProject.stages as unknown as any[]) ?? []
+    );
+
+    if (checkProjectProgress < 100 && status === 'completed') {
+      updatedProject.status = 'in_progress';
+      updatedProject.save();
+      return res.status(400).json({
+        success: false,
+        message: 'Project below 100% can not be marked as completed',
+      });
+    }
+
     // 2️⃣ Get the project owner
     const user = await User.findById(updatedProject.user);
 
@@ -195,8 +211,6 @@ export const updateProject = async (req: Request, res: Response) => {
         message: 'User not found',
       });
     }
-
-    const { phase, stages, status } = req.body;
 
     const completedStages = stages.filter((stage: any) => stage.completed);
 

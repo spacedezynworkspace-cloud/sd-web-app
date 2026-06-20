@@ -26,11 +26,11 @@ export default function SortableStage({ stage, onToggle }: Props) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="flex items-center gap-2">
-      <span {...attributes} {...listeners} className="cursor-grab">
-        ☰
-      </span>
-
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex items-center justify-between gap-2 bg-gray-100 p-2 rounded-lg"
+    >
       <Checkbox
         isSelected={stage.completed}
         onValueChange={(checked) => onToggle(stage.name, checked)}
@@ -38,6 +38,9 @@ export default function SortableStage({ stage, onToggle }: Props) {
       >
         {stage.name}
       </Checkbox>
+      <span {...attributes} {...listeners} className="cursor-grab">
+        ☰
+      </span>
     </div>
   );
 }
