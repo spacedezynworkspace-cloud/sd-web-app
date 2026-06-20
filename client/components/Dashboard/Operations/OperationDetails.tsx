@@ -83,7 +83,7 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
       )}
       <div className="bg-white dark:bg-transparent dark:p-0 shadow rounded-lg p-4">
         <DashboardHeader
-          title={`${isLoading ? "Loading..." : data?.data.name}`}
+          title={`${isLoading ? 'Loading...' : data?.data.name}`}
           description={`Here you can see and manage ${data?.data.name}`}
         />
       </div>
@@ -211,14 +211,16 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
                 </div>
               )}
 
-              <Button
-                onPress={() => {
-                  onSubmit();
-                }}
-                className="bg-[#F19645] text-white font-semibold mt-4"
-              >
-                Update stages
-              </Button>
+              {session?.user.role === 'supervisor' && (
+                <Button
+                  onPress={() => {
+                    onSubmit();
+                  }}
+                  className="bg-[#F19645] text-white font-semibold mt-4"
+                >
+                  Update stages
+                </Button>
+              )}
             </div>
           </div>
         )}
