@@ -52,8 +52,8 @@ export default function DezynLabPage() {
       </div> */}
 
       <div
-        className="block w-full sm:h-full shadow rounded-2xl border-t-3 border-orange-500 mb-10 pb-10 h-[1900px]"
-        id="regitration"
+        className="block w-full sm:h-full shadow rounded-2xl border-t-3 border-orange-500 mb-10 pb-10 max-h-[1900px]"
+        id="registration"
       >
         <div
           className="hs-form-frame w-full"
