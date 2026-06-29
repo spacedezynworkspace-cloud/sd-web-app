@@ -14,13 +14,13 @@ export default function DezynLabPage() {
               <h1 className="text-white sm:text-4xl text-4xl font-extrabold">
                 Next Cohort <span className="text-orange-500">2026</span>
               </h1>
-              <p className="uppercase text-white">
+              <p className="uppercase text-white font-bold">
                 4th aug 2026 | 9am - 12noon | abuja
               </p>
-              <p className="text-orange-500 uppercase">
+              <p className="text-orange-500 uppercase font-bold">
                 Interior design professional program
               </p>
-              <p className="text-white uppercase mb-20">
+              <p className="text-white uppercase mb-20 font-bold">
                 Monday, wednesday, & friday
               </p>
               <small className="text-white ">Limited slots available</small>
@@ -52,8 +52,8 @@ export default function DezynLabPage() {
       </div> */}
 
       <div
-        className="block w-full sm:h-full shadow rounded-2xl border-t-3 border-orange-500 mb-10 pb-10 h-[1900px]"
-        id="regitration"
+        className="block w-full sm:h-full shadow rounded-2xl border-t-3 border-orange-500 mb-10 pb-10 max-h-[1900px]"
+        id="registration"
       >
         <div
           className="hs-form-frame w-full"
