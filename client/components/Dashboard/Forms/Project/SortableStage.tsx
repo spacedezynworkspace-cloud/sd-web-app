@@ -29,14 +29,14 @@ export default function SortableStage({ stage, onToggle }: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center justify-between gap-2 bg-gray-100 p-2 rounded-lg"
+      className="flex items-center justify-between gap-2   bg-gray-100 p-2 rounded-lg"
     >
       <Checkbox
         isSelected={stage.completed}
         onValueChange={(checked) => onToggle(stage.name, checked)}
         color="warning"
       >
-        {stage.name}
+        <span className="dark:text-black">{stage.name}</span>
       </Checkbox>
       <span {...attributes} {...listeners} className="cursor-grab">
         ☰
