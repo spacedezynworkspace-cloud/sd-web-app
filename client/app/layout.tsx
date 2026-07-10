@@ -6,11 +6,11 @@ import { ReduxProvider as ReduxProvider } from '@/lib/providers/ReduxProvider';
 import { siteConfig } from '@/config/site';
 import { montserrat, raleWay } from '@/config/fonts';
 import Navbar from '@/components/Navbar';
-import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/config/nextAuthOptions';
-import '@/styles/globals.css';
 import Footer from '@/components/Footer';
+import '@/styles/globals.css';
+import 'react-vertical-timeline-component/style.min.css';
 
 export const metadata: Metadata = {
   title: {
@@ -47,11 +47,11 @@ export default async function RootLayout({
       >
         <ReduxProvider session={session}>
           <HeroUIProvider
-            themeProps={{ attribute: 'class', defaultTheme: 'light' }}
+            themeProps={{ attribute: 'class', defaultTheme: 'dark' }}
           >
             <div className="relative flex flex-col h-full bg-gray-50 dark:bg-black">
               <Navbar />
-              <main className="-mt-28">{children}</main>
+              <main>{children}</main>
               <Footer />
             </div>
           </HeroUIProvider>

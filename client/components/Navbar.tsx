@@ -54,6 +54,13 @@ const Navbar = () => {
     { mainLink: { name: 'Home', href: '/', current: true } },
     {
       mainLink: {
+        name: 'About Us',
+        href: '/about-us',
+        current: false,
+      },
+    },
+    {
+      mainLink: {
         name: 'DezynLab',
         href: 'dezynlab',
         current: false,
@@ -225,14 +232,14 @@ const Navbar = () => {
                 })}
               </div>
             </div>
-            <button
+            {/* <button
               type="button"
               className="relative hidden sm:flex rounded-full p-1 text-[#F19645] focus:outline-2 focus:outline-offset-2 focus:outline-[#F19645]"
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
               <BellIcon aria-hidden="true" className="size-6" />
-            </button>
+            </button> */}
             <ThemeSwitch />
 
             {/* Profile dropdown */}
