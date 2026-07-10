@@ -5,6 +5,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { addToast, Button, Form, Input, Spinner } from '@heroui/react';
 import { useRouter } from 'next/dist/client/components/navigation';
+import Link from 'next/link';
 
 interface FormErrors {
   name?: string;
@@ -98,13 +99,15 @@ const LoginPortal = () => {
   return (
     <div className="sm:w-[400px] w-full text-black  bg-white p-6 rounded-2xl sm:shadow">
       <div className="w-full flex mb-10 flex-col items-center gap-3">
-        <Image
-          src={'/sd-web-app-logo.png'}
-          alt="Space Dezyn logo"
-          width={100}
-          height={75}
-          className="object-fill "
-        />
+        <Link href="/">
+          <Image
+            src={'/sd-web-app-logo.png'}
+            alt="Space Dezyn logo"
+            width={100}
+            height={75}
+            className="object-fill "
+          />
+        </Link>
         <h1 className="sm:text-xl text-lg font-bold">Staff Login Form</h1>
         <small className="text-center">
           Log in to manage all your projects, staff, operations, finance and

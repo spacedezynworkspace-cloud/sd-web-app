@@ -28,7 +28,7 @@ export default function Home() {
     },
   ];
   return (
-    <section className="relative w-full min-h-screen overflow-hidden text-white">
+    <section className="relative w-full min-h-screen overflow-hidden text-white -mt-28">
       {/* Hero */}
       <HeroSection />
 
@@ -102,8 +102,8 @@ export default function Home() {
               <h1 className="text-4xl w-full text-wrap  md:text-6xl font-montserrat uppercase font-extrabold tracking-wide">
                 Visit Our Office
               </h1>
-              <h2 className=" text-black sm:font-semibold text-sm  sm:block">
-                Bookings for consultation use this map to find our office. We
+              <h2 className=" bg-white p-4 rounded-2xl text-black sm:font-semibold text-sm  sm:block">
+                Bookings for consultation, use this map to find our office. We
                 also have a Smart switch storefront at our physical location.
               </h2>
               <ul className="flex flex-col gap-3 bg-[#F19645]/70 font-semibold p-4 rounded-2xl w-max">

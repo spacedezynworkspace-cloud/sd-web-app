@@ -4,13 +4,13 @@ import Link from 'next/link';
 export default function DezynLabPage() {
   return (
     <div className="items-center dark:bg-black px-4 flex flex-col justify-center w-full sm:gap-20 ">
-      <div className="absolute w-full h-[500px] inset-0 z-10">
+      <div className="absolute w-full h-[500px] flex items-center justify-center inset-0 z-10">
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/60 rounded-lg pointer-events-none z-20" />
 
-        <div className="h-full absolute z-20 w-full px-4 flex items-center ">
-          <div className="max-w-7xl ">
-            <div className=" sm:pl-14 pl-0 my-4">
+        <div className="h-full absolute max-w-7xl mx-auto justify-start z-20 w-full sm:px-0 px-4 flex items-center">
+          <div>
+            <div className="pl-0 my-4">
               <h1 className="text-white sm:text-4xl text-4xl font-extrabold">
                 Next Cohort <span className="text-orange-500">2026</span>
               </h1>
@@ -28,7 +28,7 @@ export default function DezynLabPage() {
 
             <Link
               href={'#hs-form-frame'}
-              className="bg-orange-500 sm:ml-14 ml-0 rounded-xs shadow px-3 py-1"
+              className="bg-orange-500  ml-0 rounded-xs shadow px-3 py-1"
             >
               Apply Now
             </Link>
