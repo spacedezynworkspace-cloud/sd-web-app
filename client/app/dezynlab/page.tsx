@@ -1,3 +1,5 @@
+'use client';
+import { Alert } from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -43,20 +45,20 @@ export default function DezynLabPage() {
           priority
         />
       </div>
-
-      {/* <div  className="text-start w-full sm:pl-6">
-        <p>
-          Learn from industry experts and get your questions answered. Register
-          now to secure your spot!
-        </p>
-      </div> */}
-
+      <div className="flex w-full -mt-20 sm:-mb-10 mb-3">
+        <div>
+          <Alert
+            color={'danger'}
+            title={`Limited slots available. Join waitlist now!`}
+          />
+        </div>
+      </div>
       <div
-        className="block w-full sm:h-full shadow rounded-2xl border-t-3 border-orange-500 mb-10 pb-10 max-h-[1900px]"
+        className="block w-full sm:h-full shadow rounded-2xl border-t-3 border-b-3 border-orange-500 mb-10 max-h-[1900px]"
         id="registration"
       >
         <div
-          className="hs-form-frame w-full"
+          className="hs-form-frame w-full p-2"
           data-region="eu1"
           data-form-id="02679091-3eb9-4281-847c-7b30d0f77ee5"
           data-portal-id="148723280"
