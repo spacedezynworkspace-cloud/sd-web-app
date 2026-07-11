@@ -168,19 +168,19 @@ const Navbar = () => {
           <div className="flex flex-1 items-center h-full justify-center sm:justify-start">
             <div className="flex shrink-0 items-center">
               <Link href="/">
-                {/* <Image
+                <Image
                   src={'/sd-web-app-logo-white.png'}
                   alt="Space Dezyn logo"
-                  width={100}
+                  width={85}
                   height={75}
                   className="object-fill dark:flex hidden"
-                /> */}
+                />
                 <Image
                   src={'/sd-web-app-logo.png'}
                   alt="Space Dezyn logo"
                   width={85}
                   height={75}
-                  className="object-fill"
+                  className="object-fill dark:hidden "
                 />
               </Link>
             </div>

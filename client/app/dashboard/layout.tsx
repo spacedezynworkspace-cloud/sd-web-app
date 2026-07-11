@@ -25,7 +25,7 @@ export default async function Layout({
     redirect('/dashboard-login-portal');
   }
   return (
-    <section className="mt-28 pb-20 container mx-auto max-w-7xl pt-10 px-4 flex-grow">
+    <section className=" pb-20 container mx-auto max-w-7xl pt-10 px-4 flex-grow">
       {children}
     </section>
   );

@@ -263,11 +263,11 @@ const OurTeam = () => {
       </div>
 
       {/* Mobile  */}
-      <div className="w-full mt-10 sm:hidden flex flex-col gap-14">
+      <div className="w-full mt-10 sm:hidden grid grid-cols-2 gap-x-4 gap-y-6">
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -275,14 +275,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Akubo Favour</h3>
               <p className="text-sm font-bold">creative Director</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -291,7 +291,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -299,14 +299,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
-              <h3 className="text-lg">Chidinma Obiezekpazu</h3>
+              <h3 className="text-lg">Chidinma Obi</h3>
               <p className="text-sm font-bold">Lead supervisor</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -315,7 +315,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -323,14 +323,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Maryam Umar</h3>
               <p className="text-sm font-bold">Admin Officer</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -339,7 +339,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -347,14 +347,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Sarah Ekpo</h3>
-              <p className="text-sm font-bold">Admin Officer</p>
+              <p className="text-sm font-bold">Digital Marketer</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -363,7 +363,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -371,14 +371,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Akubo Devine</h3>
               <p className="text-sm font-bold">Brand Expert</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -387,7 +387,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -395,14 +395,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Wisdom White</h3>
               <p className="text-sm font-bold">Senior Visual Artist</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -411,7 +411,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -419,14 +419,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Adenike Ogbesoyen</h3>
               <p className="text-sm font-bold">Site Supervisor</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -435,7 +435,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -443,14 +443,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Debola Adetokumbo</h3>
               <p className="text-sm font-bold">Architech</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>
@@ -459,7 +459,7 @@ const OurTeam = () => {
         <div className="w-full">
           <Image
             alt={''}
-            className=" w-full object-cover h-[350px]"
+            className=" w-full object-cover h-[180px]"
             radius="md"
             shadow="sm"
             src={
@@ -467,14 +467,14 @@ const OurTeam = () => {
             }
             width="100%"
           />
-          <div className="flex items-end justify-between mt-3 w-full">
+          <div className="flex flex-col mt-3 w-full gap-1">
             <div>
               <h3 className="text-lg">Ekong Evie Emmanuel</h3>
               <p className="text-sm font-bold">Software Engineer</p>
             </div>
             <Link
               href={''}
-              className="bg-[#F19645] text-sm rounded-sm text-black font-semibold shadow px-4 py-1"
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
             >
               Portfolio
             </Link>

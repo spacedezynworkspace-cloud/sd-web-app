@@ -70,7 +70,7 @@ const AboutUs = () => {
       </div>
 
       {/* Our Team  */}
-      <div className="sm:max-w-7xl w-full px-4 sm:px-6 sm:gap-20 items-end flex flex-col justify-start lg:px-8 mx-auto mb-40">
+      <div className="sm:max-w-7xl w-full px-4 sm:px-6 sm:gap-20 items-end flex flex-col justify-start lg:px-8 mx-auto mb-32">
         <div className="text-black sm:hidden mt-20">
           <SectionHeader
             introText="OUR TEAM"
@@ -83,8 +83,8 @@ const AboutUs = () => {
       </div>
 
       {/* Why choose us  */}
-      <div className="sm:max-w-7xl w-full px-4 sm:px-6 sm:gap-20 items-start flex sm:flex-row flex-col justify-start lg:px-8 mx-auto sm:mb-32 mb-20">
-        <div className="text-black sm:block hidden sm:w-1/2">
+      <div className="sm:max-w-7xl w-full px-4 sm:px-6 sm:gap-20 items-start flex sm:flex-row flex-col justify-center lg:px-8 mx-auto sm:mb-32 mb-20">
+        <div className="text-black block sm:w-1/2 sm:mb-0 mb-10">
           <SectionHeader
             introText="Work with us"
             headerText="Why Choose Space Dezyn"

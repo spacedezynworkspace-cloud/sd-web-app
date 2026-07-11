@@ -16,7 +16,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="pt-[540px] bg-white pb-20 container mx-auto font-montserrat max-w-7xl flex-grow">
+    <section className="pt-[510px] pb-20 container mx-auto font-montserrat max-w-7xl flex-grow">
       {children}
     </section>
   );
