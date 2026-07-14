@@ -38,7 +38,7 @@ const Footer = () => {
         })}
       </div>
       <div className="w-full flex items-center gap-5 justify-center py-3">
-        <div className=" text-xs text-black">
+        <div className=" text-xs light:text-black">
           Read{' '}
           <Link className="text-[#f19645]" href={'/terms-and-conditions'}>
             Terms & Condition

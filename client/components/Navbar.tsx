@@ -84,32 +84,36 @@ const Navbar = () => {
       mainLink: { name: 'Services', href: '#', current: false },
       subLinks: [
         {
+          name: 'All services',
+          href: '/services',
+        },
+        {
           name: 'Smart AirBnB',
-          href: '/air-bnb',
+          href: '/services/air-bnb',
         },
         {
           name: 'Interior Design',
-          href: '/interior-design',
+          href: '/services/interior-design',
         },
         {
           name: 'Virtual Tour',
-          href: '/virtual-tour',
+          href: '/services/virtual-tour',
         },
         {
           name: '3D Visualization',
-          href: '/3d-visualization',
+          href: '/services/3d-visualization',
         },
         {
           name: 'Rennovation',
-          href: '/rennovation',
+          href: '/services/rennovation',
         },
         {
           name: 'Consultation',
-          href: '/consultation',
+          href: '/services/consultation',
         },
         {
           name: 'Professional Cleaning',
-          href: 'https://urbancleaningng.my.canva.site',
+          href: '/services/cleaning',
         },
       ],
     },
@@ -122,8 +126,15 @@ const Navbar = () => {
     },
     {
       mainLink: {
-        name: 'Book Appointment',
-        href: 'https://www.spacedezyn.com/book-a-consultation',
+        name: 'Book a consultation',
+        href: '/book-a-consultation',
+        current: false,
+      },
+    },
+    {
+      mainLink: {
+        name: 'Contact us',
+        href: '/contact',
         current: false,
       },
     },

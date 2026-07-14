@@ -237,15 +237,27 @@ const OurTeam = () => {
             </Link>
           </div>
 
-          <div className="col-span-2 flex justify-center items-center">
-            <div className="text-center">
-              <h1 className="uppercase font-extrabold text-4xl">OUR VISION</h1>
-              <p className="sm:w-[350px]">
-                Our mission at Space Dezyn is simple: to design places that
-                restore joy, encourage rest, and become the sanctuary people
-                long for. - TEAM&apos;S NOTE
-              </p>
-            </div>
+          <div>
+            <Image
+              alt={''}
+              className="sm:w-[240px] w-full object-cover sm:h-[240px] h-[150px]"
+              radius="md"
+              shadow="sm"
+              src={
+                'https://res.cloudinary.com/dcd8gvgup/image/upload/v1784000464/lisha_jdbvek.jpg'
+              }
+              width="100%"
+            />
+          </div>
+          <div className="sm:w-[240px] p-8 sm:h-[240px] relative bg-amber-400 rounded-sm">
+            <h3 className="text-xl">Eborty Belisha</h3>
+            <p className="text-sm font-bold">Sales & Marketing</p>
+            <Link
+              href={''}
+              className="bg-white rounded-sm text-black font-semibold absolute bottom-8 shadow px-4 py-1"
+            >
+              Portfolio
+            </Link>
           </div>
           <div>
             <Image
@@ -351,6 +363,30 @@ const OurTeam = () => {
             <div>
               <h3 className="text-lg">Sarah Ekpo</h3>
               <p className="text-sm font-bold">Digital Marketer</p>
+            </div>
+            <Link
+              href={''}
+              className="bg-[#F19645] text-sm rounded-sm w-max text-black font-semibold shadow px-4 py-1"
+            >
+              Portfolio
+            </Link>
+          </div>
+        </div>
+        <div className="w-full">
+          <Image
+            alt={''}
+            className=" w-full object-cover h-[180px]"
+            radius="md"
+            shadow="sm"
+            src={
+              'https://res.cloudinary.com/dcd8gvgup/image/upload/v1784000464/lisha_jdbvek.jpg'
+            }
+            width="100%"
+          />
+          <div className="flex flex-col mt-3 w-full gap-1">
+            <div>
+              <h3 className="text-lg">Eborty Belisha</h3>
+              <p className="text-sm font-bold">Sales & Marketing</p>
             </div>
             <Link
               href={''}

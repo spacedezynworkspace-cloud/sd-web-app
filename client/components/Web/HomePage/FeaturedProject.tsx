@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
@@ -95,7 +95,6 @@ const FeaturedProject = () => {
   };
 
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions, [autoplay]);
-  console.log(emblaApi);
 
   return (
     <section className="bg-black py-40 ">
