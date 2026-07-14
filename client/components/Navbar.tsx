@@ -115,6 +115,13 @@ const Navbar = () => {
     },
     {
       mainLink: {
+        name: 'Blog',
+        href: '/blog',
+        current: false,
+      },
+    },
+    {
+      mainLink: {
         name: 'Book Appointment',
         href: 'https://www.spacedezyn.com/book-a-consultation',
         current: false,
