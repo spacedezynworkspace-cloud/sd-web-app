@@ -50,6 +50,8 @@ const Navbar = () => {
   const { data: session } = useSession();
 
   const [navbarBg, setNavbarBg] = useState<boolean>(false);
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const webNavbar: NavigationType[] = [
     { mainLink: { name: 'Home', href: '/', current: true } },
     {
@@ -168,20 +170,19 @@ const Navbar = () => {
         <div className="relative flex h-24 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2  text-[#F19645] hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-[#F19645]">
-              <span className="absolute -inset-0.5" />
-              <span className="sr-only">Open main menu</span>
 
-              <Bars3Icon
-                aria-hidden="true"
-                className="block size-6 group-data-open:hidden"
-                onClick={() => console.log('clicked')}
-              />
-              <XMarkIcon
-                aria-hidden="true"
-                className="hidden size-6 group-data-open:block"
-              />
-            </DisclosureButton>
+            <Button
+              isIconOnly
+              variant="light"
+              className="group relative inline-flex items-center justify-center rounded-md p-2  text-[#F19645] hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-[#F19645]"
+              onPress={() => setIsMobileMenuOpen((prev) => !prev)}
+            >
+              {isMobileMenuOpen ? (
+                <XMarkIcon className="size-6" />
+              ) : (
+                <Bars3Icon className="size-6" />
+              )}
+            </Button>
           </div>
           <div className="flex flex-1 items-center h-full justify-center sm:justify-start">
             <div className="flex shrink-0 items-center">
@@ -224,7 +225,11 @@ const Navbar = () => {
 
                       <DropdownMenu aria-label="Link Actions">
                         {item.subLinks.map((subItem) => (
-                          <DropdownItem key={subItem.name} href={subItem.href}>
+                          <DropdownItem
+                            key={subItem.name}
+                            href={subItem.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
                             {subItem.name}
                           </DropdownItem>
                         ))}
@@ -243,6 +248,7 @@ const Navbar = () => {
                           : ' hover:bg-orange-200/50 hover:font-extrabold',
                         'rounded-md px-3 py-2 text-sm font-medium text-[#F19645]'
                       )}
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.mainLink.name}
                     </Link>
@@ -317,53 +323,59 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {isMobileMenuOpen && (
+        <div className="sm:hidden absolute h-screen w-full left-0 top-0 -z-10">
+          <div className="space-y-1 px-2 pt-32 flex flex-col pb-3 dark:bg-black bg-white w-full h-screen left-0">
+            {NAVBARITEMS.map((item) => {
+              return item.subLinks ? (
+                <Dropdown key={item.mainLink.name}>
+                  <DropdownTrigger>
+                    <button
+                      className={clsx(
+                        item.mainLink.href === pathName
+                          ? ' text-white'
+                          : 'text-[#F19645] hover:bg-orange-200/50 hover:font-extrabold',
+                        'rounded-md px-3 py-2 text-sm font-medium w-max'
+                      )}
+                    >
+                      {item.mainLink.name}
+                    </button>
+                  </DropdownTrigger>
 
-      <DisclosurePanel className="sm:hidden absolute h-screen w-full left-0 top-0 -z-10">
-        <div className="space-y-1 px-2 pt-32 flex flex-col pb-3 dark:bg-black bg-white w-full h-screen left-0">
-          {NAVBARITEMS.map((item) => {
-            return item.subLinks ? (
-              <Dropdown key={item.mainLink.name}>
-                <DropdownTrigger>
-                  <button
-                    className={clsx(
-                      item.mainLink.href === pathName
-                        ? ' text-white'
-                        : 'text-[#F19645] hover:bg-orange-200/50 hover:font-extrabold',
-                      'rounded-md px-3 py-2 text-sm font-medium w-max'
-                    )}
-                  >
-                    {item.mainLink.name}
-                  </button>
-                </DropdownTrigger>
-
-                <DropdownMenu aria-label="Link Actions">
-                  {item.subLinks.map((subItem) => (
-                    <DropdownItem key={subItem.name} href={subItem.href}>
-                      {subItem.name}
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-              </Dropdown>
-            ) : (
-              <Link
-                key={item.mainLink.name}
-                href={item.mainLink.href}
-                aria-current={
-                  item.mainLink.href === pathName ? 'page' : undefined
-                }
-                className={clsx(
-                  item.mainLink.href === pathName
-                    ? ' bg-orange-200/50'
-                    : ' hover:bg-orange-200/50 hover:font-extrabold',
-                  'rounded-md px-3 py-2 text-sm font-medium text-[#F19645] w-max'
-                )}
-              >
-                {item.mainLink.name}
-              </Link>
-            );
-          })}
+                  <DropdownMenu aria-label="Link Actions">
+                    {item.subLinks.map((subItem) => (
+                      <DropdownItem
+                        key={subItem.name}
+                        href={subItem.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {subItem.name}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+              ) : (
+                <Link
+                  key={item.mainLink.name}
+                  href={item.mainLink.href}
+                  aria-current={
+                    item.mainLink.href === pathName ? 'page' : undefined
+                  }
+                  className={clsx(
+                    item.mainLink.href === pathName
+                      ? ' bg-orange-200/50'
+                      : ' hover:bg-orange-200/50 hover:font-extrabold',
+                    'rounded-md px-3 py-2 text-sm font-medium text-[#F19645] w-max'
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.mainLink.name}
+                </Link>
+              );
+            })}
+          </div>
         </div>
-      </DisclosurePanel>
+      )}
     </Disclosure>
   );
 };
