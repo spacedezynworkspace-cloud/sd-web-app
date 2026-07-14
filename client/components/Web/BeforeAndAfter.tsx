@@ -23,7 +23,7 @@ const BeforeAndAfter = () => {
               Explore transformation
             </Link>
           </div>
-          <div className="w-full rounded-lg">
+          <div className="w-full rounded-lg bg-green-400 h-[300px] sm:h-[400px]">
             <ReactCompareSlider
               itemOne={
                 <div className="relative w-full h-full">

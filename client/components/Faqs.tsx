@@ -3,6 +3,7 @@ import { Accordion, AccordionItem } from '@heroui/react';
 import React from 'react';
 import SectionHeader from './Web/SectionHeader';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import StartProjectCTAForm from './StartProjectCTAForm';
 
 const Faqs = () => {
   const FAQS = [
@@ -20,11 +21,8 @@ const Faqs = () => {
           <p className="flex sm:flex-row flex-col sm:items-center gap-1">
             {' '}
             To get a personalized estimate,
-            <a href="/" className="text-[#F19645] flex items-center gap-1">
-              <span> Start project</span>
-              <ArrowRightIcon className="size-4" />
-            </a>{' '}
           </p>
+          <StartProjectCTAForm bgBtn={true} />
         </div>
       ),
     },
@@ -43,10 +41,7 @@ const Faqs = () => {
             <li>Fixed design packages</li>
             <li> Custom project-based pricing</li>
           </ul>
-          <a href="/" className="text-[#F19645] flex items-center gap-1">
-            <span> Start project</span>
-            <ArrowRightIcon className="size-4" />
-          </a>{' '}
+          <StartProjectCTAForm bgBtn={true} />
         </div>
       ),
     },
@@ -121,13 +116,7 @@ const Faqs = () => {
             Simply click the button below and fill out a short form. We’ll
             review your needs and get in touch with the next steps.
           </p>
-          <a
-            href="/"
-            className="bg-[#F19645] rounded-md shadow px-3 py-2 text-xs text-white font-semibold w-auto flex items-center gap-1"
-          >
-            <span> Start project</span>
-            <ArrowRightIcon className="size-4" />
-          </a>{' '}
+          <StartProjectCTAForm bgBtn={true} />
         </div>
       ),
     },

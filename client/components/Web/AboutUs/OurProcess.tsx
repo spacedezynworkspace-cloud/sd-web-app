@@ -58,7 +58,7 @@ const OurProcess = () => {
         iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
         icon={<PencilSquareIcon />}
       >
-        <h4 className="vertical-timeline-element-subtitle text-gray-600 font-bold">
+        <h4 className="vertical-timeline-element-subtitle text-gray-400 font-bold">
           Step 3
         </h4>
         <h3 className="vertical-timeline-element-title font-bold text-white">
@@ -71,9 +71,9 @@ const OurProcess = () => {
       </VerticalTimelineElement>
       <VerticalTimelineElement
         className="vertical-timeline-element--work"
-        contentStyle={{ background: 'rgb(16, 204, 82)' }}
+        contentStyle={{ background: 'rgb(64, 168, 101)' }}
         date="Project completion"
-        iconStyle={{ background: 'rgb(16, 204, 82)', color: '#fff' }}
+        iconStyle={{ background: 'rgb(64, 168, 101)', color: '#fff' }}
         icon={<CheckCircleIcon />}
       >
         <h4 className="vertical-timeline-element-subtitle text-gray-300 font-extrabold">

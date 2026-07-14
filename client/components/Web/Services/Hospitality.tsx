@@ -3,35 +3,9 @@ import React from 'react';
 import SectionHeader from '../SectionHeader';
 import { Card, CardBody, CardFooter } from '@heroui/react';
 import Image from 'next/image';
+import { apartments } from '@/data/data';
 
 const Hospitality = () => {
-  const APARTMENTS = [
-    {
-      title: 'Haven Apartment',
-      price: '₦150,000/day',
-      img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469167/IMG_5094_qfvv2f.heic',
-    },
-    {
-      title: 'Space X',
-      price: '₦215,000/day',
-      img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469214/IMG_5172_fzftvg.heic',
-    },
-    {
-      title: 'A series',
-      price: '₦120,000/day',
-      img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469189/IMG_5165_getmbt.heic',
-    },
-    {
-      title: 'A series',
-      price: '₦120,000/day',
-      img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469189/IMG_5165_getmbt.heic',
-    },
-    {
-      title: 'Rage 4',
-      price: '₦95,000/day',
-      img: 'https://res.cloudinary.com/dnwqqmdee/image/upload/f_auto,q_auto/v1758469187/IMG_5126_rtursl.heic',
-    },
-  ];
   return (
     <section className="w-full bg-white dark:bg-black sm:py-20 py-10">
       <div className="sm:max-w-7xl w-full px-4 sm:px-6 sm:gap-20 items-center flex sm:flex-row flex-col justify-start lg:px-8 mx-auto">
@@ -51,7 +25,7 @@ const Hospitality = () => {
         </div>
 
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-3 sm:w-1/2 w-full">
-          {APARTMENTS.map((item, index) => (
+          {apartments.map((item, index) => (
             /* eslint-disable no-console */
             <Card
               key={index}

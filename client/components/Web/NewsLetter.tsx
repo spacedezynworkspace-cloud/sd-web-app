@@ -42,10 +42,10 @@ const NewsLetter = ({ header, description }: NewsLetterProps) => {
             <Button
               className="w-[150px] ml-3 sm:absolute right-0 sm:flex hidden items-center bg-[#F19645] text-white"
               type="submit"
-              disabled={true}
+              disabled={false}
             >
               <p>Subscribe</p>
-              {true && <Spinner size="sm" variant="spinner" color="white" />}
+              {/* {true && <Spinner size="sm" variant="spinner" color="white" />} */}
             </Button>
           }
           className="ring-0 outline-0 sm:w-[500px] w-full"
@@ -53,10 +53,10 @@ const NewsLetter = ({ header, description }: NewsLetterProps) => {
         <Button
           className="w-full flex sm:hidden items-center bg-[#F19645] text-white"
           type="submit"
-          disabled={true}
+          disabled={false}
         >
           <p>Subscribe</p>
-          {true && <Spinner size="sm" variant="spinner" color="white" />}
+          {/* {true && <Spinner size="sm" variant="spinner" color="white" />} */}
         </Button>
       </Form>
     </div>

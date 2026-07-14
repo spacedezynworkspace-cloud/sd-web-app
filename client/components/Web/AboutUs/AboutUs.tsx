@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import SectionHeader from '../SectionHeader';
 import Link from 'next/link';
@@ -6,6 +7,7 @@ import OurProcess from './OurProcess';
 import OurTeam from './OurTeam';
 import WhyChooseUs from './WhyChooseUs';
 import ContactForm from '../ContactForm';
+import StartProjectCTAForm from '@/components/StartProjectCTAForm';
 
 const AboutUs = () => {
   return (
@@ -19,7 +21,7 @@ const AboutUs = () => {
           />
           <div className=" mt-8 flex justify-start">
             <Link
-              href="https://blog.spacedezyn.com"
+              href="/blog"
               className="sm:w-auto px-4 py-3 rounded-lg  bg-[#F19645]   text-white font-semibold text-center text-xs sm:text-sm "
             >
               Read more
@@ -67,6 +69,7 @@ const AboutUs = () => {
         </div>
 
         <OurProcess />
+        <StartProjectCTAForm bgBtn={true} />
       </div>
 
       {/* Our Team  */}
