@@ -154,7 +154,9 @@ export const getAllProjects = async (req: Request, res: Response) => {
 export const getProject = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const project = await Project.findById(id);
+    const project = await Project.findById(id)
+      .populate('assignedTo', 'name email')
+      .lean();
 
     return res.status(200).json({
       data: project,

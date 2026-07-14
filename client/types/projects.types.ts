@@ -25,7 +25,7 @@ export interface Project {
   };
   stages: projectStages[];
   // createdAt: string;
-  // updatedAt: string;
+  updatedAt: string;
 }
 
 export interface CreateProjectRequest {
