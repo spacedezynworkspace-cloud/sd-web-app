@@ -1,13 +1,17 @@
 'use client';
 import React from 'react';
-import { PortableText, type SanityDocument } from 'next-sanity';
 import { formatDateAndTime } from '@/utils/dateFormat.utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface BlogsProps {
   postImageUrl: string | null | undefined;
-  post: SanityDocument;
+  post: {
+    _id: string;
+    title: string;
+    slug: string;
+    body: string;
+  };
   preview?: boolean;
 }
 const Blogs = ({ postImageUrl, post, preview }: BlogsProps) => {
@@ -33,30 +37,31 @@ const Blogs = ({ postImageUrl, post, preview }: BlogsProps) => {
           {preview ? (
             <Link
               key={post._id}
-              href={`/blog/${post.slug.current}`}
+              href={`/blog/${post.slug}`}
               className="hover:underline"
-              id={post.slug.current}
+              id={post.slug}
             >
-              <h1 className="text-md text-wrap dark:text-white font-montserrat uppercase font-extrabold tracking-wide">
-                {post.title}.
+              <h1 className="text-sm text-wrap dark:text-white font-montserrat uppercase font-extrabold tracking-wide">
+                {post.title}
               </h1>
             </Link>
           ) : (
             <h1 className="text-xl text-wrap dark:text-white font-montserrat uppercase font-extrabold tracking-wide">
-              {post.title}.
+              {post.title}
             </h1>
           )}
           <p className="text-[#F19645] text-xs font-semibold">
-            {formatDateAndTime(post.publishedAt)}
+            {/* {formatDateAndTime(post.publishedAt)}  */}
+            July 12, 2026 at 1:07 AM
           </p>
-          <h2 className=" text-gray-950 text-sm dark:text-gray-200 sm:block">
-            {/* Transforming Homes & Commercial Spaces */}
-            {Array.isArray(post.body) && (
-              <PortableText
-                value={preview ? post.body.slice(0, 1) : post.body}
-              />
-            )}
-          </h2>
+          <div className="blog-content">
+            <p className="text-xs">
+              Every exceptional space begins with a vision. At{' '}
+              <strong>Space Dezyn</strong>, we believe that great design is more
+              than aesthetics—it is about creating environments that improve how
+              people live, work, and interact every day.
+            </p>
+          </div>
         </div>
       </div>
     </div>
