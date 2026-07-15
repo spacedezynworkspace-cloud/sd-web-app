@@ -32,4 +32,5 @@ export const supervisorsApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetAllSupervisorsQuery } = supervisorsApi;
+export const { useGetAllSupervisorsQuery, useLazyGetAllSupervisorsQuery } =
+  supervisorsApi;
