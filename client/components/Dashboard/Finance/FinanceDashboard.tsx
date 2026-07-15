@@ -207,8 +207,8 @@ const FinanceDashboard = () => {
             <div>
               <div className="bg-white  dark:bg-transparent dark:text-white rounded-lg sm:h-[500px] h-[550px] p-4 w-full">
                 <DashboardHeader
-                  title="Supervisors Request"
-                  description="Track supervisors requests received over time to manage expenses."
+                  title="Project Expenses"
+                  description="Track project expenses over time to manage expenses."
                 />
                 <div className="mb-4">
                   <div className="flex flex-col gap-2 overflow-y-scroll h-[350px]">
