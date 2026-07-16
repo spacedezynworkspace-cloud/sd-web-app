@@ -17,7 +17,7 @@ const OperationsDashboard = () => {
   const statuses = [
     { key: '', label: 'All' },
     { key: 'completed', label: 'Completed' },
-    { key: 'paused', label: 'Paused' },
+    { key: 'on_hold', label: 'On Hold' },
     { key: 'in_progress', label: 'In Progress' },
   ];
   const phases = [

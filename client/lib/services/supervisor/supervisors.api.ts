@@ -3,6 +3,7 @@
 import { Supervisor } from '@/types/supervisors.types';
 import { api } from '../api';
 import { ApiResponse } from '@/types/api.types';
+import { Project } from '@/types/projects.types';
 
 export const supervisorsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,9 +29,47 @@ export const supervisorsApi = api.injectEndpoints({
             ]
           : [{ type: 'Supervisors', id: 'LIST' }],
     }),
+    assignSupervisor: builder.mutation<
+      ApiResponse<Project>,
+      {
+        id: string;
+        data: { supervisorId?: string };
+      }
+    >({
+      query: ({ id, data }) => ({
+        url: `/supervisors/projects/${id}/assign-supervisor`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Projects', id },
+        { type: 'Projects', id: 'LIST' },
+      ],
+    }),
+    removeSupervisor: builder.mutation<
+      ApiResponse<Project>,
+      {
+        id: string;
+        data: { supervisorId?: string };
+      }
+    >({
+      query: ({ id, data }) => ({
+        url: `/supervisors/projects/${id}/remove-supervisor`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Projects', id },
+        { type: 'Projects', id: 'LIST' },
+      ],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetAllSupervisorsQuery, useLazyGetAllSupervisorsQuery } =
-  supervisorsApi;
+export const {
+  useGetAllSupervisorsQuery,
+  useLazyGetAllSupervisorsQuery,
+  useAssignSupervisorMutation,
+  useRemoveSupervisorMutation,
+} = supervisorsApi;

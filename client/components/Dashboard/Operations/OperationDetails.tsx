@@ -6,10 +6,11 @@ import {
   ArrowLeftIcon,
   CheckBadgeIcon,
   ClockIcon,
+  TrashIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React, { Key, useEffect } from 'react';
 import DashboardHeader from '../DashboardHeader';
 import { useSession } from 'next-auth/react';
 import { formatDate, formatDateAndTime } from '@/utils/dateFormat.utils';
@@ -23,53 +24,22 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Spinner,
+  Tooltip,
+  useDisclosure,
 } from '@heroui/react';
 import { projectStages, UpdateProjectRequest } from '@/types/projects.types';
 import { IoClose } from 'react-icons/io5';
-import { useLazyGetAllSupervisorsQuery } from '@/lib/services/supervisor/supervisors.api';
-import useDebounce from '@/hooks/useDebounceHook';
+import {
+  useAssignSupervisorMutation,
+  useGetAllSupervisorsQuery,
+} from '@/lib/services/supervisor/supervisors.api';
+import RemoveSupervisorModal from './RemoveSupervisorModal';
 
 const OperationDetails = ({ projectId }: { projectId: string }) => {
   const { data, isLoading } = useGetProjectByIdQuery({ id: projectId });
 
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(['']));
-
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys).join(', ').replaceAll('_', ' '),
-    [selectedKeys]
-  );
-
-  const handleSelectionChange = (
-    keys: React.Key[] | Set<React.Key> | string | undefined
-  ) => {
-    if (keys === undefined) {
-      setSelectedKeys(new Set());
-      return;
-    }
-
-    if (typeof keys === 'string') {
-      if (keys === 'all') {
-        setSelectedKeys(
-          new Set(['text', 'number', 'date', 'single_date', 'iteration'])
-        );
-      } else {
-        setSelectedKeys(new Set([keys]));
-      }
-      return;
-    }
-
-    if (keys instanceof Set) {
-      setSelectedKeys(new Set(Array.from(keys, String)));
-      return;
-    }
-
-    if (Array.isArray(keys)) {
-      setSelectedKeys(new Set(keys.map(String)));
-      return;
-    }
-
-    setSelectedKeys(new Set());
-  };
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const { data: session } = useSession();
   const isAdmin = session?.user?.role === 'admin';
@@ -78,18 +48,46 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
   const [stages, setStages] = React.useState<projectStages[]>(
     data?.data.stages || []
   );
+
   const [updateProject, { isLoading: projectUpdateLoading }] =
     useUpdateProjectMutation();
 
+  const [assignSupervisor, { isLoading: assignSupervisorLoading }] =
+    useAssignSupervisorMutation();
+
   const [search, setSearch] = React.useState('');
-  const [selectedSupervisor, setSelectedSupervisor] = React.useState<
-    string | null
-  >(null);
-  const debouncedSearch = useDebounce(search, 500);
-  const [
-    getSupervisors,
-    { data: supervisorsData, isFetching: isSupervisorsFetching },
-  ] = useLazyGetAllSupervisorsQuery();
+  const [selectedSupervisor, setSelectedSupervisor] = React.useState('');
+  const [removeSelectedSupervisor, setRemoveSelectedSupervisor] =
+    React.useState<{
+      id: string;
+      email: string;
+    }>();
+
+  const handlGetSupervisorDetails = (key: React.Key | null) => {
+    return supervisorsData?.data.find((s) => s._id === String(key));
+  };
+
+  const onSelectedSupervisorChange = (key: React.Key | null) => {
+    if (!key) {
+      setSelectedSupervisor('');
+      return;
+    }
+
+    setSelectedSupervisor(String(key));
+
+    const supervisor = handlGetSupervisorDetails(key);
+
+    if (supervisor) {
+      setSearch(supervisor.email);
+    }
+  };
+
+  const onSupervisorInputChange = (value: string) => {
+    setSearch(value);
+  };
+
+  const { data: supervisorsData, isLoading: isSupervisorsLoading } =
+    useGetAllSupervisorsQuery({});
 
   const addStage = () => {
     console.log('clicked');
@@ -112,7 +110,6 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
         stages: stages,
       },
     };
-    console.log('payload: ', payload);
 
     try {
       const res = await updateProject(payload).unwrap();
@@ -128,26 +125,39 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
     }
   };
 
+  const handleAssignSupervisor = async () => {
+    if (selectedSupervisor === '') {
+      return;
+    }
+    const payload: {
+      id: string;
+      data: { supervisorId: string };
+    } = {
+      id: projectId || '',
+      data: { supervisorId: (selectedSupervisor as string) || '' },
+    };
+
+    try {
+      const res = await assignSupervisor(payload).unwrap();
+
+      addToast({
+        title: 'Project updated',
+        description: res.message,
+        color: 'success',
+      });
+      setSelectedSupervisor('');
+      setSearch('');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (data?.data.stages && !isLoading) {
       setStages([...data?.data.stages]);
     }
   }, [data]);
 
-  useEffect(() => {
-    // Load all supervisors when the search is cleared
-    if (!debouncedSearch.trim()) {
-      getSupervisors({});
-      return;
-    }
-
-    // Only search after at least 2 characters
-    if (debouncedSearch.length >= 2) {
-      getSupervisors({
-        search: debouncedSearch,
-      });
-    }
-  }, [debouncedSearch, getSupervisors]);
   return (
     <section className="flex flex-col gap-5">
       {(session?.user.role === 'supervisor' ||
@@ -160,21 +170,21 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
           <span> Back to opertations table</span>
         </Link>
       )}
-      <div className="bg-white dark:bg-transparent dark:p-0 shadow rounded-lg p-4">
+      <div className="bg-white border-b-[#F19645] border-b-1 dark:bg-transparent  shadow rounded-lg p-4">
         <DashboardHeader
           title={`${isLoading ? 'Loading...' : data?.data.name}`}
-          description={`Here you can see and manage ${data?.data.name}`}
+          description={`Here you can see all milestones of your project `}
         />
       </div>
       <div className="grid gap-4">
         {isLoading ? (
-          <div className="rounded-lg bg-white dark:bg-slate-900 shadow p-4">
+          <div className="rounded-lg bg-white dark:bg-gray-800 shadow p-4">
             Loading project details...
           </div>
         ) : (
-          <div className="flex sm:flex-row flex-col gap-4 w-full">
+          <div className="flex sm:flex-row flex-col-reverse gap-4 w-full">
             <div className="flex flex-col gap-4 sm:w-1/2">
-              <div className="rounded-lg bg-white w-full dark:bg-slate-900 shadow p-4">
+              <div className="rounded-lg bg-white w-full dark:bg-gray-800 shadow p-4">
                 <h2 className="text-lg font-semibold mb-3">Project overview</h2>
                 <div className="space-y-4 text-sm text-slate-700 dark:text-slate-200">
                   <div>
@@ -206,18 +216,18 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
                 </div>
               </div>
 
-              <div className="rounded-lg bg-white w-full dark:bg-slate-900 shadow p-4">
+              <div className="rounded-lg bg-white w-full dark:bg-gray-800 shadow p-4">
                 <h2 className="text-lg font-semibold mb-3">Project Stages</h2>
-                <ul className="list-inside list-disc text-sm mb-10">
+                <ul className="list-inside list-disc flex flex-col gap-1 text-sm mb-10">
                   {stages.map((stage) => {
                     return (
                       <li key={stage.name} className="flex items-center gap-1">
-                        {stage.name}{' '}
                         {stage.completed ? (
                           <CheckBadgeIcon className="size-4 text-success" />
                         ) : (
                           <ClockIcon className="size-4 text-warning" />
                         )}
+                        {stage.name}{' '}
                       </li>
                     );
                   })}
@@ -273,14 +283,17 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
                     onPress={() => {
                       onSubmit();
                     }}
-                    className="bg-[#F19645] text-white font-semibold mt-4"
+                    className="bg-[#F19645] flex items-center text-white font-semibold mt-4"
                   >
-                    Update stages
+                    <p>Update stages</p>
+                    {projectUpdateLoading && (
+                      <Spinner size="sm" variant="spinner" color="white" />
+                    )}
                   </Button>
                 )}
               </div>
             </div>
-            <div className="rounded-lg bg-white sm:w-1/2 dark:bg-slate-900 shadow p-4">
+            <div className="rounded-lg bg-white sm:w-1/2 dark:bg-gray-800 shadow p-4 sm:max-h-[500px]">
               <h2 className="text-lg font-semibold mb-3">Details</h2>
               <dl className="space-y-4 text-sm text-slate-700 dark:text-slate-200">
                 <div>
@@ -316,45 +329,103 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
                   </div>
                 )}
                 {isAdmin && (
-                  <div>
-                    <dt className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                      <UsersIcon className="size-4" /> <span> Assigned to</span>
-                    </dt>
-                    <dd>
-                      {data?.data.assignedTo
-                        ?.map((user) => user.email)
-                        .join(', ') || '-'}
-                    </dd>
+                  <div className="flex flex-col gap-4">
                     <div>
-                      {isSupervisorsFetching ? (
-                        <p>Loading supervisors...</p>
-                      ) : (
-                        <Autocomplete
-                          label="Assign Supervisor"
-                          placeholder="Search supervisor..."
-                          isLoading={isSupervisorsFetching}
-                          inputValue={search}
-                          onInputChange={setSearch}
-                          selectedKey={selectedSupervisor}
-                          onSelectionChange={(key) =>
-                            setSelectedSupervisor(key as string)
-                          }
-                        >
-                          {(supervisorsData?.data || []).map((supervisor) => (
-                            <AutocompleteItem
-                              key={supervisor._id}
-                              textValue={supervisor.email}
-                            >
-                              <div className="flex flex-col">
-                                <span>{supervisor.name}</span>
-                                <span className="text-xs text-default-500">
-                                  {supervisor.email}
+                      {data?.data.assignedTo && (
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button variant="bordered">
+                              <dt className="text-xs flex items-center gap-1 uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                <UsersIcon className="size-4" />{' '}
+                                <span>
+                                  {' '}
+                                  Assigned to ({data?.data.assignedTo.length})
                                 </span>
-                              </div>
-                            </AutocompleteItem>
-                          ))}
-                        </Autocomplete>
+                              </dt>
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label="List of assigned supervisors"
+                            onAction={(key) => {
+                              console.log(key);
+
+                              const supervisor = handlGetSupervisorDetails(key);
+                              setRemoveSelectedSupervisor({
+                                id: supervisor?._id || '',
+                                email: supervisor?.email || '',
+                              });
+                              onOpen();
+                            }}
+                          >
+                            {data?.data.assignedTo?.map((user) => {
+                              return (
+                                <DropdownItem key={user._id}>
+                                  {user.email}
+                                </DropdownItem>
+                              );
+                            })}
+                          </DropdownMenu>
+                        </Dropdown>
                       )}
+                      {/* <dd className="flex flex-col gap-2 mt-2">
+                        {data?.data.assignedTo?.map((user) => {
+                          return (
+                            <div
+                              key={user._id}
+                              className="flex items-center gap-1 "
+                            >
+                              <p className=" font-semibold p-2 rounded-lg">
+                                {user.email}
+                              </p>
+                              <Tooltip content="Remove supervisor">
+                                <button>
+                                  <TrashIcon className="size-6 p-1 border-1 border-red-500 rounded-lg text-red-500" />
+                                </button>
+                              </Tooltip>
+                            </div>
+                          );
+                        })}
+                      </dd> */}
+                      {removeSelectedSupervisor && (
+                        <RemoveSupervisorModal
+                          onOpenChange={onOpenChange}
+                          isOpen={isOpen}
+                          selectedSupervisor={removeSelectedSupervisor}
+                          projectId={projectId}
+                        />
+                      )}
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+                      <Autocomplete
+                        className="max-w-xs"
+                        defaultItems={supervisorsData?.data || []}
+                        aria-label="Add supervisor"
+                        placeholder="Search for supervisor"
+                        selectedKey={selectedSupervisor || null}
+                        inputValue={search}
+                        onSelectionChange={onSelectedSupervisorChange}
+                        onInputChange={onSupervisorInputChange}
+                        isLoading={isSupervisorsLoading}
+                      >
+                        {(supervisor) => (
+                          <AutocompleteItem key={supervisor._id}>
+                            {supervisor.email}
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+
+                      <Button
+                        size="sm"
+                        onPress={async () => {
+                          await handleAssignSupervisor();
+                        }}
+                        className="bg-[#F19645] flex items-center text-white font-semibold sm:mt-0 mt-4"
+                      >
+                        <p>Add supevisor</p>
+                        {assignSupervisorLoading && (
+                          <Spinner size="sm" variant="spinner" color="white" />
+                        )}
+                      </Button>
                     </div>
                   </div>
                 )}

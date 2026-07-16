@@ -1,5 +1,9 @@
 'use client';
-import { CreateProjectRequest, Project } from '@/types/projects.types';
+import {
+  CreateProjectRequest,
+  Project,
+  UpdateProjectRequest,
+} from '@/types/projects.types';
 import { api } from '../api';
 import { ApiResponse } from '@/types/api.types';
 
@@ -66,7 +70,7 @@ export const projectsApi = api.injectEndpoints({
       providesTags: [{ type: 'Projects', id: 'LIST' }],
     }),
     updateProject: builder.mutation<
-      ApiResponse<null>,
+      ApiResponse<UpdateProjectRequest>,
       {
         id: string;
         data: { status?: string; phase?: string; endDate?: string };

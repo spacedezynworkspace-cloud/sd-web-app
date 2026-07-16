@@ -76,7 +76,11 @@ export const getAllProjects = async (req: Request, res: Response) => {
       sortOrder = 'desc',
     } = req.query;
 
-    const query: any = {};
+    const query: any = {
+      status: {
+        $in: ['in_progress', 'on_hold'],
+      },
+    };
 
     // SEARCH
     if (search) {
