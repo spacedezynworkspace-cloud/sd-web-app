@@ -38,7 +38,7 @@ export default function SortableStage({ stage, onToggle }: Props) {
       >
         <span className="dark:text-black">{stage.name}</span>
       </Checkbox>
-      <span {...attributes} {...listeners} className="cursor-grab">
+      <span {...attributes} {...listeners} className="cursor-grab text-black">
         ☰
       </span>
     </div>

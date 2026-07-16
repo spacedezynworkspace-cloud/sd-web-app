@@ -1,5 +1,9 @@
 import Router from 'express';
-import { getAllSupervisors } from '../../controllers/supervisor/supervisor.controllers';
+import {
+  assignSupervisor,
+  getAllSupervisors,
+  removeSupervisor,
+} from '../../controllers/supervisor/supervisor.controllers';
 import authenticateMiddleWare from '../../middlewares/authenticate.middleware';
 import {
   getProject,
@@ -11,5 +15,15 @@ const router = Router();
 router.get('/', authenticateMiddleWare, getAllSupervisors);
 router.get('/projects/:id', getProject);
 router.patch('/projects/:id', authenticateMiddleWare, updateProject);
+router.patch(
+  '/projects/:id/assign-supervisor',
+  authenticateMiddleWare,
+  assignSupervisor
+);
+router.patch(
+  '/projects/:id/remove-supervisor',
+  authenticateMiddleWare,
+  removeSupervisor
+);
 
 export default router;
