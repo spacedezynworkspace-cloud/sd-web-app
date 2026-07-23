@@ -6,14 +6,18 @@ export type UserRole = 'user' | 'supervisor' | 'admin' | 'director';
 export interface IUser extends Document {
   name?: string;
   email: string;
+  user_email?: string;
   password: string;
   refreshToken?: string;
   role: UserRole;
   isActive: boolean;
+  active_days?: number;
   phone?: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
   createdAt: Date;
   updatedAt: Date;
+  notification29Sent?: Boolean;
+  lastActiveIncrement?: Date;
 }
 
 const userSchema = new Schema<IUser>(
@@ -27,6 +31,14 @@ const userSchema = new Schema<IUser>(
     email: {
       type: String,
       required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
+    user_email: {
+      type: String,
+      required: false,
       unique: true,
       lowercase: true,
       trim: true,
@@ -58,6 +70,19 @@ const userSchema = new Schema<IUser>(
     isActive: {
       type: Boolean,
       default: true,
+    },
+
+    active_days: {
+      type: Number,
+      default: 0,
+    },
+    notification29Sent: {
+      type: Boolean,
+      default: false,
+    },
+
+    lastActiveIncrement: {
+      type: Date,
     },
   },
   { timestamps: true }

@@ -155,7 +155,14 @@ const Navbar = () => {
 
   if (session?.user.role === 'admin') {
     appNavbar.push({
-      mainLink: { name: 'Finance', href: '/dashboard/finance', current: false },
+      mainLink: { name: 'Payroll', href: '/dashboard/payroll', current: false },
+    });
+    appNavbar.push({
+      mainLink: {
+        name: 'Finance',
+        href: '/dashboard/finance',
+        current: false,
+      },
     });
   }
 

@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { User } from '../../models/user.model';
 import Project from '../../models/project.models';
+import { Payment } from '../../models/payment.models';
 
-// Get all projects
+// Get all supervisors
 export const getAllSupervisors = async (req: Request, res: Response) => {
   try {
-    const { search } = req.query;
+    const { search, isActive } = req.query;
 
     const query: any = { role: 'supervisor' };
 
@@ -15,6 +16,11 @@ export const getAllSupervisors = async (req: Request, res: Response) => {
         { email: { $regex: search, $options: 'i' } },
         { name: { $regex: search, $options: 'i' } },
       ];
+    }
+
+    // active supervisors
+    if (isActive) {
+      query.isActive = isActive;
     }
 
     const supervisors = await User.find(query)
@@ -50,6 +56,11 @@ export const assignSupervisor = async (req: Request, res: Response) => {
       },
       { new: true }
     );
+    await User.findByIdAndUpdate(
+      supervisorId,
+      { isActive: true },
+      { new: true }
+    );
 
     return res.status(200).json({
       success: true,
@@ -83,6 +94,12 @@ export const removeSupervisor = async (req: Request, res: Response) => {
       { new: true }
     );
 
+    await User.findByIdAndUpdate(
+      supervisorId,
+      { isActive: false },
+      { new: true }
+    );
+
     return res.status(200).json({
       success: true,
       message: `Supervisor removed from ${project?.name}`,
@@ -91,6 +108,94 @@ export const removeSupervisor = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: error,
+    });
+  }
+};
+
+// Supervisor payments
+// Supervisor payroll
+export const supervisorsPayroll = async (req: Request, res: Response) => {
+  try {
+    const { search } = req.query;
+
+    const query: any = {
+      role: 'supervisor',
+    };
+
+    if (search) {
+      query.$or = [
+        { email: { $regex: search, $options: 'i' } },
+        { name: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    const supervisors = await User.find(query)
+      .select('-password')
+      .sort({ active_days: -1 });
+
+    const payroll = await Promise.all(
+      supervisors.map(async (supervisor) => {
+        const project = await Project.findOne({
+          assignedTo: supervisor._id,
+          status: 'in_progress',
+        })
+          .select('name client status')
+          .lean();
+
+        const paymentExists = project
+          ? await Payment.exists({
+              project: project._id,
+              receivedBy: supervisor._id,
+              type: 'salary',
+              approved: true,
+            })
+          : false;
+
+        return {
+          _id: supervisor._id,
+
+          supervisor: {
+            name: supervisor.name,
+            email: supervisor.email,
+            phone: supervisor.phone,
+            role: supervisor.role,
+          },
+          amount: 123000,
+
+          active_days: supervisor.active_days,
+
+          isActive: supervisor.isActive,
+
+          paymentDue: supervisor.active_days
+            ? supervisor.active_days >= 30
+            : false,
+
+          paymentTomorrow: supervisor.active_days === 29,
+
+          salaryPaid: Boolean(paymentExists),
+
+          project: project
+            ? {
+                _id: project._id,
+                name: project.name,
+                client: project.client,
+                status: project.status,
+              }
+            : null,
+        };
+      })
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'Payroll fetched successfully',
+      data: payroll,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch payroll',
+      error,
     });
   }
 };

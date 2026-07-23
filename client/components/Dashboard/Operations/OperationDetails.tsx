@@ -87,7 +87,7 @@ const OperationDetails = ({ projectId }: { projectId: string }) => {
   };
 
   const { data: supervisorsData, isLoading: isSupervisorsLoading } =
-    useGetAllSupervisorsQuery({});
+    useGetAllSupervisorsQuery({ isActive: false });
 
   const addStage = () => {
     console.log('clicked');

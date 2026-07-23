@@ -361,3 +361,198 @@ export function contactFormResponseTemplate({
 </body>
 </html> `;
 }
+
+export function supervisorPaymentReminderTemplate({
+  supervisorName,
+  projectName,
+  clientName,
+  activeDays,
+}: {
+  supervisorName: string;
+  projectName: string;
+  clientName: string;
+  activeDays: number;
+}) {
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Supervisor Payment Reminder</title>
+</head>
+
+<body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f4f6f8;">
+
+  <table
+    align="center"
+    width="600"
+    cellpadding="0"
+    cellspacing="0"
+    style="background:#ffffff; margin-top:30px; border-radius:10px; overflow:hidden;"
+  >
+
+    <!-- Top Accent Bar -->
+    <tr>
+      <td style="background:#F19645; height:6px;"></td>
+    </tr>
+
+    <!-- Logo -->
+    <tr>
+      <td align="center" style="padding:30px 20px 10px;">
+        <img
+          src="https://res.cloudinary.com/dcd8gvgup/image/upload/v1776681711/sd-web-app-logo_xhz7zr.png"
+          alt="Space Dezyn Logo"
+          width="100"
+          style="display:block;"
+        />
+      </td>
+    </tr>
+
+    <!-- Header -->
+    <tr>
+      <td align="center" style="padding:10px 30px;">
+        <h2 style="margin:0; color:#222;">
+          Supervisor Payment Reminder
+        </h2>
+
+        <p style="margin:8px 0 0; color:#666; font-size:14px;">
+          A supervisor becomes eligible for payment tomorrow
+        </p>
+      </td>
+    </tr>
+
+    <!-- Body -->
+    <tr>
+      <td
+        style="padding:20px 35px; color:#333; font-size:15px; line-height:1.7;"
+      >
+
+        <p>Dear <strong>Admin</strong>,</p>
+
+        <p>
+          This is an automated reminder that the following supervisor will
+          complete <strong>30 active working days tomorrow</strong> and will
+          become eligible for payment.
+        </p>
+
+        <!-- Summary Card -->
+        <div
+          style="
+            margin:20px 0;
+            padding:15px;
+            border:1px solid #eee;
+            border-radius:8px;
+            background:#fafafa;
+          "
+        >
+
+          <p
+            style="
+              margin:0 0 10px;
+              font-weight:bold;
+              color:#222;
+            "
+          >
+            Payment Summary
+          </p>
+
+          <table
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            style="font-size:14px; color:#333;"
+          >
+
+            <tr>
+              <td style="padding:6px 0;"><strong>Supervisor</strong></td>
+              <td style="padding:6px 0;">${supervisorName}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:6px 0;"><strong>Project</strong></td>
+              <td style="padding:6px 0;">${projectName}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:6px 0;"><strong>Client</strong></td>
+              <td style="padding:6px 0;">${clientName}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:6px 0;"><strong>Active Days</strong></td>
+              <td style="padding:6px 0; color:#F19645;">
+                ${activeDays}
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:6px 0;"><strong>Payment Due</strong></td>
+              <td style="padding:6px 0;">
+                Tomorrow
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:6px 0;"><strong>Project Status</strong></td>
+              <td style="padding:6px 0;">
+                In Progress
+              </td>
+            </tr>
+
+          </table>
+
+        </div>
+
+        <p>
+          Please review the supervisor's records and make the necessary payment
+          arrangements before the end of the next working day.
+        </p>
+
+        <p>
+          This reminder was generated automatically by the
+          <strong>Space Dezyn Operations System</strong>.
+        </p>
+
+        <p style="margin-top:25px;">
+          Thank you for helping us ensure timely supervisor payments.
+        </p>
+
+        <p style="margin-top:20px;">
+          Warm regards,<br />
+          <strong>Space Dezyn</strong>
+        </p>
+
+        <p>Operations Team</p>
+
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td
+        align="center"
+        style="
+          padding:18px;
+          background:#f9f9f9;
+          font-size:12px;
+          color:#888;
+        "
+      >
+        © 2026 Space Dezyn. All rights reserved.<br />
+
+        <a
+          href="https://www.spacedezyn.com"
+          style="
+            color:#F19645;
+            text-decoration:none;
+          "
+        >
+          www.spacedezyn.com
+        </a>
+      </td>
+    </tr>
+
+  </table>
+
+</body>
+</html>`;
+}
