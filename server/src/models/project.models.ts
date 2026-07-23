@@ -16,7 +16,7 @@ export interface IProject extends Document {
   budget: number;
 
   phase: 'planning' | 'design' | 'inspection' | 'execution' | 'closure';
-  status: 'paused' | 'in_progress' | 'completed';
+  status: 'on_hold' | 'in_progress' | 'completed';
 
   projectType: string;
 
