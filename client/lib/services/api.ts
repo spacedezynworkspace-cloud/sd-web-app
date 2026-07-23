@@ -61,6 +61,7 @@ export const api = createApi({
     'Payments',
     'Dashboard',
     'Supervisors',
+    'Payroll',
   ],
   endpoints: () => ({}), // empty here
 });

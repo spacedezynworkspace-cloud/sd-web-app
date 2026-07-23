@@ -195,7 +195,7 @@ export const updateProject = async (req: Request, res: Response) => {
 
     if (
       updatedProject.status === 'completed' ||
-      updatedProject.status === 'paused'
+      updatedProject.status === 'on_hold'
     ) {
       // release supervisors
       await User.updateMany(

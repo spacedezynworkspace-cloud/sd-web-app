@@ -51,6 +51,7 @@ export const activeDaysCron = async (req: Request, res: Response) => {
         status: 'in_progress',
         assignedTo: supervisor._id,
       });
+      console.log('project: ', project);
       const paymentExists = await Payment.exists({
         ...(project?._id && { project: project._id }),
         receivedBy: updatedSupervisor._id,
@@ -62,18 +63,25 @@ export const activeDaysCron = async (req: Request, res: Response) => {
       }
 
       if (updatedSupervisor.active_days! >= 29) {
-       
+        console.log('project: ', project);
 
         if (!project) {
           continue;
         }
+        console.log('Sending email...');
 
-        await sendSupervisorPaymentReminder({
+        sendSupervisorPaymentReminder({
           supervisorName: updatedSupervisor.email,
           projectName: project.name,
           clientName: project.client,
           activeDays: updatedSupervisor.active_days!,
-        });
+        })
+          .then(() => {
+            console.log('Project progress email sent to:', project.name);
+          })
+          .catch((emailError) => {
+            console.error('Email failed but project updated:', emailError);
+          });
       }
     }
 

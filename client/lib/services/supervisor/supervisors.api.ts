@@ -1,6 +1,6 @@
 'use client';
 
-import { Supervisor } from '@/types/supervisors.types';
+import { PayrollSupervisor, Supervisor } from '@/types/supervisors.types';
 import { api } from '../api';
 import { ApiResponse } from '@/types/api.types';
 import { Project } from '@/types/projects.types';
@@ -65,27 +65,18 @@ export const supervisorsApi = api.injectEndpoints({
       ],
     }),
 
-    getAllSupervisorsPayments: builder.query<
-      ApiResponse<Supervisor[]>,
-      {
-        search?: string;
-      }
+    getSupervisorPayroll: builder.query<
+      ApiResponse<PayrollSupervisor[]>,
+      { search?: string }
     >({
-      query: (params) => ({
-        url: '/supervisors/payment',
-        method: 'GET',
-        params,
+      query: ({ search = '' }) => ({
+        url: '/supervisors/payments',
+        params: {
+          search,
+        },
       }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.data.map(({ _id }) => ({
-                type: 'Supervisors' as const,
-                _id,
-              })),
-              { type: 'Supervisors', id: 'LIST' },
-            ]
-          : [{ type: 'Supervisors', id: 'LIST' }],
+
+      providesTags: ['Payroll'],
     }),
   }),
   overrideExisting: false,
@@ -96,5 +87,5 @@ export const {
   useLazyGetAllSupervisorsQuery,
   useAssignSupervisorMutation,
   useRemoveSupervisorMutation,
-  useGetAllSupervisorsPaymentsQuery,
+  useGetSupervisorPayrollQuery,
 } = supervisorsApi;

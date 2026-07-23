@@ -478,7 +478,7 @@ export function supervisorPaymentReminderTemplate({
             </tr>
 
             <tr>
-              <td style="padding:6px 0;"><strong>Current Active Days</strong></td>
+              <td style="padding:6px 0;"><strong>Active Days</strong></td>
               <td style="padding:6px 0; color:#F19645;">
                 ${activeDays}
               </td>
