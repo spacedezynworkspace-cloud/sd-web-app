@@ -3,6 +3,7 @@ import {
   assignSupervisor,
   getAllSupervisors,
   removeSupervisor,
+  supervisorsPayment,
 } from '../../controllers/supervisor/supervisor.controllers';
 import authenticateMiddleWare from '../../middlewares/authenticate.middleware';
 import {
@@ -25,5 +26,6 @@ router.patch(
   authenticateMiddleWare,
   removeSupervisor
 );
+router.patch('/payments', authenticateMiddleWare, supervisorsPayment);
 
 export default router;

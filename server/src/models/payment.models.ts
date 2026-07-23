@@ -9,6 +9,7 @@ export interface IPayment extends Document {
   receivedBy?: mongoose.Types.ObjectId;
   approved?: boolean;
   notes?: string;
+  paymentType: 'salary' | 'bonus' | 'allowance' | 'reimbursement' | 'other';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -52,6 +53,12 @@ const paymentSchema = new Schema<IPayment>(
     notes: {
       type: String,
       trim: true,
+    },
+    paymentType: {
+      type: String,
+      enum: ['salary', 'bonus', 'allowance', 'reimbursement', 'other'],
+      default: 'other',
+      index: true,
     },
   },
   { timestamps: true }

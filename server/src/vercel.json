@@ -11,5 +11,11 @@
       "src": "/(.*)",
       "dest": "index.ts"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/v1/cron/active-days",
+      "schedule": "0 0 * * *"
+    }
   ]
 }

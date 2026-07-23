@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { User } from '../../models/user.model';
 import Project from '../../models/project.models';
 
-// Get all projects
+// Get all supervisors
 export const getAllSupervisors = async (req: Request, res: Response) => {
   try {
-    const { search } = req.query;
+    const { search, isActive } = req.query;
 
     const query: any = { role: 'supervisor' };
 
@@ -15,6 +15,11 @@ export const getAllSupervisors = async (req: Request, res: Response) => {
         { email: { $regex: search, $options: 'i' } },
         { name: { $regex: search, $options: 'i' } },
       ];
+    }
+
+    // active supervisors
+    if (isActive) {
+      query.isActive = isActive;
     }
 
     const supervisors = await User.find(query)
@@ -50,6 +55,11 @@ export const assignSupervisor = async (req: Request, res: Response) => {
       },
       { new: true }
     );
+    await User.findByIdAndUpdate(
+      supervisorId,
+      { isActive: true },
+      { new: true }
+    );
 
     return res.status(200).json({
       success: true,
@@ -83,6 +93,12 @@ export const removeSupervisor = async (req: Request, res: Response) => {
       { new: true }
     );
 
+    await User.findByIdAndUpdate(
+      supervisorId,
+      { isActive: false },
+      { new: true }
+    );
+
     return res.status(200).json({
       success: true,
       message: `Supervisor removed from ${project?.name}`,
@@ -91,6 +107,36 @@ export const removeSupervisor = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: error,
+    });
+  }
+};
+
+// Supervisor payments
+export const supervisorsPayment = async (req: Request, res: Response) => {
+  try {
+    const { search } = req.query;
+    const query: any = { role: 'supervisor' };
+
+    // SEARCH
+    if (search) {
+      query.$or = [
+        { email: { $regex: search, $options: 'i' } },
+        { name: { $regex: search, $options: 'i' } },
+      ];
+    }
+    const supervisors = await User.find(query)
+      .select('-password')
+      .sort({ active_days: 1 });
+    return res.status(200).json({
+      data: supervisors,
+      message: 'Supervisors fetched',
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch supervisors',
+      error,
     });
   }
 };

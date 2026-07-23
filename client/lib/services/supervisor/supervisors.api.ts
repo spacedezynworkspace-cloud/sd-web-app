@@ -11,6 +11,7 @@ export const supervisorsApi = api.injectEndpoints({
       ApiResponse<Supervisor[]>,
       {
         search?: string;
+        isActive?: boolean;
       }
     >({
       query: (params) => ({
@@ -63,6 +64,29 @@ export const supervisorsApi = api.injectEndpoints({
         { type: 'Projects', id: 'LIST' },
       ],
     }),
+
+    getAllSupervisorsPayments: builder.query<
+      ApiResponse<Supervisor[]>,
+      {
+        search?: string;
+      }
+    >({
+      query: (params) => ({
+        url: '/supervisors/payment',
+        method: 'GET',
+        params,
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ _id }) => ({
+                type: 'Supervisors' as const,
+                _id,
+              })),
+              { type: 'Supervisors', id: 'LIST' },
+            ]
+          : [{ type: 'Supervisors', id: 'LIST' }],
+    }),
   }),
   overrideExisting: false,
 });
@@ -72,4 +96,5 @@ export const {
   useLazyGetAllSupervisorsQuery,
   useAssignSupervisorMutation,
   useRemoveSupervisorMutation,
+  useGetAllSupervisorsPaymentsQuery,
 } = supervisorsApi;

@@ -193,6 +193,36 @@ export const updateProject = async (req: Request, res: Response) => {
       });
     }
 
+    if (
+      updatedProject.status === 'completed' ||
+      updatedProject.status === 'paused'
+    ) {
+      // release supervisors
+      await User.updateMany(
+        {
+          _id: {
+            $in: updatedProject.assignedTo ?? [],
+          },
+        },
+        {
+          isActive: false,
+        }
+      );
+    }
+
+    if (updatedProject.status === 'in_progress') {
+      await User.updateMany(
+        {
+          _id: {
+            $in: updatedProject.assignedTo ?? [],
+          },
+        },
+        {
+          isActive: true,
+        }
+      );
+    }
+
     const { phase, stages, status } = req.body;
 
     const checkProjectProgress = calculateProgress(
@@ -209,9 +239,9 @@ export const updateProject = async (req: Request, res: Response) => {
     }
 
     // 2️⃣ Get the project owner
-    const user = await User.findById(updatedProject.user);
+    const client = await User.findById(updatedProject.user);
 
-    if (!user) {
+    if (!client) {
       return res.status(404).json({
         success: false,
         message: 'User not found',
@@ -226,7 +256,7 @@ export const updateProject = async (req: Request, res: Response) => {
     // 3️⃣ Send progress email
     if (status && phase && stages) {
       sendUpdateProjectEmail(
-        user.email,
+        client.email,
         updatedProject.name,
         updatedProject.client,
         recentStage.name,
@@ -234,7 +264,7 @@ export const updateProject = async (req: Request, res: Response) => {
         status
       )
         .then(() => {
-          console.log('Project progress email sent to:', user.email);
+          console.log('Project progress email sent to:', client.email);
         })
         .catch((emailError) => {
           console.error('Email failed but project updated:', emailError);

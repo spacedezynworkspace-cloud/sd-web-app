@@ -6,6 +6,7 @@ import {
   contactFormResponseTemplate,
   newProjectTemplate,
   paymentProjectTemplate,
+  supervisorPaymentReminderTemplate,
   updateProjectTemplate,
 } from '../templates/projectEmailTemplates';
 import { sendEmail } from '../config/resend.config';
@@ -104,6 +105,29 @@ export const sendContactFormEmail = async (
       email,
       subject,
       message,
+    }),
+  });
+};
+
+export const sendSupervisorPaymentReminder = async ({
+  supervisorName,
+  projectName,
+  clientName,
+  activeDays,
+}: {
+  supervisorName: string;
+  projectName: string;
+  clientName: string;
+  activeDays: number;
+}) => {
+  await sendEmail({
+    to: 'ekonge903@gmail.com',
+    subject: 'Supervisor Payment Due Tomorrow',
+    html: supervisorPaymentReminderTemplate({
+      supervisorName,
+      projectName,
+      clientName,
+      activeDays,
     }),
   });
 };

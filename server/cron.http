@@ -1,0 +1,6 @@
+@baseUrl = http://localhost:5000/api/v1
+@cronSecret = 19f2409ea6f373ec345a4e2866e955ac0db0d74313370e830f0b9e40b5d2e9fd
+
+### Run Active Days Cron
+POST {{baseUrl}}/cron/active-days
+Authorization: Bearer {{cronSecret}}
