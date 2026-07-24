@@ -14,6 +14,7 @@ export interface PayrollSupervisor {
     email: string;
     phone?: string;
     role?: string;
+    lastActiveIncrement: string;
   };
 
   active_days: number;
@@ -21,6 +22,7 @@ export interface PayrollSupervisor {
   isActive: boolean;
 
   paymentDue: boolean;
+  paymentOverDue: boolean;
 
   paymentTomorrow: boolean;
 

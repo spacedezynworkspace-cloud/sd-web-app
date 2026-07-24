@@ -120,6 +120,7 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
 
     const query: any = {
       role: 'supervisor',
+      isActive: true,
     };
 
     if (search) {
@@ -159,15 +160,19 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
             email: supervisor.email,
             phone: supervisor.phone,
             role: supervisor.role,
+            lastActiveIncrement: supervisor.lastActiveIncrement,
           },
-          amount: 123000,
+          amount: 350000,
 
           active_days: supervisor.active_days,
 
           isActive: supervisor.isActive,
 
           paymentDue: supervisor.active_days
-            ? supervisor.active_days >= 30
+            ? supervisor.active_days == 30
+            : false,
+          paymentOverDue: supervisor.active_days
+            ? supervisor.active_days > 30
             : false,
 
           paymentTomorrow: supervisor.active_days === 29,

@@ -51,7 +51,7 @@ export const activeDaysCron = async (req: Request, res: Response) => {
         status: 'in_progress',
         assignedTo: supervisor._id,
       });
-      console.log('project: ', project);
+
       const paymentExists = await Payment.exists({
         ...(project?._id && { project: project._id }),
         receivedBy: updatedSupervisor._id,
