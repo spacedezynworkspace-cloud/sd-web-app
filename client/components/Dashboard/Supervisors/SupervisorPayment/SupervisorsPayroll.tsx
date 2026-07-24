@@ -111,14 +111,14 @@ const SupervisorsPayroll = () => {
         {' '}
         {session?.user.role === 'admin' && (
           <div className="flex flex-col lg:flex-row gap-4 justify-between">
-            <ButtonGroup>
+            <ButtonGroup className="w-auto">
               <Button
                 variant={payrollTab === 'transactions' ? 'solid' : 'flat'}
                 color={payrollTab === 'transactions' ? 'warning' : 'default'}
                 onPress={() => setPayrollTab('transactions')}
                 className={
                   payrollTab === 'transactions'
-                    ? 'bg-[#F19645] text-white font-semibold'
+                    ? 'bg-[#F19645] w-full text-white font-semibold'
                     : ''
                 }
               >
@@ -131,7 +131,7 @@ const SupervisorsPayroll = () => {
                 onPress={() => setPayrollTab('due')}
                 className={
                   payrollTab === 'due'
-                    ? 'bg-[#F19645] text-white font-semibold'
+                    ? 'bg-[#F19645] w-full text-white font-semibold'
                     : ''
                 }
               >
@@ -144,7 +144,7 @@ const SupervisorsPayroll = () => {
                 onPress={() => setPayrollTab('paid')}
                 className={
                   payrollTab === 'paid'
-                    ? 'bg-[#F19645] text-white font-semibold'
+                    ? 'bg-[#F19645] w-full text-white font-semibold'
                     : ''
                 }
               >

@@ -42,7 +42,7 @@ const PayrollCard = ({ payroll, onPay }: PayrollCardProps) => {
   return (
     <Card className="shadow-none">
       <CardBody className="gap-5">
-        <div className="flex justify-between gap-3">
+        <div className="flex  sm:flex-row flex-col justify-between gap-3">
           {/* Avatar  */}
           <div className="flex justify-start sm:w-[300px] items-center gap-3">
             <div
@@ -52,7 +52,7 @@ const PayrollCard = ({ payroll, onPay }: PayrollCardProps) => {
                   : payroll.paymentTomorrow
                     ? 'bg-amber-100 text-amber-600'
                     : 'bg-red-100 text-red-600'
-              } sm:h-12 sm:w-12 rounded-full flex items-center justify-center uppercase font-semibold`}
+              } sm:h-12 sm:w-12 h-10 w-10 rounded-full flex items-center justify-center uppercase font-semibold`}
             >
               <p>
                 {fName[0]}
@@ -72,7 +72,7 @@ const PayrollCard = ({ payroll, onPay }: PayrollCardProps) => {
           {/* Project info  */}
           <div className="flex sm:w-[300px] justify-start items-center gap-3">
             <div
-              className={`bg-[#F19645]/20 sm:h-12 sm:w-12 rounded-full flex items-center justify-center uppercase font-semibold`}
+              className={`bg-[#F19645]/20 sm:h-12 sm:w-12 h-10 w-10 rounded-full flex items-center justify-center uppercase font-semibold`}
             >
               <HomeModernIcon className="size-6 text-[#F19645]" />
             </div>
