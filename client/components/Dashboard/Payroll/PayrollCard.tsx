@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useMemo } from 'react';
 import { Card, CardBody, Divider, useDisclosure } from '@heroui/react';
 import {
   ChevronRightIcon,
@@ -9,7 +10,6 @@ import {
 
 import PayrollStatusChip from './PayrollStatusChip';
 import { PayrollSupervisor } from '@/types/supervisors.types';
-import { useMemo } from 'react';
 import PayrollSupervisorOverview from './PayrollSupervisorOverview';
 interface PayrollCardProps {
   payroll: PayrollSupervisor;
@@ -19,13 +19,14 @@ interface PayrollCardProps {
 const PayrollCard = ({ payroll, onPay }: PayrollCardProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const [selectedSupervisor, setSelectedSupervisor] =
+    React.useState<PayrollSupervisor | null>(null);
+
   const fName = payroll.supervisor.email.split('.')[0];
   const lName = payroll.supervisor.email.split('.')[1].split('@')[0];
   const active_days = payroll.active_days;
-  const dueDateCalculation = useMemo(() => {
-    // Example inputs
-    const today = new Date();
 
+  const dueDateCalculation = useMemo(() => {
     // 1. Check if the counter has passed the 30-day mark
     if (active_days > 30) {
       // 2. Subtract 30 from current counter to find overdue days
@@ -119,30 +120,23 @@ const PayrollCard = ({ payroll, onPay }: PayrollCardProps) => {
                 </div>
               </div>
             </div>
-            <button onClick={onOpen}>
+            <button
+              onClick={() => {
+                setSelectedSupervisor(payroll);
+                onOpen();
+              }}
+            >
               <ChevronRightIcon className="size-5" />
             </button>
           </div>
         </div>
         <PayrollSupervisorOverview
-          onOpen={onOpen}
           isOpen={isOpen}
           onOpenChange={onOpenChange}
+          selectedSupervisor={selectedSupervisor || null}
         />
 
         <Divider />
-
-        {/* <div className="flex justify-end">
-          <Button
-            color="warning"
-            startContent={<WalletIcon className="w-4 h-4" />}
-            className=" sm:w-auto"
-            onPress={() => onPay(payroll)}
-            isDisabled={payroll.salaryPaid}
-          >
-            {payroll.salaryPaid ? 'Paid' : 'Mark as Paid'}
-          </Button>
-        </div> */}
       </CardBody>
     </Card>
   );

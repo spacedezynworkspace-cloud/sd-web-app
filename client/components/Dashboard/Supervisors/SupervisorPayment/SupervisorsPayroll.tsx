@@ -10,11 +10,14 @@ import useDebounce from '@/hooks/useDebounceHook';
 import { useGetSupervisorPayrollQuery } from '@/lib/services/supervisor/supervisors.api';
 import { PayrollSupervisor } from '@/types/supervisors.types';
 import { PayrollList, PayrollSearch, PayrollSummaryCards } from '../../Payroll';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const SupervisorsPayroll = () => {
   const { data: session } = useSession();
 
   const [search, setSearch] = React.useState('');
+
+  const [showBal, setShowBal] = React.useState<boolean>(false);
 
   const debouncedSearch = useDebounce(search, 500);
 
@@ -69,7 +72,33 @@ const SupervisorsPayroll = () => {
         title="Payroll / Supervisor Payment"
         description="Manage supervisor salary payments"
       />
+      {/* <div className="bg-[#F19645] p-4 rounded-lg max-w-[300px]">
+        <p className="text-gray-100">Payroll balance</p>
+        <h2 className="text-white font-bold text-3xl">
+          {showBal ? '₦4,250,000.00' : '******'}
+        </h2>
+        <div className="flex items-center gap-1">
+          <p className="text-gray-100">Available Balance</p>
+          <button
+            onClick={() => {
+              setShowBal(!showBal);
+            }}
+          >
+            {!showBal ? (
+              <EyeIcon className="size-4 text-gray-100" />
+            ) : (
+              <EyeSlashIcon className="size-4 text-gray-100" />
+            )}
+          </button>
+        </div>
 
+        <Button
+          // onPress={() => setPayrollTab('transactions')}
+          className={'font-semibold mt-4 text-[#F19645] bg-white'}
+        >
+          Fund Payroll
+        </Button>
+      </div> */}
       <PayrollSummaryCards
         totalDue={summary.totalDue}
         dueTomorrow={summary.dueTomorrow}
@@ -78,7 +107,7 @@ const SupervisorsPayroll = () => {
         totalPayroll={summary.totalPayroll}
       />
 
-      <div className="shadow bg-white dark:bg-black dark:p-0 p-4 rounded-lg flex flex-col gap-4">
+      <div className="shadow bg-white dark:bg-black dark:p-0 p-4 rounded-lg flex flex-col gap-10">
         {' '}
         {session?.user.role === 'admin' && (
           <div className="flex flex-col lg:flex-row gap-4 justify-between">

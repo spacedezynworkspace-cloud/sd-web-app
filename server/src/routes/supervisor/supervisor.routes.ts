@@ -2,6 +2,7 @@ import Router from 'express';
 import {
   assignSupervisor,
   getAllSupervisors,
+  paySupervisorSalary,
   removeSupervisor,
   supervisorsPayroll,
 } from '../../controllers/supervisor/supervisor.controllers';
@@ -27,5 +28,11 @@ router.patch(
   removeSupervisor
 );
 router.get('/payments', authenticateMiddleWare, supervisorsPayroll);
+
+router.post(
+  '/payments/:supervisorId',
+  authenticateMiddleWare,
+  paySupervisorSalary
+);
 
 export default router;

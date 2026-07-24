@@ -51,19 +51,24 @@ const PayrollSummaryCards = ({
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map((card) => (
-        <Card key={card.label} className="shadow rounded-lg">
+        <Card
+          key={card.label}
+          className="shadow rounded-lg bg-white dark:bg-orange-100"
+        >
           <CardBody className="flex flex-row items-start gap-2">
             <div
               className={`${card.bg} w-10 h-10 rounded-lg flex items-center justify-center`}
             >
               {card.icon}
             </div>
-            <div>
-              <p className="text-sm font-semibold text-default-500">
+            <div className="">
+              <p className="text-sm font-semibold text-default-500 dark:text-black">
                 {card.label}
               </p>
-              <h2 className="text-3xl font-bold">{card.value}</h2>
-              <p className="text-xs font-semibold text-default-500">
+              <h2 className="text-3xl font-bold dark:text-black">
+                {card.value}
+              </h2>
+              <p className="text-xs font-semibold text-default-500 dark:text-black">
                 Supervisor
               </p>
             </div>

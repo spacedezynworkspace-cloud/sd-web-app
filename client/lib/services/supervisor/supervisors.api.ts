@@ -1,6 +1,10 @@
 'use client';
 
-import { PayrollSupervisor, Supervisor } from '@/types/supervisors.types';
+import {
+  PayrollSupervisor,
+  Supervisor,
+  SupervisorPayment,
+} from '@/types/supervisors.types';
 import { api } from '../api';
 import { ApiResponse } from '@/types/api.types';
 import { Project } from '@/types/projects.types';
@@ -78,6 +82,24 @@ export const supervisorsApi = api.injectEndpoints({
 
       providesTags: ['Payroll'],
     }),
+    paySupervisorSalary: builder.mutation<
+      ApiResponse<SupervisorPayment>,
+      {
+        supervisorId: string;
+        amount: number;
+        method: 'cash' | 'bank_transfer' | 'cheque';
+        reference?: string;
+        notes?: string;
+      }
+    >({
+      query: ({ supervisorId, ...body }) => ({
+        url: `/supervisors/payments/${supervisorId}`,
+        method: 'POST',
+        body,
+      }),
+
+      invalidatesTags: ['Payroll', 'Payments'],
+    }),
   }),
   overrideExisting: false,
 });
@@ -88,4 +110,5 @@ export const {
   useAssignSupervisorMutation,
   useRemoveSupervisorMutation,
   useGetSupervisorPayrollQuery,
+  usePaySupervisorSalaryMutation,
 } = supervisorsApi;
