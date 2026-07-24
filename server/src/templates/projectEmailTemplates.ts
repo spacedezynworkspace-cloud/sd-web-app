@@ -556,3 +556,35 @@ export function supervisorPaymentReminderTemplate({
 </body>
 </html>`;
 }
+
+export function supervisorSalaryPaidTemplate({
+  amount,
+  method,
+  reference,
+}: {
+  amount: number;
+  method: string;
+  reference?: string;
+}) {
+  return `
+    <p>Your salary payment has been processed successfully.</p>
+
+    <p>
+      Amount: ₦${amount.toLocaleString()}
+    </p>
+
+    <p>
+      Method: ${method}
+    </p>
+
+    ${reference ? `<p>Reference: ${reference}</p>` : ''}
+
+    <p>
+      Thank you for your continued commitment.
+    </p>
+
+    <p>
+      Space Dezyn Operations Team
+    </p>
+  `;
+}

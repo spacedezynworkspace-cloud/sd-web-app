@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { User } from '../../models/user.model';
 import Project from '../../models/project.models';
 import { Payment } from '../../models/payment.models';
+import { sendSupervisorSalaryPaidEmail } from '../../utils/sendEmail';
 
 // Get all supervisors
 export const getAllSupervisors = async (req: Request, res: Response) => {
@@ -112,7 +113,6 @@ export const removeSupervisor = async (req: Request, res: Response) => {
   }
 };
 
-// Supervisor payments
 // Supervisor payroll
 export const supervisorsPayroll = async (req: Request, res: Response) => {
   try {
@@ -120,6 +120,7 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
 
     const query: any = {
       role: 'supervisor',
+      isActive: true,
     };
 
     if (search) {
@@ -139,7 +140,7 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
           assignedTo: supervisor._id,
           status: 'in_progress',
         })
-          .select('name client status')
+          .select('name client status location description')
           .lean();
 
         const paymentExists = project
@@ -159,15 +160,19 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
             email: supervisor.email,
             phone: supervisor.phone,
             role: supervisor.role,
+            lastActiveIncrement: supervisor.lastActiveIncrement,
           },
-          amount: 123000,
+          amount: 350000,
 
           active_days: supervisor.active_days,
 
           isActive: supervisor.isActive,
 
           paymentDue: supervisor.active_days
-            ? supervisor.active_days >= 30
+            ? supervisor.active_days == 30
+            : false,
+          paymentOverDue: supervisor.active_days
+            ? supervisor.active_days > 30
             : false,
 
           paymentTomorrow: supervisor.active_days === 29,
@@ -180,6 +185,8 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
                 name: project.name,
                 client: project.client,
                 status: project.status,
+                description: project.description,
+                location: project.location,
               }
             : null,
         };
@@ -195,6 +202,114 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to fetch payroll',
+      error,
+    });
+  }
+};
+
+// Pay supervisor salary
+
+export const paySupervisorSalary = async (req: Request, res: Response) => {
+  try {
+    const { supervisorId } = req.params;
+    console.log('req.params: ', req.params);
+    console.log('supervisorId: ', supervisorId);
+
+    if (!supervisorId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid supervisor id',
+      });
+    }
+
+    const { amount, method, reference, notes } = req.body;
+
+    const supervisor = await User.findById(supervisorId);
+
+    if (!supervisor || supervisor.role !== 'supervisor') {
+      return res.status(404).json({
+        success: false,
+        message: 'Supervisor not found',
+      });
+    }
+
+    const activeDays = supervisor.active_days ?? 0;
+
+    if (activeDays < 30) {
+      return res.status(400).json({
+        success: false,
+        message: 'Supervisor has not reached payroll threshold',
+      });
+    }
+
+    const salaryAlreadyPaid = await Payment.exists({
+      receivedBy: supervisor._id,
+      type: 'salary',
+      approved: true,
+      activeDays,
+    });
+
+    if (salaryAlreadyPaid) {
+      return res.status(400).json({
+        success: false,
+        message: 'Salary already paid',
+      });
+    }
+
+    const project = await Project.findOne({
+      assignedTo: supervisor._id,
+      status: 'in_progress',
+    });
+
+    const paymentData: any = {
+      amount,
+      paymentDate: new Date(),
+      method,
+      reference,
+      notes,
+      approved: true,
+      receivedBy: supervisor._id,
+      paymentType: 'salary',
+      activeDays,
+    };
+
+    if (project) {
+      paymentData.project = project._id;
+    }
+
+    const payment = await Payment.create(paymentData);
+
+    await User.updateOne(
+      { _id: supervisor._id },
+      {
+        $set: {
+          active_days: activeDays - 30,
+        },
+      }
+    );
+
+    sendSupervisorSalaryPaidEmail({
+      supervisorEmail: supervisor.email,
+      amount,
+      method,
+      reference,
+    })
+      .then(() => {
+        console.log('Payment email sent to:', supervisor.email);
+      })
+      .catch((emailError) => {
+        console.error('Email failed but project updated:', emailError);
+      });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Supervisor salary paid successfully',
+      data: payment,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to pay supervisor',
       error,
     });
   }

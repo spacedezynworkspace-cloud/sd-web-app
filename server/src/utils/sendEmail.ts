@@ -7,6 +7,7 @@ import {
   newProjectTemplate,
   paymentProjectTemplate,
   supervisorPaymentReminderTemplate,
+  supervisorSalaryPaidTemplate,
   updateProjectTemplate,
 } from '../templates/projectEmailTemplates';
 import { sendEmail } from '../config/resend.config';
@@ -128,6 +129,28 @@ export const sendSupervisorPaymentReminder = async ({
       projectName,
       clientName,
       activeDays,
+    }),
+  });
+};
+
+export const sendSupervisorSalaryPaidEmail = async ({
+  supervisorEmail,
+  amount,
+  method,
+  reference,
+}: {
+  supervisorEmail: string;
+  amount: number;
+  method: string;
+  reference: string;
+}) => {
+  await sendEmail({
+    to: supervisorEmail,
+    subject: 'Salary Payment Confirmation',
+    html: supervisorSalaryPaidTemplate({
+      amount,
+      method,
+      reference,
     }),
   });
 };
