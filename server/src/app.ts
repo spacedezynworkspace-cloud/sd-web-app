@@ -23,11 +23,6 @@ dotenv.config();
 
 const app = express();
 
-// Connect once per serverless instance
-connectDB().catch((err) => {
-  console.error('MongoDB connection failed:', err);
-});
-
 app.use(
   cors({
     origin: [
@@ -70,5 +65,20 @@ app.use('/api/v1/cron', cronRoutes);
 //     isConnected = true;
 //   }
 // }
+
+// connect();
+const PORT = 5000;
+// Start server ONLY after DB connects
+(async () => {
+  try {
+    await connectDB(); // 👈 wait for DB connection
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('❌ Failed to connect to DB', err);
+    process.exit(1); // Exit if DB connection fails
+  }
+})();
 
 export default app;
