@@ -122,7 +122,7 @@ export const sendSupervisorPaymentReminder = async ({
   activeDays: number;
 }) => {
   await sendEmail({
-    to: 'ekonge903@gmail.com',
+    to: 'spacedezynng@gmail.com',
     subject: 'Supervisor Payment Due Tomorrow',
     html: supervisorPaymentReminderTemplate({
       supervisorName,
@@ -145,7 +145,7 @@ export const sendSupervisorSalaryPaidEmail = async ({
   reference: string;
 }) => {
   await sendEmail({
-    to: supervisorEmail,
+    to: "admin@spacedezyn.com,
     subject: 'Salary Payment Confirmation',
     html: supervisorSalaryPaidTemplate({
       amount,
