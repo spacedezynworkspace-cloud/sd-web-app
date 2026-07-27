@@ -289,7 +289,6 @@ export const paySupervisorSalary = async (req: Request, res: Response) => {
     );
 
     sendSupervisorSalaryPaidEmail({
-      supervisorEmail: supervisor.email,
       amount,
       method,
       reference,

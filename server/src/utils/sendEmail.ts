@@ -134,18 +134,18 @@ export const sendSupervisorPaymentReminder = async ({
 };
 
 export const sendSupervisorSalaryPaidEmail = async ({
-  supervisorEmail,
+  // _supervisorEmail,
   amount,
   method,
   reference,
 }: {
-  supervisorEmail: string;
+  // supervisorEmail?: string;
   amount: number;
   method: string;
   reference: string;
 }) => {
   await sendEmail({
-    to: "admin@spacedezyn.com,
+    to: 'admin@spacedezyn.com',
     subject: 'Salary Payment Confirmation',
     html: supervisorSalaryPaidTemplate({
       amount,
