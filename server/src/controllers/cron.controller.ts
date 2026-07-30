@@ -77,10 +77,10 @@ export const activeDaysCron = async (req: Request, res: Response) => {
           activeDays: updatedSupervisor.active_days!,
         })
           .then(() => {
-            console.log('Project progress email sent to:', project.name);
+            console.log('Payment email sent to:', project.name);
           })
           .catch((emailError) => {
-            console.error('Email failed but project updated:', emailError);
+            console.error('Email failed :', emailError);
           });
       }
     }

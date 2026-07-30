@@ -81,9 +81,6 @@ export const removeSupervisor = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { supervisorId } = req.body;
 
-  console.log(id);
-  console.log(supervisorId);
-
   try {
     const project = await Project.findByIdAndUpdate(
       id,
@@ -212,8 +209,6 @@ export const supervisorsPayroll = async (req: Request, res: Response) => {
 export const paySupervisorSalary = async (req: Request, res: Response) => {
   try {
     const { supervisorId } = req.params;
-    console.log('req.params: ', req.params);
-    console.log('supervisorId: ', supervisorId);
 
     if (!supervisorId) {
       return res.status(400).json({
@@ -283,7 +278,7 @@ export const paySupervisorSalary = async (req: Request, res: Response) => {
       { _id: supervisor._id },
       {
         $set: {
-          active_days: activeDays - 30,
+          active_days: activeDays > 30 ? activeDays - 30 : 0,
         },
       }
     );
@@ -297,7 +292,7 @@ export const paySupervisorSalary = async (req: Request, res: Response) => {
         console.log('Payment email sent to:', supervisor.email);
       })
       .catch((emailError) => {
-        console.error('Email failed but project updated:', emailError);
+        console.error('Email failed:', emailError);
       });
 
     return res.status(201).json({
