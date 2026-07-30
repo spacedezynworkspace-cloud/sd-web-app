@@ -42,15 +42,19 @@ const MarkSupervisorPaidModal = ({
       console.log(res);
 
       addToast({
-        title: 'Project created',
+        title: 'Payment created',
         description: res.message,
         color: 'success',
       });
 
       onOpenChange();
       onOpenChangeDrawer();
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      addToast({
+        title: 'Payment failed',
+        description: error.message,
+        color: 'danger',
+      });
     }
   };
   return (

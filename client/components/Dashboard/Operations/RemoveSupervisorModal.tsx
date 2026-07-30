@@ -58,6 +58,7 @@ const RemoveSupervisorModal = ({
       });
     }
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -90,7 +91,7 @@ const RemoveSupervisorModal = ({
                 onPress={handleRemoveSupervisor}
                 className="bg-[#F19645] flex items-center gap-1 text-white font-semibold"
               >
-                <p>Remove</p>
+                <p>Remove supervisor</p>
                 {removeSupervisorLoading && (
                   <Spinner size="sm" variant="spinner" color="white" />
                 )}
