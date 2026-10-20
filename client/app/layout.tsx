@@ -11,6 +11,7 @@ import { authOptions } from '@/config/nextAuthOptions';
 import Footer from '@/components/Footer';
 import '@/styles/globals.css';
 import 'react-vertical-timeline-component/style.min.css';
+import MaintenanceModal from '@/components/MaintenanceModal';
 
 export const metadata: Metadata = {
   title: {
@@ -45,6 +46,7 @@ export default async function RootLayout({
           montserrat.className
         )}
       >
+        <MaintenanceModal />
         <ReduxProvider session={session}>
           <HeroUIProvider
             themeProps={{ attribute: 'class', defaultTheme: 'dark' }}

@@ -1,4 +1,5 @@
-import {
+ "use client"
+ import {
   useGetProjectByIdQuery,
   useUpdateProjectMutation,
 } from '@/lib/services/projects/projects.api';
