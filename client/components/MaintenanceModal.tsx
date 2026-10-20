@@ -1,14 +1,14 @@
  "use client"
 import React from 'react';
 import {
-  addToast,
+  
   Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Spinner,
+ 
   useDisclosure
 } from '@heroui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
@@ -16,7 +16,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 const MaintenanceModal = () => {
  
- const { isOpen, onOpen, onOpenChange } = useDisclosure();
+ const {  onOpen, onOpenChange } = useDisclosure();
 
   return (
     <Modal
@@ -28,7 +28,7 @@ const MaintenanceModal = () => {
       aria-hidden
     >
       <ModalContent>
-        {(onClose) => (
+        {() => (
           <>
             <ModalHeader className="flex flex-col">
               <h3 className="text-lg font-semibold flex gap-2 items-center"><ExclamationTriangleIcon className='size-5 text-danger'/>Application error</h3>
