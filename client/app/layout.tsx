@@ -46,7 +46,7 @@ export default async function RootLayout({
           montserrat.className
         )}
       >
-        {/* <MaintenanceModal /> */}
+        <MaintenanceModal /> 
         <ReduxProvider session={session}>
           <HeroUIProvider
             themeProps={{ attribute: 'class', defaultTheme: 'dark' }}
